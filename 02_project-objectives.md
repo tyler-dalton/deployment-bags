@@ -6,14 +6,19 @@ Success can be measured on the following objectives:
 
 **1. Bridge simulation and physical implementation**
 	Extend the current Packet Tracer learning by giving students opportunities to deploy networking concepts on physical Cisco routers and switches. The physical labs should be designed to co-exist with the current simulation-based curriculum, not replace it.
+	
 **2. Provide hands-on experience with enterprise networking equipment**
 	Give students exposure to physical routers, switches, and cabling. Students can use experiences like this as great talking points throughout the internship process.
+	
 **3. Create standardized student deployment environments**
 	Establish a canonical Deployment Bag configuration so that user experience stays consistent through shifts in labs and instruction management. Labs should be designed against this standard as close as possible to ensure minimal movement of equipment.
+	
 **4. Maintain complete isolation from the UC production network**
 	Ensure the environment operates independently from the UC production infrastructure. Student deployments must not require, nor have access to the production network in order to function. The designed environment must prevent student deployments from affecting any University systems.
+	
 **5. Minimize reset & configuration overhead**
 	Develop documented baseline configurations and a repeatable reset process. Equipment should have the ability to return to a predictable state between labs or misconfigurations without extensive manual reconfiguration.
+	
 **6. Design for future expansion & reuse**
 	Build the platform around reusable and portable infrastructure rather than a single-set of labs. The architecture should permit additional Deployment Bags and new or more advanced labs without requiring the environment to be redesigned from the ground-up.
 
