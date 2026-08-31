@@ -24,8 +24,8 @@
 |---|---|---|---|---|---|---|---|---|---|---|
 | RTR-001 | Cisco | 2900 | Cisco 2911 | CISCO2911/K9 V07 | FJC1916A297 | 3 x Gb RJ45 | 3 x Serial WAN | 2u | Powers up |
 |  | Cisco | 2900 | Cisco 2911 | CISCO2911/K9 V07 |  | 3 x Gb RJ45 |  | 2U |
-| RTR-002 | Cisco | 1900 | Cisco 1941 | CISCO1941/K9 V05 | FJC1916E13Y | 2 x Gb RJ45 | 1 x Serial WAN | 3u | Powers up |
-| RTR-003 | Cisco | 1900 | Cisco 1941 | CISCO1941/K9 V05 |  | 2 x Gb RJ45 | 1 x Serial WAN | 3u | Powers up |
+| RTR-002 | Cisco | 1900 | Cisco 1941 | CISCO1941/K9 V05 | FJC1916E13Y | 2 x Gb RJ45 | 1 x Serial WAN | 2u | Powers up |
+| RTR-003 | Cisco | 1900 | Cisco 1941 | CISCO1941/K9 V05 |  | 2 x Gb RJ45 | 1 x Serial WAN | 2u | Powers up |
 
 ## Switches
 
