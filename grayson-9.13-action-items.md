@@ -1,0 +1,7 @@
+- [ ] Set up bag for [Intro to Packet Tracer Lab](https://uc.instructure.com/courses/1888566/assignments/23899408)
+  - [ ] One 1941 router
+  - [ ] One switch
+  - [ ] Use your computer as an endpoint
+- [ ] Complete Intro Lab
+- [ ] Write documentation step-by-step from physical connection to completion of the lab for students to use
+- [ ] Write documentation for instructors for a reset procedure
