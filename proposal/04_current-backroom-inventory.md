@@ -1,3 +1,11 @@
+# NAVYA TODO:
+- [ ] Fill out the [overview](#overview) section quantities.
+- [ ] In the [routers section](#routers), add the two missing serial numbers.
+- [ ] Get an inventory count on the [interface modules](#interface-modules). There are some on the second level of the shelf, and some in the routers in the bags, so make sure to count all.
+- [ ] Fill out what you can find on the [Raspberry Pi](#end-devices) and the [wireless AP](#wireless). Do not get hung up on filling each field, just delete the ones you cannot fill. The tables right now are merely placeholders.
+
+---
+
 # Current Backroom Inventory
 
 ## Overview
