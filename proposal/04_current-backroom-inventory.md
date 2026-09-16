@@ -12,8 +12,8 @@
 
 | Category                | Equipment                         | Quantity |
 | ----------------------- | --------------------------------- | -------- |
-| Routers                 | Cisco 1941 Series                 |         |
-| Routers                 | Cisco 2900 Series                 | 2        |
+| Routers                 | Cisco 1941 Series                 | 1        |
+| Routers                 | Cisco 2900 Series                 | 1        |
 | Switches                | Cisco Catalyst 2960 Plus Series   | 1        |
 | Switches                | Cisco Catalyst 3750 PoE Series    | 1        |
 | Interface Modules       | Serial / HWIC modules             | 8        |
