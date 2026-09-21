@@ -1,0 +1,1 @@
+develop step by step reset procedure. Same thing here, step by step foolproof plan that the professors can take to reset the bag for the next group. Try and make this as efficient as possible, considering one professor may have to do this 20+ times.
