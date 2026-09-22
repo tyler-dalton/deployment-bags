@@ -44,11 +44,25 @@ Before beginning the configuration, gather all required equipment.
 A console connection is used to access the router's command-line interface (CLI).
 
 1. Connect the console cable from the computer to the router.
-2. Open PuTTY.
-3. Attempt to establish a console connection.
-4. If PuTTY does not work correctly, open Tera Term instead.
-5. Select the appropriate serial connection. Most likely will show up as COMM 5 or 6.
-6. Open the router's console. You may have to click enter a few times once the terminal window is open. It is a black screen
+2. Open PuTTY. **NOTE: You can download PuTTY off the Microsoft store if needed**
+3. Configure the connection settings:
+
+**Connection Type:** Serial
+**Serial Line:** COM5 (or the COM port assigned to the console cable)
+**Speed:** 9600 baud
+4. Attempt to establish a console connection.
+
+Select **Open** in PuTTY to launch the serial console session.
+A terminal window should appear, allowing communication with the Cisco 1941 router.
+
+## Access User EXEC Mode
+
+Once the console connection is established, the router prompt should appear:
+Router>
+
+5. If PuTTY does not work correctly, open Tera Term instead.
+6. Select the appropriate serial connection. Most likely will show up as COMM 5 or 6.
+7. Open the router's console. You may have to click enter a few times once the terminal window is open. It is a black screen
    where you can type things. Your terminal should say Router>
 ---
 
