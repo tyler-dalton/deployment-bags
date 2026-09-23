@@ -1,6 +1,5 @@
-# W.I.P.. Setting up and flashing ubuntu server onto Raspberry Pi
 
-# Cisco Router, Switch, and Raspberry Pi Networking Lab
+# Cisco Router, Switch, & Laptop Lab
 
 ## Equipment List
 
@@ -8,7 +7,7 @@ The following equipment is needed for this lab:
 
 - Cisco 1900 Series Router
 - Network Switch
-- Raspberry Pi running Ubuntu Server
+- Raspberry Pi running Ubuntu Server (If we end up getting them. If not, ignore.)
 - Laptop or computer
 - Cat5e Ethernet cable
 - Console cable
@@ -47,13 +46,20 @@ A console connection is used to access the router's command-line interface (CLI)
 2. Open PuTTY. **NOTE: You can download PuTTY off the Microsoft store if needed**
 3. Configure the connection settings:
 
+- 
 **Connection Type:** Serial
-**Serial Line:** COM5 (or the COM port assigned to the console cable)
-**Speed:** 9600 baud
+- **Serial Line:** COM5 (or the COM port assigned to the console cable)
+- **Speed:** 9600 baud
+- To do this, you will have to select the "Session" tab, and once you have selected that tab, you will be given a few different options.
+
+<img width="655" height="429" alt="CYBERpicturesforSERVERV2" src="https://github.com/user-attachments/assets/6831d8a0-00aa-4a66-ba3a-2cba6ffb27f5" />
+
 4. Attempt to establish a console connection.
 
 Select **Open** in PuTTY to launch the serial console session.
 A terminal window should appear, allowing communication with the Cisco 1941 router.
+
+
 
 ## Access User EXEC Mode
 
@@ -62,8 +68,15 @@ Router>
 
 5. If PuTTY does not work correctly, open Tera Term instead.
 6. Select the appropriate serial connection. Most likely will show up as COMM 5 or 6.
-7. Open the router's console. You may have to click enter a few times once the terminal window is open. It is a black screen
+   <img width="655" height="429" alt="CYBERpicturesforSERVERV2" src="https://github.com/user-attachments/assets/0738aa9f-8bcc-4e42-8e8c-73b717bf27fc" />
+
+8. Open the router's console. You may have to click enter a few times once the terminal window is open. It is a black screen
    where you can type things. Your terminal should say Router>
+   
+   [Below is an example of a router CLI that already has Privileged EXEC Mode enabled. You will enable this in step 4. Both PuTTY & Tera Term's CLI should look very similar.]
+
+   <img width="652" height="427" alt="CLIcyberPICTURE" src="https://github.com/user-attachments/assets/2a78e191-f80c-4363-ba53-8df115a003d4" />
+
 ---
 
 ## Step 4: Enter Privileged EXEC Mode
