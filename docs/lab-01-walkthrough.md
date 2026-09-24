@@ -7,7 +7,6 @@ The following equipment is needed for this lab:
 
 - Cisco 1900 Series Router
 - Network Switch
-- Raspberry Pi running Ubuntu Server (If we end up getting them. If not, ignore.)
 - Laptop or computer
 - Cat5e Ethernet cable
 - Console cable
@@ -20,7 +19,7 @@ The following equipment is needed for this lab:
 
 Before beginning the configuration, gather all required equipment.
 
-1. Place the router, switch, Raspberry Pi, and laptop in an accessible workspace.
+1. Place the router, switch, and laptop in an accessible workspace.
 2. Connect the power cables to the router and switch.
 3. Power on the router and switch.
 4. Verify that the power lights are illuminated.
@@ -42,13 +41,13 @@ Before beginning the configuration, gather all required equipment.
 
 A console connection is used to access the router's command-line interface (CLI).
 
-1. Connect the console cable from the computer to the router.
+1. Connect the console cable from your computer to the router.
 2. Open PuTTY. **NOTE: You can download PuTTY off the Microsoft store if needed**
 3. Configure the connection settings:
 
 - 
 **Connection Type:** Serial
-- **Serial Line:** COM5 (or the COM port assigned to the console cable)
+- **Serial Line:** COM6 (or the COM port assigned to the console cable)
 - **Speed:** 9600 baud
 - To do this, you will have to select the "Session" tab, and once you have selected that tab, you will be given a few different options.
 
@@ -129,11 +128,14 @@ Assign the IP address to the router's GE0/0 interface.
 
 `10.10.10.50`
 
+**Subnet Mask**
+
+`255.255.255.0`
+
 **Command:**
 
-`ip address 10.10.10.50 [subnet mask]`
+`ip address 10.10.10.50 255.255.255.0`
 
-Replace `[subnet mask]` with the subnet mask assigned for the lab.
 
 The IP address allows the router interface to communicate with devices on the network.
 
