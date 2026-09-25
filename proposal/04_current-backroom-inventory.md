@@ -48,10 +48,10 @@
 | Cisco | HWIC-2T | 800-34379-03 | FOC18525FU6 | Serial | 2 | |
 | Cisco | HWIC-2T | 800-34379-03 | FOC19028C1G | Serial | 2 | |
 | Cisco | HWIC-2T | 800-34379-03 | FOC19028BUM | Serial | 2 | |
-| Cisco | HWIC-2T | 800-34379-03 | FOC19022Q1Y | Serial | 2 | X |
-| Cisco | HWIC-2T | 800-34379-03 | FOC19028C2D | Serial | 2 | X |
-| Cisco | HWIC-2T | 800-34379-03 | FOC19028C17 | Serial | 2 | X |
-| Cisco | HWIC-2T | 800-34379-03 | FOC19028BZ8 | Serial | 2 | X |
+| Cisco | HWIC-2T | 800-34379-03 | FOC19022Q1Y | Serial | 2 | In Use |
+| Cisco | HWIC-2T | 800-34379-03 | FOC19028C2D | Serial | 2 | In Use |
+| Cisco | HWIC-2T | 800-34379-03 | FOC19028C17 | Serial | 2 | In Use |
+| Cisco | HWIC-2T | 800-34379-03 | FOC19028BZ8 | Serial | 2 | In Use |
 
 ## Ethernet
 
