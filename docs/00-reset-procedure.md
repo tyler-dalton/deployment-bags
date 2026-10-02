@@ -154,7 +154,7 @@ The exact commands depend on the switch model.
    
 5. **Delete the VLAN database**  
 
-   a. Run: `delete flash:vlan.dat` 
+   a. Run: `delete flash:vlan.dat`  
    Press Enter to accept the default filename and confirm the deletion. This removes VLAN information that is stored separately from the startup configuration.
    
 6. **Reload the Switch**  
