@@ -128,11 +128,37 @@ The switch must be reset separately from the router.
 
 The exact commands depend on the switch model.
 
-1. Identify the switch model.
-2. Connect to the switch console.
-3. Review the current configuration.
-4. Follow the reset procedure for that switch model.
-5. Verify that the previous group's configuration has been removed.
+1. Connect to the switch console.  
+   a. Connect the console cable to the switch console port.  
+   b. Open Tera Term or PuTTY  
+   c. Select the appropriate COM port  
+   d. Set the baud rate to `9600`  
+   e. Press Enter until the switch prompt appears
+   
+3. Enter Privileged EXEC mode  
+   a. Type `enable`  
+   b. Prompt should change to `Switch#`
+   
+5. Review the current configuration.  
+   a. Run the command: `show running-config`
+   
+7. Erase the Startup Configuration  
+   a. Run the command: `erase startup-config`  
+   b. Confirm deletion when prompted
+   This removes the saved switch configuration
+   
+9. Delete the VLAN database  
+   a. delete flash:vlan.dat  
+   Press Enter to accept the default filename and confirm the deletion. This removes VLAN information that is stored separately from the startup configuration.
+   
+11. Reload the Switch  
+   a. Run the command: `reload`  
+   b. When prompted to save the current configuration, say **no.**
+
+13. Verify the Reset  
+   a. Run the command: `show startup-config`  
+   b. Then run: `show vlan brief`  
+  The switch should contain only the default configuration and default VLAN settings.  
 
 **Do not assume that resetting the router also resets the switch.**
 
