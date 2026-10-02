@@ -58,6 +58,8 @@ The prompt should change to:
 
 Router#
 
+*Note: When the router shows Router>, it is in **user EXEC** mode, which provides limited access to monitoring commands. Enter `enable ` to switch to **privileged EXEC** mode (Router#), which is required to view configurations, erase settings, and reload the router.*
+
 ---
 
 ## Step 3: Check the Current Configuration
