@@ -58,7 +58,7 @@ The prompt should change to:
 
 Router#
 
-*Note: When the router shows Router>, it is in **user EXEC** mode, which provides limited access to monitoring commands. Enter `enable ` to switch to **privileged EXEC** mode (Router#), which is required to view configurations, erase settings, and reload the router.*
+***Note:** When the router shows Router>, it is in **user EXEC** mode, which provides limited access to monitoring commands. Enter `enable ` to switch to **privileged EXEC** mode (Router#), which is required to view configurations, erase settings, and reload the router.*
 
 ---
 
@@ -78,7 +78,7 @@ The professor can review the configuration to make sure the router is ready to b
 
 ## Step 4: Erase the Router Configuration
 
-**NOTE** This step will remove the saved configuration from the router. Make sure the previous group's work is no longer needed before continuing.
+***NOTE** This step will remove the saved configuration from the router. Make sure the previous group's work is no longer needed before continuing.*
 
 1. Confirm that the router is in privileged EXEC mode.
 2. Enter the following command:
@@ -104,7 +104,7 @@ After erasing the startup configuration, restart the router.
 3. Confirm the reload when prompted.
 4. Wait for the router to finish restarting.
 
-Do not disconnect the router while it is restarting.
+***NOTE: Do not disconnect the router while it is restarting.***
 
 ---
 
