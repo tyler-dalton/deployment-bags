@@ -42,7 +42,45 @@ configure terminal
 
 ![Cisco IOS commands to set hostname & secret](/media/lab01/hostname-secret.png)
 
-## Student VLAN Configuration
+## VLAN Creation
+
+For the sake of Lab 01, four VLANS will be configured. The VLAN numbers and their purposes are as follows:
+
+- VLAN 10: Student VLAN #1
+- VLAN 20: Student VLAN #2
+- VLAN 3: TA Management VLAN
+- VLAN 999: Extra security measure for bricked ports
+
+```cisco.ios
+vlan 10
+  name LAB10
+exit
+vlan 20
+  name LAB20
+exit
+vlan 3
+  name TA-MAN
+exit
+vlan 999
+  name BRICK
+exit
+```
+
+![Cisco IOS commands to create four VLANS](/media/lab01/vlan-create.png)
+
+VLAN 99 is commonly used as a management VLAN. With that being said, it is almost too predictable. In order to prevent against unwanted intrusion, the bags will use a more unique VLAN, which will be `VLAN 3`.
+
+### Verify Creation of VLANs
+
+```cisco.ios
+show vlan brief
+```
+
+![Terminal output confirming Cisco VLAN creation](/media/lab01/vlan-con.png)
+
+Due to these screenshots being taken after setup, this output will not look exactly as expected. The expected output should be focused on the creation of the VLANS, as depicted inside of the red box.
+
+## Student Port --> VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
 
