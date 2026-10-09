@@ -80,6 +80,23 @@ show vlan brief
 
 Due to these screenshots being taken after setup, this output will not look exactly as expected. The expected output should be focused on the creation of the VLANS, as depicted inside of the red box.
 
+## Configure TA Management SVI
+
+Configuring a management SVI (Switched Virtual Interface) inside of the switch will create a logical Layer 3 interface assigned to a specific VLAN that allows the admins to remotely manage the switch.
+
+```cisco.ios
+configure terminal
+  interface Vlan3
+    description TA MGMT SVI
+    ip address 10.0.3.2 255.255.255.0
+    no shutdown
+  exit
+```
+
+![Cisco IOS commands to configure management SVI](/media/lab01/svi-config.png)
+
+Configuring the management SVI with an IP address of `10.0.3.2` means that ssh connection to the switch will happen at the IP address `10.0.3.2`. This is to keep things in-line for the possible addition of a router/gateway, which would then host the `10.0.3.1` address.
+
 ## Student Port --> VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
