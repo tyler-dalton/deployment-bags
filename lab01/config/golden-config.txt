@@ -1,0 +1,79 @@
+hostname __HOSTNAME__
+enable secret __ENABLE_SECRET__
+
+no ip http server
+no ip http secure-server
+service password-encryption
+no ip routing
+
+vlan 10
+  name LAB10
+
+vlan 20
+  name LAB20
+
+vlan 3
+  name TA-MAN
+
+vlan 999
+  name BRICK
+
+interface Vlan3
+  description TA MGMT SVI
+  ip address 10.0.3.2 255.255.255.0
+  no shutdown
+
+interface range FastEthernet1/0/1 - 10
+  description LAB-VLAN10
+  switchport mode access
+  switchport access vlan 10
+  switchport nonegotiate
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+  no shutdown
+
+interface range FastEthernet1/0/11 - 12
+  description ** ADMIN DOWN **
+  switchport mode access
+  switchport access vlan 999
+  shutdown
+
+interface range FastEthernet1/0/13 - 22
+  description LAB-VLAN20
+  switchport mode access
+  switchport access vlan 20
+  switchport nonegotiate
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+  no shutdown
+
+interface FastEthernet1/0/23
+  description ** ADMIN DOWN **
+  switchport mode access
+  switchport access vlan 999
+  shutdown
+
+interface FastEthernet1/0/24
+  description ** TA MGMT **
+  switchport mode access
+  switchport access vlan 3
+  switchport nonegotiate
+  switchport port-security
+  switchport port-security violation restrict
+  switchport port-security maximum 2
+  switchport port-security mac-address __TA_MAC_1__
+  switchport port-security mac-address __TA_MAC_2__
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+
+ip domain-name dep-bags.local
+username ta privilege 15 secret __SSH_SECRET__
+
+ip ssh version 2
+
+line vty 0 15
+  login local
+  transport input ssh
+  exec-timeout 15 0
+
+
