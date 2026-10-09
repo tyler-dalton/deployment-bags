@@ -106,7 +106,34 @@ show ip interface brief
 
 ![Terminal output confirming SVI creation](/media/lab01/svi-con.png)
 
-Expected output is now seeing the IP Address `10.0.3.2` assigned to `Vlan3`.
+Expected output is now seeing the IP Address `10.0.3.2` assigned to `Vlan3`. At this point in time, copy and save the current running and startup configuration: `copy running-config startup-config`. When prompted for destination filename, press enter.
+
+## Port 24 - Management
+
+```cisco.ios
+configure terminal
+  interface FastEthernet1/0/24
+    description ** TA MGMT **
+    switchport mode access
+    switchport access vlan 3
+    switchport nonegotiate
+    spanning-tree portfast
+    spanning-tree bpduguard enable
+  exit
+end
+```
+
+![Cisco IOS commands to configure port 24 as management port](/media/lab01/p24-config.png)
+
+Confirm with:
+
+```cisco.ios
+show interface status
+show vlan brief
+show ip interface brief
+```
+
+![Cisco IOS command output confirming port 24 management access](/media/lab01/p24-man-con.png)
 
 ## Student Port --> VLAN Configuration
 
