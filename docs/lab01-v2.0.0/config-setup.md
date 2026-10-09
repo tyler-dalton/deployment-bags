@@ -130,10 +130,15 @@ Confirm with:
 ```cisco.ios
 show interface status
 show vlan brief
-show ip interface brief
 ```
 
+show interface status: Expected output
+
 ![Cisco IOS command output confirming port 24 management access](/media/lab01/p24-man-con.png)
+
+show vlan brief: Expected output
+
+![Cisco IOS command output port 24 assigned to VLAN 3](/media/lab01/p24-vlan-con.png)
 
 ## Student Port --> VLAN Configuration
 
