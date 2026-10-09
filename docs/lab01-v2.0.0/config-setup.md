@@ -30,6 +30,18 @@ Next, in order to make any changes, the switch interface needs to be in privileg
 
 When entering EXEC mode, the switch will prompt for a password. If you do not know the password, please see Tyler. Entrance into EXEC mode is confirmed by seeing the pound (#) key next to the hostname. In this configuration, `BG01-SW01#`
 
+## Set Hostname & Enable Secret
+
+Next, the hostname and secret will need to be set. The hostname for this switch is already configured, so this section may look interesting. The concept is: hostname `HOSTNAME`.
+
+```cisco.ios
+configure terminal
+  hostname BG01-SW01
+  enable secret <SECRET_NAME>
+```
+
+![Cisco IOS commands to set hostname & secret](/media/lab01/hostname-secret.png)
+
 ## Student VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
@@ -74,8 +86,29 @@ exit
 # Administratively set port 23 down
 interface FastEthernet1/0/23
   description ** ADMIN DOWN **
+  switchport mode access
+  switchport access vlan 999
   shutdown
 exit
+
+end
 ```
 
 ![Terminal commands to set student VLAN 20](/media/lab01/ports-vlan20.png)
+
+### Student VLAN Verification
+
+Verify the VLAN configuration has now been applied with two commands:
+
+```cisco.ios
+show vlan brief
+show interface status
+```
+
+VLAN verification:
+
+![show vlan brief Cisco IOS command output](/media/lab01/portCon-vlan.png)
+
+Interface verification:
+
+![show interface status Cisco IOS command output](/media/lab01/portCon-int.png)
