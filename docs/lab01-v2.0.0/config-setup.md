@@ -57,8 +57,25 @@ exit
 
 ![Terminal commands to set student VLAN 10](/media/lab01/ports-vlan10.png)
 
-As seen from the screenshot, there is confirmation that ports 11 & 12 have been set down. Cisco logs reported both ports set administratively down. Next, configure the ports for `vlan 20`:
+As seen from the screenshot, there is confirmation that ports 11 & 12 have been set down. Cisco logs reported both ports set administratively down. Next, follow relatively the same steps to configure ports 13-22 for `vlan 20`:
 
 ```cisco.ios
+# This will configure ports 13-22 to VLAN 20
+interface range FastEthernet1/0/13 - 22
+  description LAB-VLAN20
+  switchport mode access
+  switchport access vlan 20
+  switchport nonegotiate
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+  no shutdown
+exit
 
+# Administratively set port 23 down
+interface FastEthernet1/0/23
+  description ** ADMIN DOWN **
+  shutdown
+exit
 ```
+
+![Terminal commands to set student VLAN 20](/media/lab01/ports-vlan20.png)
