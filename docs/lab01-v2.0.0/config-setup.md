@@ -181,7 +181,7 @@ Expected output:
 Plug directly into the switch on `port 24`, set the IP address on the computer as follows:
 
 ```bash
-sudo ip addr add 10.0.3.10/24 dev enps025
+sudo ip addr add 10.0.3.10/24 dev enp0s25
 sudo ip link set enp0s25 up
 ```
 
@@ -234,7 +234,7 @@ Expected output:
 
 ### Fully Confirm SSH Access Via PuTTY
 
-To get a full confirmation of SSH Access, connect into `port 24` and attempt to gain ssh access from an authorized device. The Cisco encryption for the 3750 is extremely old, so the current open-ssh does not recognize the keys, that is why PuTTY is needed. Enter the IP Address `10.0.3.2` in PuTTY when prompted. As defined from the previous commands, login as `ta` with the respective secret.
+To get a full confirmation of SSH Access, connect into `port 24` and attempt to gain ssh access from an authorized device. The Catalyst 3750's legacy IOS SSH implementation requires cryptographic algorithms that modern OpenSSH clients disable or reject by default. PuTTY is therefore used as the compatibility client for management access. Enter the IP Address `10.0.3.2` in PuTTY when prompted. As defined from the previous commands, login as `ta` with the respective secret.
 
 If greeted by the same welcome screen from the console port, successful configuration has been completed.
 
@@ -316,3 +316,5 @@ VLAN verification:
 Interface verification:
 
 ![show interface status Cisco IOS command output](/media/lab01/portCon-int.png)
+
+Copy the configuration one last time: `copy running-config startup-config`
