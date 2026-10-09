@@ -140,6 +140,42 @@ show vlan brief: Expected output
 
 ![Cisco IOS command output port 24 assigned to VLAN 3](/media/lab01/p24-vlan-con.png)
 
+## Port Security VLAN 3
+
+In order to keep the environment as secure as possible, only specifically defined MAC addresses will have the ability to connect into Fa1/0/24:
+
+```cisco.ios
+configure terminal
+  interface FastEthernet1/0/24
+    switchport port-security
+    switchport port-security violation restrict
+    switchport port-security maximum 2
+    switchport port-security mac-address AAAA.BBBB.CCCC
+    switchport port-security mac-address FFFF.GGGG.HHHH
+  exit
+end
+```
+
+![Cisco IOS commands to allow mac-addresses through port 24](/media/lab01/mac-allow.png)
+
+For security reasons, MAC address configuration has been omitted for documentation.
+
+> Both `AAAA.BBBB.CCCC` and `FFFF.GGGG.HHHH` should be replaced with the MAC addresses needed. Typically, MAC addresses are displayed in the standard colon format. **Take the 48-bit colon format and regroup to three blocks of four hex digits**. This is the formatting Cisco prefers and uses.
+
+Confirm with:
+
+```cisco.ios
+show port-security interface FastEthernet1/0/24
+```
+
+![Cisco IOS command confirming MAC allow list configuration](/media/lab01/mac-allow-con.png)
+
+Expected output:
+
+- `Maximum MAC Addresses`: 2
+- `Total MAC Addresses`: 2
+- `Configured MAC Addresses`: 2
+
 ## Student Port --> VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
