@@ -91,11 +91,22 @@ configure terminal
     ip address 10.0.3.2 255.255.255.0
     no shutdown
   exit
+end
 ```
 
 ![Cisco IOS commands to configure management SVI](/media/lab01/svi-config.png)
 
 Configuring the management SVI with an IP address of `10.0.3.2` means that ssh connection to the switch will happen at the IP address `10.0.3.2`. This is to keep things in-line for the possible addition of a router/gateway, which would then host the `10.0.3.1` address.
+
+### Verify Creation & Configuration of MGMT SVI
+
+```cisco.ios
+show ip interface brief
+```
+
+![Terminal output confirming SVI creation](/media/lab01/svi-con.png)
+
+Expected output is now seeing the IP Address `10.0.3.2` assigned to `Vlan3`.
 
 ## Student Port --> VLAN Configuration
 
