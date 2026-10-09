@@ -176,6 +176,26 @@ Expected output:
 - `Total MAC Addresses`: 2
 - `Configured MAC Addresses`: 2
 
+## Confirmation of Working Management Port
+
+Plug directly into the switch on `port 24`, set the IP address on the computer as follows:
+
+```bash
+sudo ip addr add 10.0.3.10/24 dev enps025
+sudo ip link set enp0s25 up
+```
+
+Test the configuration by pinging the switch, and running a test for isolation from the UC production network:
+
+```bash
+ping -c 4 10.0.3.2
+ping -I enp0s25 -c 4 8.8.8.8
+```
+
+The first ping is a connectivity test to the switch. This ping should return 8 packets successfully. The second command is designed to fail. The second command forces a ping with the ethernet interface to the internet. 8 packets with `Destination Host Unreachable` signal successful isolation from the UC production network.
+
+## Management SSH Access
+
 ## Student Port --> VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
