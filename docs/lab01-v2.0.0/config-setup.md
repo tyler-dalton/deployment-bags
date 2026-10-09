@@ -242,7 +242,7 @@ Copy the config by running `copy running-config startup-config`.
 
 ## Student Port --> VLAN Configuration
 
-As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
+As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs and one bricked VLAN will be configured:
 
 ```cisco.ios
 configure terminal
@@ -258,18 +258,14 @@ interface range FastEthernet1/0/1 - 10
   no shutdown
 exit
 
-# Administratively set ports 11 & 12 down
+# Brick and Administratively set ports 11 & 12 down
 interface range FastEthernet1/0/11 - 12
   description ** ADMIN DOWN **
+  switchport mode access
+  switchport access vlan 999
   shutdown
 exit
-```
 
-![Terminal commands to set student VLAN 10](/media/lab01/ports-vlan10.png)
-
-As seen from the screenshot, there is confirmation that ports 11 & 12 have been set down. Cisco logs reported both ports set administratively down. Next, follow relatively the same steps to configure ports 13-22 for `vlan 20`:
-
-```cisco.ios
 # This will configure ports 13-22 to VLAN 20
 interface range FastEthernet1/0/13 - 22
   description LAB-VLAN20
@@ -281,7 +277,7 @@ interface range FastEthernet1/0/13 - 22
   no shutdown
 exit
 
-# Administratively set port 23 down
+# Brick and Administratively set port 23 down
 interface FastEthernet1/0/23
   description ** ADMIN DOWN **
   switchport mode access
@@ -292,7 +288,17 @@ exit
 end
 ```
 
-![Terminal commands to set student VLAN 20](/media/lab01/ports-vlan20.png)
+![Cisco IOS commands to assign all ports respective VLAN](/media/lab01/ports-vlan-assignment.png)
+
+The port assignment configured is as follows:
+
+- `Fa1/0/1-10`: VLAN 10
+- `Fa1/0/11,12`: Bricked
+- `Fa1/0/13-22`: VLAN 20
+- `Fa1/0/23`: Bricked
+- `Fa1/0/24`: Dedicated management failsafe port
+
+`VLAN 999` is intentionally designed to never be used. This VLAN is acting as if a "parking lot" for unused ports. This is another security measure that is put in place - deliberately assign unused ports to an isolated VLAN. With a maximum student count of ~40, and 4 switches being deployed in Lab 01, leaving 20 ports open per switch is a good mix between being secure while also allowing for some breathing room say there is a large group.
 
 ### Student VLAN Verification
 
