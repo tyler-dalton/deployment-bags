@@ -196,6 +196,50 @@ The first ping is a connectivity test to the switch. This ping should return 8 p
 
 ## Management SSH Access
 
+The next step in the configuration is to set up SSH access for port 24. This will allow management access via ethernet connection.
+
+```cisco.ios
+configure terminal
+  ip domain-name dep-bags.local
+    username ta privilege 15 secret <SECRET_NAME>
+
+    crypto key generate rsa
+    # When asked, set bits to 2048
+
+    ip ssh version 2
+    line vty 0 15
+      login local
+      transport input ssh
+      exec-timeout 15 0
+    end
+```
+
+![Part one of Cisco IOS commands to configure SSH](/media/lab01/ssh1.png)
+
+For the sake of documentation, `SECRET_NAME` is used, and the configuration needed to be split in two. If you need the secret name, see Tyler.
+
+![Part two of Cisco IOS commands to configure SSH](/media/lab01/ssh2.png)
+
+Once again, for the sake of documentation, these screenshots were made after the configuration was complete. With that being said, when prompted to replace RSA keys, the answer may be different. No was stated so that the current configurations RSA keys were not overwritten.
+
+Confirm with:
+
+```cisco.ios
+show ip ssh
+```
+
+Expected output:
+
+![show ip ssh Cisco IOS command to confirm SSH creation](/media/lab01/ssh-con.png)
+
+### Fully Confirm SSH Access Via PuTTY
+
+To get a full confirmation of SSH Access, connect into `port 24` and attempt to gain ssh access from an authorized device. The Cisco encryption for the 3750 is extremely old, so the current open-ssh does not recognize the keys, that is why PuTTY is needed. Enter the IP Address `10.0.3.2` in PuTTY when prompted. As defined from the previous commands, login as `ta` with the respective secret.
+
+If greeted by the same welcome screen from the console port, successful configuration has been completed.
+
+Copy the config by running `copy running-config startup-config`.
+
 ## Student Port --> VLAN Configuration
 
 As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs will be configured:
