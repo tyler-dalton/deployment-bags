@@ -39,9 +39,9 @@ Ports `1-12` will access VLAN 10, ports `13-23` will access VLAN 20. Port 24 wil
 ## TLDR
 
 | VLAN | Switch Ports | Subnet | Student Addresses |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | VLAN 10 | `Fa0/1-Fa0/12` | 10.0.10.0/24 | `10.0.10.10-21` |
-| VLAN 20 | `Fa0/13-Fa0/23` | 10.0.20.0/24 |`10.0.20.10-20` |
+| VLAN 20 | `Fa0/13-Fa0/23` | 10.0.20.0/24 | `10.0.20.10-20` |
 
 ## Student Configuration
 
