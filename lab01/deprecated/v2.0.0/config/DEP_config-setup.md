@@ -16,11 +16,11 @@ From the terminal, run `ls /dev/ttyUSB*` for Unix-based systems. This command wi
 
 Connect to the switch:
 
-Using this information, connection can either be established from the terminal or via a serial console such as PuTTY.  
-If connecting via the terminal, run `sudo screen /dev/ttyUSB0 9600`, using the command output for the number following USB.  
+Using this information, connection can either be established from the terminal or via a serial console such as PuTTY.
+If connecting via the terminal, run `sudo screen /dev/ttyUSB0 9600`, using the command output for the number following USB.
 For PuTTY, click the serial button, type the path listed above, then click connect.
 
-![Switch configuration welcome](/media/lab01/setup/sw-entry.png). 
+![Switch configuration welcome](/media/lab01/setup/sw-entry.png).
 
 From the terminal, click entire a few times. Eventually a command line with the hostname of the switch should appear on the screen. In this example, the hostname resembles `BG01-SW01`. This means the terminal is now connected to the switch.
 
