@@ -44,3 +44,10 @@ Students will demonstrate learning in:
 * Switch connectivity testing
 * MAC address resolution through ARP
 * Knowledge of distinction between Layer 2 connectivity & successful ICMP communication
+
+## Administrative Requirements
+
+* All four deployment bags must maintain **identical baseline configurations**
+* Switch management access is restricted to **authorized TA devices**
+* Students must not modify switch configurations
+* Switch configurations must be backed up and restored to the documented baseline between lab sessions
