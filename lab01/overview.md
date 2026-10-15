@@ -36,3 +36,11 @@ All deployment bags share identical configuration and IP addressing schema. Ensu
 TA's are responsible for deploying, securing, and restoring switch configuration as needed. Students receive **no switch configuration privileges. Each deployment bag must be restored to its documented baseline between lab sessions.
 
 ## Learning Objectives
+
+Students will demonstrate learning in:
+
+* Physical LAN assembly
+* Static IPv4 addressing
+* Switch connectivity testing
+* MAC address resolution through ARP
+* Knowledge of distinction between Layer 2 connectivity & successful ICMP communication
