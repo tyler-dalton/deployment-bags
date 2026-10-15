@@ -608,7 +608,7 @@ commit
 
 Unlike Cisco IOS, **JunOS saves the active configuration when you execute `commit`**. We'll also maintain a separate, named Lab 01 configuration snapshot.
 
-### 4.1 Save the Active Configuration:
+### 4.1 Save the Active Configuration
 
 Before creating the baseline, verify that the current candidate configuration has no pending changes.
 
