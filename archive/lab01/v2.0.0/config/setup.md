@@ -12,7 +12,7 @@ Find the serial device name:
 
 From the terminal, run `ls /dev/ttyUSB*` for Unix-based systems. This command will print the interface of the serial connection in order to receive console connection.
 
-![TTY discovery from the terminal](/media/lab01/setup/tty.png)
+![TTY discovery from the terminal](../media/tty.png)
 
 Connect to the switch:
 
@@ -20,7 +20,7 @@ Using this information, connection can either be established from the terminal o
 If connecting via the terminal, run `sudo screen /dev/ttyUSB0 9600`, using the command output for the number following USB.
 For PuTTY, click the serial button, type the path listed above, then click connect.
 
-![Switch configuration welcome](/media/lab01/setup/sw-entry.png).
+![Switch configuration welcome](../media/sw-entry.png).
 
 From the terminal, click entire a few times. Eventually a command line with the hostname of the switch should appear on the screen. In this example, the hostname resembles `BG01-SW01`. This means the terminal is now connected to the switch.
 
@@ -28,7 +28,7 @@ From the terminal, click entire a few times. Eventually a command line with the 
 
 Next, in order to make any changes, the switch interface needs to be in privileged/EXEC mode. Execute this by running a simple `enable` command.
 
-![Move into EXEC mode on the switch](/media/lab01/setup/sw-enable.png)
+![Move into EXEC mode on the switch](../media/sw-enable.png)
 
 When entering EXEC mode, the switch will prompt for a password. If you do not know the password, please see Tyler. Entrance into EXEC mode is confirmed by seeing the pound (#) key next to the hostname. In this configuration, `BG01-SW01#`
 
@@ -42,7 +42,7 @@ configure terminal
   enable secret <SECRET_NAME>
 ```
 
-![Cisco IOS commands to set hostname & secret](/media/lab01/setup/hostname-secret.png)
+![Cisco IOS commands to set hostname & secret](../media/hostname-secret.png)
 
 ## VLAN Creation
 
@@ -68,7 +68,7 @@ vlan 999
 exit
 ```
 
-![Cisco IOS commands to create four VLANS](/media/lab01/setup/vlan-create.png)
+![Cisco IOS commands to create four VLANS](../media/vlan-create.png)
 
 VLAN 99 is commonly used as a management VLAN. With that being said, it is almost too predictable. In order to prevent against unwanted intrusion, the bags will use a more unique VLAN, which will be `VLAN 3`.
 
@@ -78,7 +78,7 @@ VLAN 99 is commonly used as a management VLAN. With that being said, it is almos
 show vlan brief
 ```
 
-![Terminal output confirming Cisco VLAN creation](/media/lab01/setup/vlan-con.png)
+![Terminal output confirming Cisco VLAN creation](../media/vlan-con.png)
 
 Due to these screenshots being taken after setup, this output will not look exactly as expected. The expected output should be focused on the creation of the VLANS, as depicted inside of the red box.
 
@@ -96,7 +96,7 @@ configure terminal
 end
 ```
 
-![Cisco IOS commands to configure management SVI](/media/lab01/setup/svi-config.png)
+![Cisco IOS commands to configure management SVI](../media/svi-config.png)
 
 Configuring the management SVI with an IP address of `10.0.3.2` means that ssh connection to the switch will happen at the IP address `10.0.3.2`. This is to keep things in-line for the possible addition of a router/gateway, which would then host the `10.0.3.1` address.
 
@@ -106,7 +106,7 @@ Configuring the management SVI with an IP address of `10.0.3.2` means that ssh c
 show ip interface brief
 ```
 
-![Terminal output confirming SVI creation](/media/lab01/setup/svi-con.png)
+![Terminal output confirming SVI creation](../media/svi-con.png)
 
 Expected output is now seeing the IP Address `10.0.3.2` assigned to `Vlan3`. At this point in time, copy and save the current running and startup configuration: `copy running-config startup-config`. When prompted for destination filename, press enter.
 
@@ -125,7 +125,7 @@ configure terminal
 end
 ```
 
-![Cisco IOS commands to configure port 24 as management port](/media/lab01/setup/p24-config.png)
+![Cisco IOS commands to configure port 24 as management port](../media/p24-config.png)
 
 Confirm with:
 
@@ -136,11 +136,11 @@ show vlan brief
 
 show interface status: Expected output
 
-![Cisco IOS command output confirming port 24 management access](/media/lab01/setup/p24-man-con.png)
+![Cisco IOS command output confirming port 24 management access](../media/p24-man-con.png)
 
 show vlan brief: Expected output
 
-![Cisco IOS command output port 24 assigned to VLAN 3](/media/lab01/setup/p24-vlan-con.png)
+![Cisco IOS command output port 24 assigned to VLAN 3](../media/p24-vlan-con.png)
 
 ## Port Security VLAN 3
 
@@ -158,7 +158,7 @@ configure terminal
 end
 ```
 
-![Cisco IOS commands to allow mac-addresses through port 24](/media/lab01/setup/mac-allow.png)
+![Cisco IOS commands to allow mac-addresses through port 24](../media/mac-allow.png)
 
 For security reasons, MAC address configuration has been omitted for documentation.
 
@@ -170,7 +170,7 @@ Confirm with:
 show port-security interface FastEthernet1/0/24
 ```
 
-![Cisco IOS command confirming MAC allow list configuration](/media/lab01/setup/mac-allow-con.png)
+![Cisco IOS command confirming MAC allow list configuration](../media/mac-allow-con.png)
 
 Expected output:
 
@@ -216,11 +216,11 @@ configure terminal
     end
 ```
 
-![Part one of Cisco IOS commands to configure SSH](/media/lab01/setup/ssh1.png)
+![Part one of Cisco IOS commands to configure SSH](../media/ssh1.png)
 
 For the sake of documentation, `SECRET_NAME` is used, and the configuration needed to be split in two. If you need the secret name, see Tyler.
 
-![Part two of Cisco IOS commands to configure SSH](/media/lab01/setup/ssh2.png)
+![Part two of Cisco IOS commands to configure SSH](../media/ssh2.png)
 
 Once again, for the sake of documentation, these screenshots were made after the configuration was complete. With that being said, when prompted to replace RSA keys, the answer may be different. No was stated so that the current configurations RSA keys were not overwritten.
 
@@ -232,7 +232,7 @@ show ip ssh
 
 Expected output:
 
-![show ip ssh Cisco IOS command to confirm SSH creation](/media/lab01/setup/ssh-con.png)
+![show ip ssh Cisco IOS command to confirm SSH creation](../media/ssh-con.png)
 
 ### Fully Confirm SSH Access Via PuTTY
 
@@ -244,7 +244,7 @@ Copy the config by running `copy running-config startup-config`.
 
 ## Student Port --> VLAN Configuration
 
-As mentioned in the [Lab 01 Overview](overview.md), and consistent with the configuration above, two student VLANs and one bricked VLAN will be configured:
+As mentioned in the [Lab 01 Overview](../overview.md), and consistent with the configuration above, two student VLANs and one bricked VLAN will be configured:
 
 ```cisco.ios
 configure terminal
@@ -290,7 +290,7 @@ exit
 end
 ```
 
-![Cisco IOS commands to assign all ports respective VLAN](/media/lab01/setup/ports-vlan-assignment.png)
+![Cisco IOS commands to assign all ports respective VLAN](../media/ports-vlan-assignment.png)
 
 The port assignment configured is as follows:
 
@@ -313,10 +313,10 @@ show interface status
 
 VLAN verification:
 
-![show vlan brief Cisco IOS command output](/media/lab01/setup/portCon-vlan.png)
+![show vlan brief Cisco IOS command output](../media/portCon-vlan.png)
 
 Interface verification:
 
-![show interface status Cisco IOS command output](/media/lab01/setup/portCon-int.png)
+![show interface status Cisco IOS command output](../media/portCon-int.png)
 
 Copy the configuration one last time: `copy running-config startup-config`
