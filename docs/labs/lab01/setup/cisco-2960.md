@@ -427,11 +427,18 @@ Each verified lab profile should also be retained in the project's version-contr
 
 ```text
 configs/
-  cisco/
-    3750/
-      lab01.cfg
-      lab02.cfg
-      lab03.cfg
+  3750/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  2960/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  juniper/
+    lab01.conf
+    lab02.conf
+    lab03.conf
 ```
 
 #### 4.4.1 Display Complete Configuration
