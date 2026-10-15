@@ -10,4 +10,15 @@ The lab will consist of `two deployment bags` that have the ability to support `
 
 | Component | Configuration |
 | --- | --- |
+| Deployment Bags | 2 Identical Configurations |
+| Deployment Groups | 4 Identical Configurations (2 groups per bag) |
+| Network | `10.0.0.0/24` |
+| Subnet Mask | `255.255.255.0` |
+| Switch IP | `10.0.0.1` |
+| `Ports 1-10` | VLAN 1 (student VLAN) |
+| Ports 11-24 | VLAN 999 (administratively down) |
+| Management | `SSH restricted to authorized TA devices` (via MAC) |
+| Endpoints | `University provided laptops` |
+| Connectivity | `No production network uplink. Endpoint RJ45 -> Ethernet -> Switch` |
 
+All deployment bags share identical configuration and IP addressing schema. Ensuring consistency across each bag makes management and documentation considerably easier. Due to the deployment bag networks being isolated, there will be no posed confliction between the bags.
