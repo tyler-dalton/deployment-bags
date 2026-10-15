@@ -603,3 +603,119 @@ commit
 | Authorized TA Connection | Successful |
 | Unauthorized MAC | Traffic rejected, subject to physical validation |
 | Port Status | Remains operational |
+
+## Phase 4 — Configuration Persistence & Recovery
+
+Unlike Cisco IOS, **JunOS saves the active configuration when you execute `commit`**. We'll also maintain a separate, named Lab 01 configuration snapshot.
+
+### 4.1 Save the Active Configuration:
+
+Before creating the baseline, verify that the current candidate configuration has no pending changes.
+
+```juniper
+show | compare
+```
+
+If no differences appear, the candidate and committed configurations match.
+
+**Then check**:
+
+```juniper
+run show system commit
+```
+
+**If there are pending changes, review them before committing**. Do not automatically commit unexpected configuration changes.
+
+> [!NOTE]
+> JunOS does not require Cisco's `copy running-config startup-config` command. Successfully committed configurations persist across switch reboots.
+
+### 4.2 Create the Lab 01 Configuration Profile
+
+JunOS supports saving a configuration snapshot to a named file:
+
+```juniper
+save /config/lab01.conf
+```
+
+**Verify the saved file**:
+
+```juniper
+run file list /config detail
+```
+
+![confirm config export](../media/juniper/export.png)
+
+> [!IMPORTANT]
+> Save this file **only after verifying the final Lab 01 configuration**. The file should represent a known-good deployment state, not simply the latest working configuration.
+
+### 4.3 Restore a Stored Lab Configuration
+
+To restore the Lab 01 baseline, enter configuration mode and **load the saved configuration**:
+
+```juniper
+configure
+load override /config/lab01.conf
+```
+
+Unlike `load merge, load override` **replaces the entire candidate configuration** with the contents of the saved profile. This prevents settings from later labs from remaining in the configuration unintentionally.
+
+**Verify & Commit**:
+
+```juniper
+show | compare
+commit check
+commit
+```
+
+A reboot is not required.
+
+> [!NOTE]
+> `load override` replaces the candidate configuration, potentially including user accounts, SSH settings, and management IP addresses. Keep console access available during restoration and confirm the configuration only after verifying connectivity.
+
+### 4.4 Establish External Configuration Backups
+
+Although internal flash storage enables local recovery, it should not be the sole copy of the switch configuration.
+
+Each verified lab profile should also be retained in the project's version-controlled configuration repository, excluding passwords, credential hashes, private keys, and other secrets.
+
+```text
+configs/
+  3750/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  2960/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  juniper/
+    lab01.conf
+    lab02.conf
+    lab03.conf
+```
+
+**Export the configuration**:
+
+From operational mode, or with run from configuration mode:
+
+```juniper
+show configuration | display set | no-more
+```
+
+Copy the output into the repository's configuration file. Before committing it to Git, **redact authentication hashes and inspect for other secrets**, including SNMP communities and cryptographic key material.
+
+> [!NOTE]
+> Remember that the sanitized repository file is documentation, not an exact restoration backup.
+
+### 4.5 Verify Configuration Persistence
+
+Confirm the saved configuration exists and check the active configuration:
+
+```juniper
+run file list /config detail
+run show configuration system host-name
+run show configuration interfaces vlan
+run show configuration vlans
+```
+
+![final confirmation](../media/juniper/final-confirm.png)
