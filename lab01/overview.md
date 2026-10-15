@@ -30,3 +30,9 @@ All deployment bags share identical configuration and IP addressing schema. Ensu
 3. **Switch Connectivity**: Execute `ping 10.0.0.1` to verify communication upstream to the switch.
 4. **Peer-to-Peer (P2P) Connectivity**: Attempt ICMP communication between endpoints. Step is intentionally designed to fail due to Windows Firewall rules.
 5. **ARP Inspection**: Execute `arp -a` to inspect resolved IP-to-MAC address mappings. Despite a failed ICMP request, a successful ARP command demonstrates local address discovery.
+
+## Admin Configuration
+
+TA's are responsible for deploying, securing, and restoring switch configuration as needed. Students receive **no switch configuration privileges. Each deployment bag must be restored to its documented baseline between lab sessions.
+
+## Learning Objectives
