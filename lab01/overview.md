@@ -22,3 +22,11 @@ The lab will consist of `two deployment bags` that have the ability to support `
 | Connectivity | `No production network uplink. Endpoint RJ45 -> Ethernet -> Switch` |
 
 All deployment bags share identical configuration and IP addressing schema. Ensuring consistency across each bag makes management and documentation considerably easier. Due to the deployment bag networks being isolated, there will be no posed confliction between the bags.
+
+## Student Workflow
+
+1. **Physical Deployment**: Establish power to the bag, connect endpoints to the switch via Ethernet.
+2. **IPv4 Configuration**: Assign unique static IP addresses within the `10.0.0.0/24 network`. No default gateway is required.
+3. **Switch Connectivity**: Execute `ping 10.0.0.1` to verify communication upstream to the switch.
+4. **Peer-to-Peer (P2P) Connectivity**: Attempt ICMP communication between endpoints. Step is intentionally designed to fail due to Windows Firewall rules.
+5. **ARP Inspection**: Execute `arp -a` to inspect resolved IP-to-MAC address mappings. Despite a failed ICMP request, a successful ARP command demonstrates local address discovery.
