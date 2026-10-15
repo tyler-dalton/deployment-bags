@@ -176,7 +176,7 @@ show running-config | begin interface FastEthernet1/0/24
 
 Although management and student traffic share VLAN 1, multiple controls are implemented to limit unauthorized access. The switch will use `10.0.0.1/24`, allowing students to verify connectivity using ICMP while TAs retain administrative access through port 24.
 
-### Configure the Management Interface
+### 3.1 Configure the Management Interface
 
 The Catalyst 3750 uses a **Switched Virtual Interface (SVI)** to provide IP connectivity for switch management. `VLAN 1` will host this interface because **Lab 01 operates on a single subnet**.
 
@@ -205,7 +205,7 @@ show ip interface brief
 
 VLAN 1 should display `10.0.0.1`. Its protocol status **may remain down** until at least one active VLAN 1 port establishes a physical connection.
 
-### Configure SSH Authentication
+### 3.2 Configure SSH Authentication
 
 **Administrative access will require a local username and password**.
 
