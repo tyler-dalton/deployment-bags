@@ -1,12 +1,13 @@
 # Executive Summary
+
 The **IT1080C Deployment Bags** is a proposed expansion to the Computer Networking course designed to take theory of building virtual networks in Cisco Packet Tracer and bridge into hands-on enterprise networking experience. IT1080C currently combines networking theory with tangible experience using a Raspberry Pi lab, and virtual tools like Cisco Packet Tracer and Wireshark. There are two major takeaways from a movement to phsyical architecture:
 
 1. Students get real experience with real equipment
 2. Deployment Bags become a spark for students to find true interest in Networking/IT
 
-This inititave introduces a set of **portable, standardized networking bags**. Rather than replacing the course's current Packet Tracer curriculum, students first learn the theory virtually, then have the opportunity to apply the concepts to real infrastructure. 
+This inititave introduces a set of **portable, standardized networking bags**. Rather than replacing the course's current Packet Tracer curriculum, students first learn the theory virtually, then have the opportunity to apply the concepts to real infrastructure.
 
-Each student Deployment Bag would provide a repeatable base platform containing the equipment required to complete a selection of lab exercises. A separate **management/infrastructure Deployment Bag** would provide students with an isolated and simulated WAN connection when appropriate for the scope of the lab. Together these bags will create a *completely isolated environment from the UC production network*. Through this isolated environment, students can configure devices, and troubleshoot failures with tangible hardware. 
+Each student Deployment Bag would provide a repeatable base platform containing the equipment required to complete a selection of lab exercises. A separate **management/infrastructure Deployment Bag** would provide students with an isolated and simulated WAN connection when appropriate for the scope of the lab. Together these bags will create a *completely isolated environment from the UC production network*. Through this isolated environment, students can configure devices, and troubleshoot failures with tangible hardware.
 
 A central constraint is **complete isolation from the UC production network**. The environment will operate like a 100% independent network with no dependency or ability to access production infrastructure. This isolation also allows a larger freedom to deploy intentional misconfigurations in a low-stakes environment.
 
