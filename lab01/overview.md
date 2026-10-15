@@ -51,3 +51,14 @@ Students will demonstrate learning in:
 * Switch management access is restricted to **authorized TA devices**
 * Students must not modify switch configurations
 * Switch configurations must be backed up and restored to the documented baseline between lab sessions
+
+## Expected Outcomes
+
+Upon completion, students should have:
+
+* Successfully established a LAN network
+* Configured endpoint addressing
+* Verified switch connectivity
+* Inspected ARP entries to neighboring devices
+
+Failed peer-to-peer ICMP requests are acceptable when caused by endpoint firewall restrictions, provided ARP resolution succeeds.
