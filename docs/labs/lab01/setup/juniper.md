@@ -429,4 +429,177 @@ run show chassis hardware
 
 ![disabled uplink confirmation](../media/juniper/2-5-uplink.png)
 
+## Phase 3 — Management Interface & Access Security
 
+Phase 2 is complete, so we're now configuring the EX3300's management IP, SSH authentication, and access restrictions.
+
+### 3.1 Configure the Management Interface
+
+The Juniper EX3300 uses a `Routed VLAN Interface (RVI)`, comparable to Cisco's Switch Virtual Interface (SVI).
+
+Since we're running legacy JunOS 12.3R6.6, the management interface will be `vlan.0`, rather than the newer ELS `irb.0`.
+
+**Configure the RVI**:
+
+```juniper
+delete interfaces vlan unit 0 family inet dhcp
+set interfaces vlan unit 0 description LAB01-MAN
+set interfaces vlan unit 0 family inet address 10.0.0.1/24
+set vlans default l3-interface vlan.0
+```
+
+This assigns `10.0.0.1/24` to the switch on `VLAN 1`. **We are not enabling inter-VLAN routing or adding a default route**. All Lab 01 endpoints remain within `10.0.0.0/24`.
+
+**Validate and commit**:
+
+```juniper
+commit check
+commit
+```
+
+### 3.2 Configure SSH Authentication
+
+Once the management interface commits successfully, **configure SSH and the TA account**.
+
+```juniper
+set system login user ta class super-user
+set system login user ta authentication plain-text-password
+```
+
+Enter and confirm the password when prompted.
+
+**Enable SSHv2**:
+
+```juniper
+set system services ssh protocol-version v2
+set system services ssh connection-limit 5
+set system services ssh root-login deny
+```
+
+This enables SSHv2, limits concurrent SSH connections, and prevents direct SSH login as root. The `ta` account retains administrative privileges.
+
+**Configure login security**:
+
+```juniper
+set system login retry-options tries-before-disconnect 3
+```
+
+For the ten-minute inactivity timeout, **create a custom administrative login class**:
+
+```juniper
+set system login class TA-ADMIN permissions all
+set system login class TA-ADMIN idle-timeout 10
+set system login user ta class TA-ADMIN
+```
+
+This gives the TA account **full administrative permissions while enforcing an idle session timeout**.
+
+**Verify and Commit**:
+
+```juniper
+show system login user ta
+show system login class TA-ADMIN
+show system services ssh
+show | compare
+
+commit check
+commit
+```
+
+![SSH confirmation](../media/juniper/ssh.png)
+
+### 3.3 Restrict SSH to Authorized TA IP Addresses
+
+On JunOS, we'll use a firewall filter applied to the switch's `lo0.0` interface. This protects traffic destined for the Routing Engine, rather than filtering student traffic passing through the switch:
+
+```juniper
+set interfaces lo0 unit 0 family inet
+set firewall family inet filter RE-PROTECT term ALLOW-TA-SSH from source-address 10.0.0.250/32
+set firewall family inet filter RE-PROTECT term ALLOW-TA-SSH from protocol tcp
+set firewall family inet filter RE-PROTECT term ALLOW-TA-SSH from destination-port ssh
+set firewall family inet filter RE-PROTECT term ALLOW-TA-SSH then accept
+
+set firewall family inet filter RE-PROTECT term DENY-OTHER-SSH from protocol tcp
+set firewall family inet filter RE-PROTECT term DENY-OTHER-SSH from destination-port ssh
+set firewall family inet filter RE-PROTECT term DENY-OTHER-SSH then discard
+
+set firewall family inet filter RE-PROTECT term ALLOW-OTHER then accept
+set interfaces lo0 unit 0 family inet filter input RE-PROTECT
+```
+
+> [!CAUTION]
+> JunOS 12.3R6.6 Compatibility: The EX3300 rejects the count action in the ingress Routing Engine firewall filter with the error Referenced filter 'RE-PROTECT' can not be used as count not supported on ingress.
+>
+> To maintain compatibility, the DENY-OTHER-SSH term uses discard without a packet counter.
+
+The firewall filter uses `10.0.0.250/32` rather than the /24 subnet mask configured on the management interface. These serve two different purposes.
+
+The management interface uses `10.0.0.1/24` to establish connectivity within the `10.0.0.0/24` subnet. However, **the SSH firewall filter uses /32 to match one specific host address (10.0.0.250)**, rather than permitting every device within the subnet.
+
+The `ALLOW-OTHER` term is important. It prevents the filter's implicit deny from blocking other traffic to the switch, including student pings. This filter intentionally restricts only SSH. It is not a comprehensive control-plane protection policy.
+
+> [!NOTE]
+> The /32 restriction applies only to source-address matching in the SSH firewall filter. The switch and TA workstation retain their /24 interface subnet masks. Source-IP filtering provides an additional layer of security but does not prevent IP address
+
+**Verify & Commit**:
+
+```juniper
+show firewall family inet filter RE-PROTECT
+show interfaces lo0
+
+show | compare
+
+commit check
+commit
+```
+
+![firewall confirm1](../media/juniper/fw.png)
+
+![firewall compare](../media/juniper/fw-commit.png)
+
+### 3.4 Configure TA Management Port MAC Security
+
+The objective is to authorize three designated TA Ethernet adapters, reject traffic from unauthorized MAC addresses, and keep the management port operational rather than shutting it down after a violation.
+
+**Configure MAC-Based port security**:
+
+```juniper
+set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:01
+set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:02
+set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:03
+```
+
+The MAC addresses above are examples only.
+
+**Configure MAC limit**:
+
+```juniper
+set ethernet-switching-options secure-access-port interface ge-0/0/23 mac-limit 3 action drop
+```
+
+This configures a limit of three learned MAC addresses, using packet drop as the violation action.
+
+> [!IMPORTANT]
+> `allowed-mac` and `mac-limit` work together but are not interchangeable. **Allowed MAC addresses take precedence over dynamically learned addresses**. Therefore, we must physically test that an unauthorized fourth MAC cannot pass traffic; a successful commit alone is insufficient proof of strict allowlist enforcement.
+
+```juniper
+show ethernet-switching-options secure-access-port
+show | compare
+
+commit check
+commit
+```
+
+![MAC confirmation](../media/juniper/mac.png)
+
+**Check for the following**:
+
+| **Component** | **Expected Result** |
+| --- | --- |
+| Interface | `ge-0/0/23` |
+| Allowed MAC | 3 TA MAC addresses |
+| MAC limit | 3 |
+| Violation Action | Drop |
+| Authorized TA Connection | Successful |
+| Unauthorized MAC | Traffic rejected, subject to physical validation |
+| Port Status | Remains operational |
