@@ -10,9 +10,9 @@ Configure a computer with a static IPv4 address, verify connectivity to the netw
 
 This guide provides instructions for:
 
-- [Windows](#3.-windows-configuration)
-- [macOS](#4.-macos-configuration)
-- [Linux (Fedora and other distributions)](#5.-linux-configuration)
+- [Windows](#3-windows-configuration)
+- [macOS](#4-macos-configuration)
+- [Linux (Fedora and other distributions)](#5-linux-configuration)
 
 ## 2. Network Addressing
 
