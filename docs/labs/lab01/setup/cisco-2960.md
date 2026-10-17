@@ -12,7 +12,7 @@
 | Management | SSHv2, restricted |
 
 > [!NOTE]
-> All rationale and explanations can be found at the bottom of the documentation, located in the [Rationale section](#rationale)
+> All rationale and explanations can be found inside of the `setup` directory at the file location [docs/labs/lab01/setup/rationale.md](./rationale.md)
 
 ## Phase 1 - Configure Student Ports
 
@@ -24,7 +24,7 @@ The start of the setup will cover the `switch's identity and fundamental operati
 
 Each switch will receive a unique hostname for identification during admin and troubleshooting workflows. The hostname will differ from the InventoryID by also including the bag in which the switch resides.
 
-The naming convention is `BG##-SW##`, where `BG` identifies the deployment bag number, and `SW` defines the switch number. That way we will have an aggregation of bag location & switch number to quickly identify the switch in question. See [Rationale](#switch-hostname) for more details.
+The naming convention is `BG##-SW##`, where `BG` identifies the deployment bag number, and `SW` defines the switch number. That way we will have an aggregation of bag location & switch number to quickly identify the switch in question. See [Rationale](./rationale.md#hostname-configuration) for more details.
 
 **Apply the following configuration commands**:
 
@@ -39,18 +39,17 @@ configure terminal
 end
 ```
 
+**No HTTP-based management [rationale link](./rationale.md#disable-http-based-management)**.
+
 ![Cisco 2960 Identity configuration console output](../media/cisco/2960-identity.png)
 
-## Rationale
+> [!NOTE]
+> `service password-encryption` obscures applicable plaintext passwords within the configuration. This provides protection against casual exposure but is not a substitute for secure password hashing or SSH authentication.
 
-### Switch Hostname
+### 1.2 Verify Base Configuration
 
-The main goal for the hostnames is to leverage the unique inventory ID, while also giving administrators an exact location of the hardware. The `InventoryID` can be found on any piece of equipment, with a white label.
-
-We add the `bag UID` in front of the `InventoryID` to depict that exact location. The naming convention is short, easy to remember, and can be used for multiple use cases such as troubleshooting & documentation.
-
-**Cisco 2960 hostname**:
-
-```text
-BG01-SW01
+```cisco
+show running-config | include hostname|ip http|service
 ```
+
+![Base switch configuration verification](../media/cisco/2960-base-confirm.png)
