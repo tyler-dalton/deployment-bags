@@ -373,12 +373,67 @@ ssh ta@10.0.10.1
 
 ## Phase 4 - Student-Facing Security
 
-### Management Security Summary
+Phase 4 establishes access restrictions for the five student-facing interfaces `(Fa0/1-5)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page]() as to why all MAC addresses are not permitted on all ports.
 
-Administrative access is protected through multiple security controls intended to prevent unauthorized switch configuration while preserving student connectivity.
+**Phase 4 establishes**:
 
-* **Physical Access**: Port 24 is designated for TA management with static port security restricting access to three authorized MAC addresses.
-* **IP Based Restrictions**: An Access Control List (ACL) permits SSH connections only from the designated TA workstation IP `(10.0.0.250)`.
-* **Authentication**: SSHv2 requires authenticated credentials and encrypts all management sessions. Telnet & HTTP-based management are disabled.
-* **Session Security**: Authentication retries and idle session timeouts limit repeated login attempts and unattended admin sessions.
-* **Network Isolation**: The deployment bag environments operate independently of the UC production network. Unused switch interfaces are administratively disabled and assigned to VLAN 999.
+* Static MAC-based port security for all student interfaces
+* A maximum of one authorized MAC address per interface
+* Consistent laptop-to-port assignments across all deployment bags
+* A standardized `/29` subnet for each isolated student LAN
+
+### 4.1 Configure Student Port Security
+
+Each student-facing interface will be restricted to a single authorized MAC address using Cisco's built-in port security functionality. The interfaces will use restrict violation mode to discard unauthorized traffic without administratively disabling the port.
+
+See [rationale section]() on student port security for further information.
+
+**Run**:
+
+```cisco
+conf t
+
+int range fa0/1 - 5
+  sw port
+  sw port maximum 1
+  sw port violation restrict
+exit
+end
+```
+
+> [!NOTE]
+> The `maximum 1`configuration ensures that each interface accepts traffic from only one secure MAC address at a time. The authorized addresses will be statically assigned in the following section.
+
+### 4.2 Assign Authorized Student MAC Addresses
+
+Each deployment bag contains five designated laptops. Every laptop will be assigned a specific physical switch interface, **creating a consistent relationship between the computer, switch port, and network configuration**.
+
+The following configuration is an example for `BG01-SW02`. Replace the MAC address placeholders with the corresponding wired Ethernet MAC addresses recorded in the equipment inventory.
+
+```cisco
+conf t
+
+int fa0/1
+  sw port mac AAAA.BBBB.0001
+exit
+
+int fa0/2
+  sw port mac AAAA.BBBB.0002
+exit
+
+int fa0/3
+  sw port mac AAAA.BBBB.0003
+exit
+
+int fa0/4
+  sw port mac AAAA.BBBB.0004
+exit
+
+int fa0/5
+  sw port mac AAAA.BBBB.0005
+exit
+
+end
+```
+
+after endpoint sec done, pick up sec 3.6 from docs
