@@ -41,8 +41,6 @@ end
 
 **No HTTP-based management [rationale link](./rationale.md#disable-http-based-management)**.
 
-![Cisco 2960 Identity configuration console output](../media/cisco/2960-identity.png)
-
 > [!NOTE]
 > `service password-encryption` obscures applicable plaintext passwords within the configuration. This provides protection against casual exposure but is not a substitute for secure password hashing or SSH authentication.
 
@@ -52,7 +50,7 @@ end
 sh run | include hostname|ip http|service
 ```
 
-![Base switch configuration verification](../media/cisco/2960-base-confirm.png)
+![Base switch configuration verification](../media/cisco/2960/base-confirm.png)
 
 ## Phase 2 - VLAN and Interface Provisioning
 
@@ -183,12 +181,123 @@ sh run | begin interface fa0/23
 
 **show vlan brief**:
 
-![sh vl br](../media/cisco/sh-vl-br.png)
+![sh vl br](../media/cisco/2960/sh-vl-br.png)
 
 **show interface status**:
 
-![sh int status](../media/cisco/sh-int-status.png)
+![sh int status](../media/cisco/2960/sh-int-status.png)
 
 **show running-config | begin interface FastEthernet0/23**:
 
-![sh int status](../media/cisco/sh-run-begin-fa23.png)
+![sh int status](../media/cisco/2960/sh-run-begin-fa23.png)
+
+## Phase 3 - Management Interface & Access Security
+
+**Phase 3 establishes**:
+
+* switch management IP
+* Enables SSH administration
+* Restricts management access to authorized TA devices.
+
+### 3.1 Configure the Management Interface
+
+The Catalyst 2960 uses a **Switched Virtual Interface (SVI)** to provide IP connectivity for switch management. `VLAN 10` will host this interface. For further information, see the [management interface rationale](./rationale.md#ta-management-interface).
+
+```cisco
+conf t
+
+int Vlan10
+ description TA-MAN
+ ip address 10.0.10.1 255.255.255.0
+ no shutdown
+exit
+end
+```
+
+**Verify**:
+
+```cisco
+sh ip int br
+```
+
+![SVI verification](../media/cisco/2960/ip-int-br.png)
+
+VLAN 10 should display `10.0.10.1`. Its protocol status **may remain down** until at least one active `VLAN 10` port establishes a physical connection.
+
+### 3.2 Configure SSH Authentication
+
+**Administrative access will require a local username and password**.
+
+```cisco
+conf t
+
+ip domain-name dep-bags.local
+enable secret <ENABLE_PASSWORD>
+username ta privilege 15 secret <TA_PASSWORD>
+
+crypto key generate rsa
+```
+
+Use distinct, strong passwords for the enable secret and TA account. Replace the placeholders with actual values; **DO NOT include credentials in published documentation**.
+
+When prompted for the key modulus, enter `2048` if supported.
+
+**Then**:
+
+```cisco
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+
+line vty 0 15
+ login local
+ transport input ssh
+ exec-timeout 10 0
+exit
+
+end
+```
+
+> [!NOTE]
+> The 10-minute inactivity timeout terminates abandoned management sessions, while limiting authentication retries reduces repeated unauthorized login attempts.
+
+**Verify**:
+
+```cisco
+sh ip ssh
+```
+
+**Expected output**:
+
+![SSH authentication verification](../media/cisco/2960/sh-ip-ssh.png)
+
+### 3.3 Restrict SSH to Authorized TA IP Addresses
+
+SSH authentication alone **does not prevent students from attempting to access the management service**. A standard `access control list (ACL)` will restrict incoming VTY connections to approved TA source addresses.
+
+**We will reserve**:
+
+| Device | Address |
+| --- | --- |
+| Switch | `10.0.10.1` |
+| Primary TA Workstation | `10.0.10.10` |
+
+```cisco
+conf t
+
+access-list 10 remark TA-SSH
+access-list 10 permit host 10.0.10.10
+
+line vty 0 15
+ access-class 10 in
+exit
+
+end
+```
+
+The ACL includes an **implicit deny for every other source address**.
+
+> [!CAUTION]
+> Source IP restrictions do not prevent IP address spoofing. They provide an additional security layer alongside SSH authentication and physical port security.
+
+
