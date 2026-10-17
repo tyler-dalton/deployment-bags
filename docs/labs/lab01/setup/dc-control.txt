@@ -1,0 +1,8 @@
+- outside the UC domain
+- prevent dual-homed
+  - disable wifi module in BIOS?
+  - windows firewall policy blocking:
+    - network bridging
+    - internet connection sharing
+  - "prefer wired" / "disconnect WiFi when Ethernet connects"
+
