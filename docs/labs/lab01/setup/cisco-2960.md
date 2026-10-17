@@ -72,7 +72,7 @@ For more information as to why these three VLANs, please [visit the rationale se
 **Create the VLANs**:
 
 ```cisco
-configure terminal
+conf t
 
   vlan 10
     name TA-MAN
@@ -93,11 +93,11 @@ Ports `Fa0/1-5` provide connectivity for student endpoints. This is done in orde
 ```cisco
 int range fa0/1 - 5
   description LAB01-STUDENT
-  switchport mode access
-  switchport access vlan 1
-  switchport nonegotiate
-  spanning-tree portfast
-  spanning-tree bpduguard enable
+  sw mode access
+  sw access vlan 1
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
   no shutdown
 exit
 ```
@@ -111,15 +111,15 @@ All unused FastEthernet ports and both GigabitEthernet uplinks will be administr
 ```cisco
 int range fa0/6 - 22
  description ADMIN-DOWN
- switchport mode access
- switchport access vlan 999
+ sw mode access
+ sw access vlan 999
  shutdown
 exit
 
 int range gi0/1 - 2
  description ADMIN-DOWN
- switchport mode access
- switchport access vlan 999
+ sw mode access
+ sw access vlan 999
  shutdown
 exit
 ```
@@ -133,11 +133,11 @@ Port `Fa0/23` will provide dedicated physical access for authorized TAs, with se
 ```cisco
 interface FastEthernet0/23
   description TA-MAN
-  switchport mode access
-  switchport access vlan 10
-  switchport nonegotiate
-  spanning-tree portfast
-  spanning-tree bpduguard enable
+  sw mode access
+  sw access vlan 10
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
   no shutdown
 exit
 end
@@ -155,11 +155,11 @@ Port `Fa0/24` will provide dedicated connectivity for a locally hosted game serv
 conf t
 int fa0/24
   description LAB01-GAME-SERV
-  switchport mode access
-  switchport access vlan 1
-  switchport nonegotiate
-  spanning-tree portfast
-  spanning-tree bpduguard enable
+  sw mode access
+  sw access vlan 1
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
   no shutdown
 exit
 end
@@ -299,5 +299,52 @@ The ACL includes an **implicit deny for every other source address**.
 
 > [!CAUTION]
 > Source IP restrictions do not prevent IP address spoofing. They provide an additional security layer alongside SSH authentication and physical port security.
+
+### 3.4 Configure Port 24 MAC-Based Security
+
+`FastEthernet0/23` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
+
+For this setup, we'll allow up to **three authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
+
+```cisco
+conf t
+
+int fa0/23
+ sw port maximum 3
+ sw port violation restrict
+ sw port mac AAAA.BBBB.CCCC
+ sw port mac DDDD.EEEE.FFFF
+ sw port mac GGGG.HHHH.IIII
+exit
+
+end
+```
+
+Replace both MAC placeholders with Cisco-formatted addresses, such as `AAAA.BBBB.CCCC`.
+
+#### Port Security Behavior
+
+| Setting | Function |
+| --- | --- |
+| Maximum 3 | Limits the number of authorized MAC addresses |
+| Static MAC Addresses | Defines authorized TA Ethernet adapters & NIC's |
+| Violation Restrict | Drops frames from unauthorized source MAC addresses |
+| Port Security Enabled | Enforces configured restrictions |
+
+The `restrict` violation mode was selected instead of `shutdown` to prevent an unauthorized connection from forcing the management port into an error-disabled state. Violations are still recorded through switch counters and logging.
+
+> [!CAUTION]
+> MAC addresses can be spoofed, so this mechanism is an access restriction rather than strong device authentication.
+
+**Verify**:
+
+```cisco
+sh port int fa0/23
+sh port address
+```
+
+**Expected output**:
+
+![SSH MAC verification](../media/cisco/2960/verify-p24-mac.png)
 
 
