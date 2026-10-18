@@ -88,10 +88,10 @@ conf t
 
 ### 2.2 Configure student-facing Interfaces
 
-Ports `Fa0/1-5` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
+Ports `Fa0/1-3` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
 
 ```cisco
-int range fa0/1 - 5
+int range fa0/1 - 3
   description LAB01-STUDENT
   sw mode access
   sw access vlan 1
@@ -109,7 +109,7 @@ These interfaces will operate as **standard access ports**. The ports prevent tr
 All unused FastEthernet ports and both GigabitEthernet uplinks will be administratively disabled. See [rationale section on disabled ports](./rationale.md#disabled-ports) for further information.
 
 ```cisco
-int range fa0/6 - 22
+int range fa0/4 - 22
  description ADMIN-DOWN
  sw mode access
  sw access vlan 999
@@ -373,7 +373,7 @@ ssh ta@10.0.10.1
 
 ## Phase 4 - Student-Facing Security
 
-Phase 4 establishes access restrictions for the five student-facing interfaces `(Fa0/1-5)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page]() as to why all MAC addresses are not permitted on all ports.
+Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page]() as to why all MAC addresses are not permitted on all ports.
 
 **Phase 4 establishes**:
 
@@ -393,7 +393,7 @@ See [rationale section]() on student port security for further information.
 ```cisco
 conf t
 
-int range fa0/1 - 5
+int range fa0/1 - 3
   sw port
   sw port maximum 1
   sw port violation restrict
