@@ -380,7 +380,6 @@ Phase 4 establishes access restrictions for the three student-facing interfaces 
 * Static MAC-based port security for all student interfaces
 * A maximum of one authorized MAC address per interface
 * Consistent laptop-to-port assignments across all deployment bags
-* A standardized `/29` subnet for each isolated student LAN
 
 ### 4.1 Configure Student Port Security
 
