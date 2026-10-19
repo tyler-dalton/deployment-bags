@@ -179,25 +179,29 @@ Port 24 is assigned to `VLAN 1`, placing the game server within the same broadca
 
 The game server will operate entirely within the isolated lab network, requiring no connectivity to UC's production infrastructure or the public Internet during normal operation. See [rationale section on access ports](./rationale.md#access-port-configuration) for further information.
 
----
-
-### 2.5 Verify Interface Configuration
+### 2.6 Verify Interface Configuration
 
 **Run**:
 
 ```cisco
-show vlan brief
-show interface status
-show running-config | begin interface FastEthernet1/0/24
+sh vl br
+show int status
+sh run | begin interface fa1/0/23
 ```
 
-**Expected output**:
+**show vlan brief**:
 
-![VLAN assignment verification](../media/cisco/verify-vlan.png)
+![sh vl br](../media/cisco/3750/sh-vl-br.png)
 
-![Interface assignment verification](../media/cisco/verify-int.png)
+**show interface status**:
 
-![Port 24 verification](../media/cisco/verify-p24.png)
+![sh int status](../media/cisco/3750/sh-int-status.png)
+
+**show running-config | begin interface FastEthernet0/23**:
+
+![sh int status](../media/cisco/3750/sh-run-begin-fa23.png)
+
+---
 
 ## Phase 3 - Management Interface & Access Security
 
