@@ -410,3 +410,27 @@ end
 
 > [!NOTE]
 > The `maximum 1`configuration ensures that each interface accepts traffic from only one secure MAC address at a time. The authorized addresses will be statically assigned in the following section.
+
+### 4.2 Assign Authorized Student MAC Addresses
+
+Each deployment bag contains five designated laptops. Every laptop will be assigned a specific physical switch interface, **creating a consistent relationship between the computer, switch port, and network configuration**.
+
+The following configuration is an example for `BG01-SW01`. Replace the MAC address placeholders with the corresponding wired Ethernet MAC addresses recorded in the equipment inventory.
+
+```cisco
+conf t
+
+int fa1/0/1
+  sw port mac AAAA.BBBB.0001
+exit
+
+int fa1/0/2
+  sw port mac AAAA.BBBB.0002
+exit
+
+int fa1/0/3
+  sw port mac AAAA.BBBB.0003
+exit
+
+end
+```
