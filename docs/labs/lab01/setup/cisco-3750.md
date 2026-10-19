@@ -201,8 +201,6 @@ sh run | begin interface fa1/0/23
 
 ![sh int status](../media/cisco/3750/sh-run-begin-fa23.png)
 
----
-
 ## Phase 3 - Management Interface & Access Security
 
 **Phase 3 establishes**:
@@ -211,22 +209,32 @@ sh run | begin interface fa1/0/23
 * Enables SSH administration
 * Restricts management access to authorized TA devices.
 
-Although management and student traffic share VLAN 1, multiple controls are implemented to limit unauthorized access. The switch will use `10.0.0.1/24`, allowing students to verify connectivity using ICMP while TAs retain administrative access through port 24.
-
 ### 3.1 Configure the Management Interface
 
-The Catalyst 3750 uses a **Switched Virtual Interface (SVI)** to provide IP connectivity for switch management. `VLAN 1` will host this interface because **Lab 01 operates on a single subnet**.
+The Catalyst 3750 uses a **Switched Virtual Interface (SVI)** to provide IP connectivity for switch management. `VLAN 10` will host this interface. For further information, see the [management interface rationale](./rationale.md#ta-management-interface).
 
 ```cisco
-configure terminal
+conf t
 
-interface Vlan1
- description LAB01-MAN
- ip address 10.0.0.1 255.255.255.0
+int Vlan10
+ description TA-MAN
+ ip address 10.0.10.1 255.255.255.0
  no shutdown
 exit
 end
 ```
+
+**Verify**:
+
+```cisco
+sh ip int br
+```
+
+![SVI verification](../media/cisco/3750/sh-ip-int-br.png)
+
+VLAN 10 should display `10.0.10.1`. Its protocol status **may remain down** until at least one active `VLAN 10` port establishes a physical connection.
+
+---
 
 ![SVI management configuration](../media/cisco/svi-config.png)
 
