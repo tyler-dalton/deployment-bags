@@ -373,7 +373,7 @@ ssh ta@10.0.10.1
 
 ## Phase 4 - Student-Facing Security
 
-Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page]() as to why all MAC addresses are not permitted on all ports.
+Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
 
 **Phase 4 establishes**:
 
@@ -386,7 +386,7 @@ Phase 4 establishes access restrictions for the three student-facing interfaces 
 
 Each student-facing interface will be restricted to a single authorized MAC address using Cisco's built-in port security functionality. The interfaces will use restrict violation mode to discard unauthorized traffic without administratively disabling the port.
 
-See [rationale section]() on student port security for further information.
+See [rationale section](./rationale.md#student-port-mac-based-security) on student port security for further information.
 
 **Run**:
 
@@ -468,7 +468,7 @@ copy run start
 
 Press Enter to accept the default destination filename. **This establishes Lab 01 as the switch's normal startup configuration**.
 
-### 4.2 Create the Lab 01 Configuration Profile
+### 5.2 Create the Lab 01 Configuration Profile
 
 The Catalyst 2960 supports storing additional configuration files in its internal flash storage. These files can be used as predefined lab profiles without relying on an external provisioning script.
 
@@ -485,3 +485,152 @@ dir flash:
 ```
 
 ![dir flash](../media/cisco/2960/dir-flash.png)
+
+### 5.3 Restore a Stored Lab Configuration
+
+To restore Lab 01, **copy its configuration file into the startup configuration and reload the switch**:
+
+```cisco
+copy flash:lab01.cfg startup-config
+reload
+```
+
+If prompted to save the current running configuration before reloading, select `no`. Otherwise, the current configuration could overwrite the profile selected for restoration. The switch will then load the saved Lab 01 configuration.
+
+> [!IMPORTANT]
+> VLAN Persistence: On this Catalyst platform, VLAN definitions may also be stored in flash:vlan.dat. Restoring a .cfg file does not necessarily replace the VLAN database. Lab profiles that introduce different VLANs will require a corresponding VLAN restoration or cleanup procedure. The reset process must be tested before using it across different labs.
+
+### 5.4 Establish External Configuration Backups
+
+Although internal flash storage enables local recovery, it should not be the sole copy of the switch configuration.
+
+Each verified lab profile should also be retained in the project's version-controlled configuration repository, excluding passwords, credential hashes, private keys, and other secrets.
+
+```text
+configs/
+  3750/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  2960/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  juniper/
+    lab01.conf
+    lab02.conf
+    lab03.conf
+```
+
+#### 5.4.1 Display Complete Configuration
+
+**On the switch**:
+
+```cisco
+terminal length 0
+show running-config
+```
+
+`terminal length 0` disables output pagination, allowing the entire configuration to display without `--More--` prompts. **Copy the configuration output from your terminal**.
+
+#### 5.4.2 Save the Configuration Locally
+
+In the Git repository, create a file under /configs/cisco/2960/lab01.cfg`. Paste the configuration.
+
+#### 5.4.3 Sanitize Credentials
+
+Important: Don't commit the raw switch configuration.
+
+Cisco configurations can contain password hashes and other sensitive information. Even though passwords aren't displayed in plaintext, those hashes can potentially be cracked.
+
+Review the file for:
+
+* `enable secret` - Replace its hash with a placeholder
+* `username ... secret` - Replace password hashes with placeholders
+* Any embedded private key material or sensitive information
+
+For example, a sanitized repository entry might look like:
+
+```cisco
+enable secret <ENABLE_SECRET>
+username ta privilege 15 secret <TA_SECRET>
+```
+
+> [!IMPORTANT]
+> This sanitized file is a configuration template, not a directly deployable backup. An exact restoration is located on the thumb drive located in the bags during downtime.
+
+### 5.5 Verify Configuration Persistence
+
+After saving, **confirm the active configuration is stored correctly**:
+
+```cisco
+show startup-config
+dir flash:
+```
+
+## Phase 6 - Final Validation & Deployment Readiness
+
+The final phase verifies that the Catalyst 3750 operates as designed, enforces administrative access restrictions, and retains its configuration after a reboot.
+
+Successful validation establishes `lab01.cfg` as the canonical configuration baseline for Deployment Bag 01.
+
+### 6.1 Verify Switch Configuration
+
+Before connecting student endpoints, confirm the VLAN assignments, interface states, and management configuration.
+
+```cisco
+sh vl br
+sh int status
+sh ip int br
+sh ip ssh
+sh access-lists 10
+sh int status fa0/23
+sh int status fa0/24
+```
+
+**Verify the following**:
+
+| Component | Expected configuration |
+| --- | --- |
+| Student interfaces | `Fa0/1–3`, `VLAN 1`, `enabled` |
+| Unused interfaces | `Fa0/4–22`, `VLAN 999`, `shutdown` |
+| Gigabit uplinks | `Gi0/1–2`, `shutdown` |
+| TA management port | `Fa0/23`, `VLAN 10`, `enabled` |
+| Switch management IP | `10.0.10.1/24` |
+| SSH | Version 2.0 |
+| VTY access | `ACL 10`, TA IP `10.0.10.10` |
+| Port security | Three authorized static MAC addresses |
+
+**Expected outputs**:
+
+![Final VLAN verification]()
+
+![Final interface status verification]()
+
+![Final ip interface verification]()
+
+![Final SSH verification]()
+
+![Final ACL verification]()
+
+![Final port 24 security verification]()
+
+### 6.2 Validate Administrative Access
+
+Connect an authorized TA workstation to port 24 with the following Ethernet configuration:
+
+| Property | Value |
+| --- | --- |
+| Ipv4 Address | `10.0.0.250` |
+| Subnet Mask | `255.255.255.0` |
+| Default Gateway | null |
+
+**Verify the following**:
+
+* [ ] Authorized workstation can ping `10.0.0.1`
+* [ ] Authorized workstation can authenticate via SSH
+* [ ] Unauthorized source IP cannot establish SSH access
+* [ ] Unauthorized MAC address is rejected on port 24
+
+> [!NOTE]
+> For SSH testing, use PuTTY if the modern OpenSSH client cannot negotiate compatible algorithms with the switch's legacy IOS implementation.
