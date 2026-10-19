@@ -492,3 +492,91 @@ dir flash:
 ```
 
 ![dir flash](../media/cisco/3750/dir-flash.png)
+
+### 5.3 Restore a Stored Lab Configuration
+
+To restore Lab 01, **copy its configuration file into the startup configuration and reload the switch**:
+
+```cisco
+copy flash:lab01.cfg startup-config
+reload
+```
+
+If prompted to save the current running configuration before reloading, select `no`. Otherwise, the current configuration could overwrite the profile selected for restoration. The switch will then load the saved Lab 01 configuration.
+
+> [!IMPORTANT]
+> VLAN Persistence: On this Catalyst platform, VLAN definitions may also be stored in flash:vlan.dat. Restoring a .cfg file does not necessarily replace the VLAN database. Lab profiles that introduce different VLANs will require a corresponding VLAN restoration or cleanup procedure. The reset process must be tested before using it across different labs.
+
+### 5.4 Establish External Configuration Backups
+
+Although internal flash storage enables local recovery, it should not be the sole copy of the switch configuration.
+
+Each verified lab profile should also be retained in the project's version-controlled configuration repository, excluding passwords, credential hashes, private keys, and other secrets.
+
+```text
+configs/
+  3750/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  2960/
+    lab01.cfg
+    lab02.cfg
+    lab03.cfg
+  juniper/
+    lab01.conf
+    lab02.conf
+    lab03.conf
+```
+
+#### 5.4.1 Display Complete Configuration
+
+**On the switch**:
+
+```cisco
+terminal length 0
+show running-config
+```
+
+`terminal length 0` disables output pagination, allowing the entire configuration to display without `--More--` prompts. **Copy the configuration output from your terminal**.
+
+#### 5.4.2 Save the Configuration Locally
+
+In the Git repository, create a file under /configs/cisco/2960/lab01.cfg`. Paste the configuration.
+
+#### 5.4.3 Sanitize Credentials
+
+Important: Don't commit the raw switch configuration.
+
+Cisco configurations can contain password hashes and other sensitive information. Even though passwords aren't displayed in plaintext, those hashes can potentially be cracked.
+
+Review the file for:
+
+* `enable secret` - Replace its hash with a placeholder
+* `username ... secret` - Replace password hashes with placeholders
+* Any embedded private key material or sensitive information
+
+For example, a sanitized repository entry might look like:
+
+```cisco
+enable secret <ENABLE_SECRET>
+username ta privilege 15 secret <TA_SECRET>
+```
+
+> [!IMPORTANT]
+> This sanitized file is a configuration template, not a directly deployable backup. An exact restoration is located on the thumb drive located in the bags during downtime.
+
+### 5.5 Verify Configuration Persistence
+
+After saving, **confirm the active configuration is stored correctly**:
+
+```cisco
+show startup-config
+dir flash:
+```
+
+## Phase 6 - Final Validation & Deployment Readiness
+
+The final phase verifies that the Catalyst 3750 operates as designed, enforces administrative access restrictions, and retains its configuration after a reboot.
+
+Successful validation establishes `lab01.cfg` as the canonical configuration baseline for Deployment Bag 01.
