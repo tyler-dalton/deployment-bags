@@ -134,30 +134,30 @@ exit
 
 Placing unused interfaces on `VLAN 999` **isolates them from the student LAN**. Shutdown prevents those interfaces from establishing network connectivity. This is especially important because deployment bags **must remain disconnected from UC's production infrastructure**.
 
----
-
 ### 2.4 Reserve the TA Management Interface
 
-Port `Fa1/0/24` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI.
+Port `Fa1/0/23` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
 
 ```cisco
-interface FastEthernet1/0/24
+conf t
+
+int FastEthernet1/0/23
   description TA-MAN
-  switchport mode access
-  switchport access vlan 1
-  switchport nonegotiate
-  spanning-tree portfast
-  spanning-tree bpduguard enable
+  sw mode access
+  sw access vlan 10
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
   no shutdown
 exit
 end
 ```
 
-![Configuration of port 24 management access](../media/cisco/p24-man-config.png)
+Port 23 is assigned to `VLAN 10`, separating TA management traffic from student-facing traffic on `VLAN 1`. This provides a dedicated management network while maintaining the existing student subnet. MAC-based port security and additional SSH restrictions will be configured in Phase 3.
 
-Port 24 `shares VLAN 1` because the architecture uses a single subnet. MAC-based port security and additional SSH restrictions will be configured in Phase 3.
+At this stage, port 23 is **not yet restricted**.
 
-At this stage, port 24 is **not yet restricted**.
+---
 
 ### 2.5 Verify Interface Configuration
 
