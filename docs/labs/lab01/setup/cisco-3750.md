@@ -434,3 +434,13 @@ exit
 
 end
 ```
+
+### 4.3 Verify Student-Facing MAC Security
+
+```cisco
+sh run | begin interface FastEthernet0/1
+```
+
+**Expected output**:
+
+![student port verify](../media/cisco/3750/sh-run-begin-fa101.png)
