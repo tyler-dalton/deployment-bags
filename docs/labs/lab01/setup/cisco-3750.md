@@ -459,4 +459,36 @@ The Cisco Catalyst 3750 implements a layered security configuration designed to 
 
 Together, these controls establish a **defense-in-depth security baseline** that limits unauthorized connectivity.
 
+## Phase 5 - Configuration Persistence & Recovery
 
+This phase establishes a persistent configuration baseline that allows TAs to restore the switch without manually reentering commands.
+
+Our preferred approach is to store named lab configurations directly in the switch's internal flash storage, with independent backups maintained outside the device.
+
+### 5.1 Save the Active Configuration
+
+Changes to the running configuration are not automatically preserved across a reboot. **Save the completed Lab 01 configuration**:
+
+```cisco
+copy run start
+```
+
+Press Enter to accept the default destination filename. **This establishes Lab 01 as the switch's normal startup configuration**.
+
+### 5.2 Create the Lab 01 Configuration Profile
+
+The Catalyst 2960 supports storing additional configuration files in its internal flash storage. These files can be used as predefined lab profiles without relying on an external provisioning script.
+
+**Create the Lab 01 profile**:
+
+```cisco
+copy running-config flash:lab01.cfg
+```
+
+**Verify**:
+
+```cisco
+dir flash:
+```
+
+![dir flash](../media/cisco/3750/dir-flash.png)
