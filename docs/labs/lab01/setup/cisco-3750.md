@@ -96,7 +96,7 @@ conf t
 
 ### 2.2 Configure student-facing Interfaces
 
-Ports `Fa0/1-3` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
+Ports `Fa1/0/1-3` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
 
 ```cisco
 int range fa1/0/1 - 3
@@ -112,33 +112,29 @@ exit
 
 These interfaces will operate as **standard access ports**. The ports prevent trunk negotiation and keep all student endpoints within the same broadcast domain. For more information regarding student interface assignment configuration, please visit the [rationale page](./rationale.md#acc-configuration).
 
-
-
----
-
 ### 2.3 Disable Unused Interfaces
 
-All unused FastEthernet ports and both GigabitEthernet uplinks will be administratively disabled.
+All unused FastEthernet ports and both GigabitEthernet uplinks will be administratively disabled. See [rationale section on disabled ports](./rationale.md#disabled-ports) for further information.
 
 ```cisco
-interface range FastEthernet1/0/11 - 23
+int range fa1/0/4 - 22
  description ADMIN-DOWN
- switchport mode access
- switchport access vlan 999
+ sw mode access
+ sw access vlan 999
  shutdown
 exit
 
-interface range GigabitEthernet1/0/1 - 2
+int range gi1/0/1 - 2
  description ADMIN-DOWN
- switchport mode access
- switchport access vlan 999
+ sw mode access
+ sw access vlan 999
  shutdown
 exit
 ```
 
-![Disabling unused interfaces](../media/cisco/disable-int.png)
-
 Placing unused interfaces on `VLAN 999` **isolates them from the student LAN**. Shutdown prevents those interfaces from establishing network connectivity. This is especially important because deployment bags **must remain disconnected from UC's production infrastructure**.
+
+---
 
 ### 2.4 Reserve the TA Management Interface
 
