@@ -36,6 +36,7 @@ conf t
   no ip http secure-server
   service password-encryption
   no service pad
+  no ip routing
 end
 ```
 
@@ -63,25 +64,37 @@ show running-config | include hostname|ip routing|ip http|service
 
 ### 2.1 Configure the VLAN baseline
 
-`VLAN 1` will serve as the flat student VLAN. `VLAN 999` will isolate unused ports and provide an additional security best-practice method.
+For the duration of Lab 01, **three VLANS will be in use**:
+
+| **VLAN #** | **Description** |
+| --- | --- |
+| `1` | Student-Facing VLAN (default) |
+| `10` | TA Management VLAN |
+| `999` | Unused Ports VLAN |
+
+For more information as to why these three VLANs, please [visit the rationale section provided](./rationale.md#vlan-schema)
 
 > [!NOTE]
 > Students **will not** configure or interact with VLANs for the duration of lab 01.
 
-**Enter global configuration mode and `create VLAN 999`**:
+**Create the VLANs**:
 
 ```cisco
-configure terminal
+conf t
 
-vlan 999
-  name BRICK
-exit
+  vlan 10
+    name TA-MAN
+  exit
+
+  vlan 999
+    name BRICK
+  exit
 ```
 
-![create VLAN 999](../media/cisco/vlan999-create.png)
-
 > [!NOTE]
-> VLAN 1 is already present by default with the base configuration of Cisco switches. There is no need for a VLAN 1 to be created
+> VLAN 1 is already present by default with the base configuration of Cisco switches. There is no need for a VLAN 1 to be created.
+
+---
 
 ### 2.2 Configure student-facing Interfaces
 
