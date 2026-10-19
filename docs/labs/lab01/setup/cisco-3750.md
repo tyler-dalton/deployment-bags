@@ -580,3 +580,63 @@ dir flash:
 The final phase verifies that the Catalyst 3750 operates as designed, enforces administrative access restrictions, and retains its configuration after a reboot.
 
 Successful validation establishes `lab01.cfg` as the canonical configuration baseline for Deployment Bag 01.
+
+### 6.1 Verify Switch Configuration
+
+Before connecting student endpoints, confirm the VLAN assignments, interface states, and management configuration.
+
+```cisco
+sh vl br
+sh int status
+sh ip int br
+sh ip ssh
+sh access-lists 10
+sh port int fa1/0/23
+```
+
+**Verify the following**:
+
+| Component | Expected configuration |
+| --- | --- |
+| Student interfaces | `Fa1/0/1–3`, `VLAN 1`, `enabled` |
+| Unused interfaces | `Fa1/0/4–22`, `VLAN 999`, `shutdown` |
+| Gigabit uplinks | `Gi1/0/1–2`, `shutdown` |
+| TA management port | `Fa1/0/23`, `VLAN 10`, `enabled` |
+| Switch management IP | `10.0.10.1/24` |
+| SSH | Version 2.0 |
+| VTY access | `ACL 10`, TA IP `10.0.10.10` |
+| Port security | Three authorized static MAC addresses |
+
+**Expected outputs**:
+
+![Final VLAN verification](../media/cisco/3750/sh-vl-br.png)
+
+![Final interface status verification](../media/cisco/3750/final-sh-int-stat.png)
+
+![Final ip interface verification](../media/cisco/3750/final-sh-ip-int-br.png)
+
+![Final SSH verification](../media/cisco/3750/sh-ip-ssh.png)
+
+![Final ACL verification](../media/cisco/3750/final-acl.png)
+
+![Final port 24 security verification](../media/cisco/3750/final-sh-port-int-fa1023.png)
+
+### 6.2 Validate Administrative Access
+
+Connect an authorized TA workstation to port 24 with the following Ethernet configuration:
+
+| Property | Value |
+| --- | --- |
+| Ipv4 Address | `10.0.0.250` |
+| Subnet Mask | `255.255.255.0` |
+| Default Gateway | null |
+
+**Verify the following**:
+
+* [ ] Authorized workstation can ping `10.0.0.1`
+* [ ] Authorized workstation can authenticate via SSH
+* [ ] Unauthorized source IP cannot establish SSH access
+* [ ] Unauthorized MAC address is rejected on port 24
+
+> [!NOTE]
+> For SSH testing, use PuTTY if the modern OpenSSH client cannot negotiate compatible algorithms with the switch's legacy IOS implementation.
