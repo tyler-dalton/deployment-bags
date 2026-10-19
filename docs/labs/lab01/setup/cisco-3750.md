@@ -94,29 +94,27 @@ conf t
 > [!NOTE]
 > VLAN 1 is already present by default with the base configuration of Cisco switches. There is no need for a VLAN 1 to be created.
 
----
-
 ### 2.2 Configure student-facing Interfaces
 
-Ports `Fa1/0/1-10` provide connectivity for student endpoints. Configuring the first ten ports will give the lab **40 possible student connections**. The remaining ports will be moved to `VLAN 999` and shut down. This is done in order to keep unnecessary unused ports inaccessible.
+Ports `Fa0/1-3` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
 
 ```cisco
-interface range FastEthernet1/0/1 - 10
+int range fa1/0/1 - 3
   description LAB01-STUDENT
-  switchport mode access
-  switchport access vlan 1
-  switchport nonegotiate
-  spanning-tree portfast
-  spanning-tree bpduguard enable
+  sw mode access
+  sw access vlan 1
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
   no shutdown
 exit
 ```
 
-![assign interfaces 1-10 standard access port control](../media/cisco/1-10-int-config.png)
+These interfaces will operate as **standard access ports**. The ports prevent trunk negotiation and keep all student endpoints within the same broadcast domain. For more information regarding student interface assignment configuration, please visit the [rationale page](./rationale.md#acc-configuration).
 
-These interfaces will operate as **standard access ports**. The ports prevent trunk negotiation and keep all student endpoints within the same broadcast domain.
 
-`PortFast` allows connected endpoints to reach the forwarding state without the normal spanning-tree startup delay. `BPDU Guard` helps protect the LAN from switching loops and external switches.
+
+---
 
 ### 2.3 Disable Unused Interfaces
 
