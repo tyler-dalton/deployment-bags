@@ -157,6 +157,28 @@ Port 23 is assigned to `VLAN 10`, separating TA management traffic from student-
 
 At this stage, port 23 is **not yet restricted**.
 
+### 2.5 Reserve the Game Server Interface
+
+Port `Fa1/0/24` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
+
+```cisco
+conf t
+int fa1/0/24
+  description LAB01-GAME-SERV
+  sw mode access
+  sw access vlan 1
+  sw nonegotiate
+  sp portfast
+  sp bpduguard enable
+  no shutdown
+exit
+end
+```
+
+Port 24 is assigned to `VLAN 1`, placing the game server within the same broadcast domain as student endpoints. **This allows students to access the server directly without requiring inter-VLAN routing**.
+
+The game server will operate entirely within the isolated lab network, requiring no connectivity to UC's production infrastructure or the public Internet during normal operation. See [rationale section on access ports](./rationale.md#access-port-configuration) for further information.
+
 ---
 
 ### 2.5 Verify Interface Configuration
