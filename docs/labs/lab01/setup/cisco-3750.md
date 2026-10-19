@@ -378,3 +378,35 @@ ssh ta@10.0.10.1
 
 > [!WARNING]
 > **Legacy SSH Compatibility:** The Catalyst 3750 runs Cisco IOS 12.2, which may rely on SSH algorithms disabled by modern OpenSSH clients. PuTTY is recommended for administrative connections if the default SSH client cannot negotiate a compatible session. Legacy algorithms should only be enabled when necessary within the isolated lab environment.
+
+## Phase 4 - Student-Facing Security
+
+Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa1/0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
+
+**Phase 4 establishes**:
+
+* Static MAC-based port security for all student interfaces
+* A maximum of one authorized MAC address per interface
+* Consistent laptop-to-port assignments across all deployment bags
+
+### 4.1 Configure Student Port Security
+
+Each student-facing interface will be restricted to a single authorized MAC address using Cisco's built-in port security functionality. The interfaces will use restrict violation mode to discard unauthorized traffic without administratively disabling the port.
+
+See [rationale section](./rationale.md#student-port-mac-based-security) on student port security for further information.
+
+**Run**:
+
+```cisco
+conf t
+
+int range fa0/1 - 3
+  sw port
+  sw port maximum 1
+  sw port violation restrict
+exit
+end
+```
+
+> [!NOTE]
+> The `maximum 1`configuration ensures that each interface accepts traffic from only one secure MAC address at a time. The authorized addresses will be statically assigned in the following section.
