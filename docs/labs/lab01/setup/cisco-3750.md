@@ -329,3 +329,28 @@ end
 ```
 
 Replace both MAC placeholders with Cisco-formatted addresses, such as `AAAA.BBBB.CCCC`.
+
+#### Port Security Behavior
+
+| Setting | Function |
+| --- | --- |
+| Maximum 3 | Limits the number of authorized MAC addresses |
+| Static MAC Addresses | Defines authorized TA Ethernet adapters & NIC's |
+| Violation Restrict | Drops frames from unauthorized source MAC addresses |
+| Port Security Enabled | Enforces configured restrictions |
+
+The `restrict` violation mode was selected instead of `shutdown` to prevent an unauthorized connection from forcing the management port into an error-disabled state. Violations are still recorded through switch counters and logging.
+
+> [!CAUTION]
+> MAC addresses can be spoofed, so this mechanism is an access restriction rather than strong device authentication.
+
+**Verify**:
+
+```cisco
+sh port int fa1/0/23
+sh port address
+```
+
+**Expected output**:
+
+![SSH MAC verification](../media/cisco/3750/sh-port-man-mac.png)
