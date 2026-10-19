@@ -11,6 +11,11 @@
 | Uplink Interfaces | 2 GigabitEthernet |
 | Management | SSHv2, restricted |
 
+> [!NOTE]
+> All rationale and explanations can be found inside of the `setup` directory at the file location [docs/labs/lab01/setup/rationale.md](./rationale.md)
+
+## Phase 1 - Configure Student Ports
+
 ## Phase 1 - Base System Configuration
 
 The start of the setup will cover the `switch's identity and fundamental operating settings`. Following the base configuration, this documentation will cover the interface configuration, management security, and configuration-storage procedure for the **Cisco Catalyst 3750**.
@@ -19,26 +24,25 @@ The start of the setup will cover the `switch's identity and fundamental operati
 
 Each switch will receive a unique hostname for identification during admin and troubleshooting workflows. The hostname will differ from the InventoryID by also including the bag in which the switch resides.
 
-The naming convention is `BG##-SW##`, where `BG` identifies the deployment bag number, and `SW` defines the switch number. That way we will have an aggregation of bag location & switch number to quickly identify the switch in question.
-
-**Enable the switch and enter global configuration mode**:
-
-```cisco
-enable
-configure terminal
-```
+The naming convention is `BG##-SW##`, where `BG` identifies the deployment bag number, and `SW` defines the switch number. That way we will have an aggregation of bag location & switch number to quickly identify the switch in question. See [Rationale](./rationale.md#hostname-configuration) for more details.
 
 **Apply the following configuration commands**:
 
 ```cisco
-hostname BG01-SW01
-no ip routing
-no ip http server
-no ip http secure-server
-service password-encryption
-no service pad
+en
+conf t
+  hostname BG01-SW01
+  no ip http server
+  no ip http secure-server
+  service password-encryption
+  no service pad
 end
 ```
+
+**No HTTP-based management [rationale link](./rationale.md#disable-http-based-management)**.
+
+> [!NOTE]
+> `service password-encryption` obscures applicable plaintext passwords within the configuration. This provides protection against casual exposure but is not a substitute for secure password hashing or SSH authentication.
 
 ![Cisco 3750 Identity configuration console output](../media/cisco/identity.png)
 
