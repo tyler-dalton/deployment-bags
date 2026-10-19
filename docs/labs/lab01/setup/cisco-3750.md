@@ -278,3 +278,32 @@ sh ip ssh
 **Expected output**:
 
 ![SSH authentication verification](../media/cisco/3750/sh-ip-ssh.png)
+
+### 3.3 Restrict SSH to Authorized TA IP Addresses
+
+SSH authentication alone **does not prevent students from attempting to access the management service**. A standard `access control list (ACL)` will restrict incoming VTY connections to approved TA source addresses.
+
+**We will reserve**:
+
+| Device | Address |
+| --- | --- |
+| Switch | `10.0.10.1` |
+| Primary TA Workstation | `10.0.10.10` |
+
+```cisco
+conf t
+
+access-list 10 remark TA-SSH
+access-list 10 permit host 10.0.10.10
+
+line vty 0 15
+ access-class 10 in
+exit
+
+end
+```
+
+The ACL includes an **implicit deny for every other source address**.
+
+> [!CAUTION]
+> Source IP restrictions do not prevent IP address spoofing. They provide an additional security layer alongside SSH authentication and physical port security.
