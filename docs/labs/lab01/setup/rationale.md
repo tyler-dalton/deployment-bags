@@ -66,3 +66,19 @@ Together, these configurations establish a consistent and controlled access-laye
 Port `Fa0/23` is reserved exclusively for authorized teaching assistants and instructors to provide a **dedicated physical connection for network administration**. Unlike student-facing interfaces which operate on `VLAN 1`, the management interface is assigned to `VLAN 10` to logically separate administrative traffic from student activity.
 
 This separation reduces the risk of students accidentally interfering with network management and **establishes a foundation for additional security controls**. MAC-based port security will restrict which devices can connect through the management interface, while SSH access restrictions will limit administrative access to authorized management hosts.
+
+## Student port MAC-based Security
+
+Each student-facing port `(fa0/1-3)` is restricted to one designated laptop using a statically assigned MAC address.
+
+The `maximum 1` setting limits each port to a single authorized MAC address, while the static assignment ensures that only the designated laptop can use that port. This prevents unauthorized access and connection to student ports, maintaining a consistent network topology across deployment bags.
+
+The `restrict` violation drops unauthorized traffic without disabling the port, minimizing TA intervention during labs.
+
+### **Alternative Considered: MAC Address Whitelisting**
+
+A shared whitelist of ~20 student endpoints was considered to allow authorized devices to connect through any student-facing port.
+
+However, implementing centralized MAC-based authentication would require additional infrastructure such as **FreeRADIUS and MAC Authentication Bypass**, which is considered outside of the project scope currently.
+
+Static port assignments were selected for their simplicity and ease of maintenance. Centralized MAC authentication remains a potential future enhancement to provide greater flexibility without sacrificing access control.
