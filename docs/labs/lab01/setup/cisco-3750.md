@@ -307,3 +307,25 @@ The ACL includes an **implicit deny for every other source address**.
 
 > [!CAUTION]
 > Source IP restrictions do not prevent IP address spoofing. They provide an additional security layer alongside SSH authentication and physical port security.
+
+### 3.4 Configure Port 23 MAC-Based Security
+
+`FastEthernet1/0/23` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
+
+For this setup, we'll allow up to **three authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
+
+```cisco
+conf t
+
+int fa1/0/23
+ sw port maximum 3
+ sw port violation restrict
+ sw port mac AAAA.BBBB.CCCC
+ sw port mac DDDD.EEEE.FFFF
+ sw port mac GGGG.HHHH.IIII
+exit
+
+end
+```
+
+Replace both MAC placeholders with Cisco-formatted addresses, such as `AAAA.BBBB.CCCC`.
