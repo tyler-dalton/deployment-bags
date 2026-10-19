@@ -354,3 +354,27 @@ sh port address
 **Expected output**:
 
 ![SSH MAC verification](../media/cisco/3750/sh-port-man-mac.png)
+
+### 3.5 Validate Management Access
+
+Before deeming the configuration valid, perform the following tests.
+
+| Test | Expected Output |
+| --- | --- |
+| TA workstation pings `10.0.10.1` | Success |
+| TA workstation SSH to `10.0.10.1` | Success |
+| Unauthorized source IP attempts to SSH | Rejected |
+| Unauthorized MAC connects to port 24 | Frames restricted |
+| Student pings `10.0.10.1` | Rejected |
+| Student endpoint attempts to SSH | Rejected |
+
+The TA workstation must use its reserved management address and an authorized wired Ethernet adapter.
+
+**For SSH validation**:
+
+```bash
+ssh ta@10.0.10.1
+```
+
+> [!WARNING]
+> **Legacy SSH Compatibility:** The Catalyst 3750 runs Cisco IOS 12.2, which may rely on SSH algorithms disabled by modern OpenSSH clients. PuTTY is recommended for administrative connections if the default SSH client cannot negotiate a compatible session. Legacy algorithms should only be enabled when necessary within the isolated lab environment.
