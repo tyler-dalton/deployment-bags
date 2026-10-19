@@ -16,7 +16,7 @@ BG01-SW02
 # Juniper EX3300 1
 BG02-SW03
 # Juniper EX3300 2
-BG02-SW03
+BG02-SW04
 ```
 
 ## Disable HTTP-Based Management
@@ -45,7 +45,7 @@ All unused switch interfaces are assigned to VLAN 999, an isolated VLAN with no 
 
 ## Disabled Ports
 
-Each deployment group is designed to support one of four student groups, with **20 laptops distributed evenly across the groups**. This results in five student endpoints per switch, requiring only interfaces `Fa0/1-5` to be enabled.
+Each deployment group is designed to support one of four student groups, with **20 laptops distributed evenly across the groups**. This results in five student endpoints per switch, requiring only interfaces `Fa0/1-3` to be enabled.
 
 All remaining unused interfaces are assigned to `VLAN 999` and administratively disabled. This minimizes unnecessary exposure, prevents unauthorized or accidental connections, and reduces the risk of unintended changes to the lab topology.
 
