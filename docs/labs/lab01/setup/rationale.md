@@ -39,6 +39,8 @@ A dedicated management VLAN separates administrative traffic from student-facing
 
 VLAN separation also provides a foundation for implementing additional access controls as the lab environment evolves.
 
+The Juniper EX3300 profile is the exception to this VLAN layout: it does not define or use VLAN 10 because the platform's Lab 01 management interface remains on VLAN 1. VLAN 999 is still reserved for disabled interfaces.
+
 ### VLAN 999 — Unused Ports
 
 All unused switch interfaces are assigned to VLAN 999, an isolated VLAN with no active hosts or routed connectivity, and administratively disabled. This reduces the risk of unauthorized network access through unused physical ports.
@@ -66,6 +68,8 @@ Together, these configurations establish a consistent and controlled access-laye
 Port `Fa0/23` is reserved exclusively for authorized teaching assistants and instructors to provide a **dedicated physical connection for network administration**. Unlike student-facing interfaces which operate on `VLAN 1`, the management interface is assigned to `VLAN 10` to logically separate administrative traffic from student activity.
 
 This separation reduces the risk of students accidentally interfering with network management and **establishes a foundation for additional security controls**. MAC-based port security will restrict which devices can connect through the management interface, while SSH access restrictions will limit administrative access to authorized management hosts.
+
+On Juniper EX3300 switches, the TA management port and switch management address remain on VLAN 1; VLAN 10 is not used in that profile.
 
 ## Student port MAC-based Security
 
