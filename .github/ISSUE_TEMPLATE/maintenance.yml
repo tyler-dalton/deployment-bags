@@ -1,0 +1,45 @@
+
+name: Maintenance
+description: Documentation, inventory, and repository upkeep
+title: "chore(scope): "
+type: Task
+labels: ["maintenance"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Documentation
+        - Inventory
+        - Configuration
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What needs to change, and why?
+      placeholder: Briefly describe the task.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: What must be completed to close this issue?
+      value: |
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Relevant files, documentation, or related issues.
+    validations:
+      required: false

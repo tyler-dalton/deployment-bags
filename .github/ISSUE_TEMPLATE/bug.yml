@@ -1,6 +1,6 @@
 name: Bug / Fix
 description: Report broken components or incorrect configurations
-title: "fix/refactor(scope): short description"
+title: "fix/refactor(scope): "
 type: Bug
 labels: ["FIXME"]
 body:
