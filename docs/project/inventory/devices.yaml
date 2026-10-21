@@ -1,0 +1,191 @@
+devices:
+
+  routers:
+
+    cisco_1941:
+      - asset_id:
+        pid: CISCO1941/K9 V05
+        serial_number: FJC1916E13Y
+        interfaces:
+          RJ45:
+            count: 2
+            speed: 1 Gb
+        modules:
+          available:
+          installed:
+            type: Serial WAN
+            count: 1
+
+    cisco_2911:
+      - asset_id:
+        pid: CISCO2911/K9 V07
+        serial_number: FJC1916A29A
+        interfaces:
+          RJ45:
+            count: 3
+            speed: 1 Gb
+        modules:
+          available:
+          installed:
+            type: Serial WAN
+            count: 3
+
+  switches:
+
+    cisco_3750:
+      - asset_id: SW01
+        pid: W6-C3750-24PS-SVD5*
+        serial_number: CAT1039ZG95
+        ios: 12.2(25)SEE2
+        ports:
+          count: 24
+          speed: 1Gb
+          poe: true
+
+    cisco_2960:
+      - asset_id: SW02
+        pid: Ws-C2960+24TC-L V01
+        serial_number: FOC1907Z1RB
+        ios: 15.0(2)SE6
+        ports:
+          count: 24
+          speed: 1Gb
+          poe: false
+
+    juniper_3300:
+      - asset_id: SW03
+        pid:
+        serial_number:
+        ios:
+        ports:
+          count: 24
+          speed: 1Gb
+          poe: true
+      - asset_id: SW04
+        pid:
+        serial_number:
+        ios:
+        ports:
+          count: 24
+          speed: 1Gb
+          poe: true
+
+    juniper_4550:
+      - asset_id: SW05
+        pid:
+        serial_number:
+        ios:
+        ports:
+          count:
+          speed:
+          poe: true
+
+  endpoints:
+
+    - asset_id: 18lab236xil001
+      new_name: LP01
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW01-P01
+
+    - asset_id: 18lab236xil002
+      new_name: LP02
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW01-P02
+
+    - asset_id: 18lab236xil005
+      new_name: LP03
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW01-P03
+
+    - asset_id: 18lab236xil010
+      new_name: LP04
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW02-P01
+
+    - asset_id: 18lab236xil011
+      new_name: LP05
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW02-P02
+
+    - asset_id: 18lab236xil012
+      new_name: LP06
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG01-SW02-P03
+
+    - asset_id: 18lab236xil015
+      new_name: LP07
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG02-SW03-P00
+
+    - asset_id: 18lab236xil017
+      new_name: LP08
+      pid:
+      serial_number: BG02-SW03-P01
+
+    - asset_id: 18lab236xil019
+      new_name: LP09
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG02-SW03-P02
+
+    - asset_id: 18lab236xil020
+      new_name: LP10
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG02-SW04-P00
+
+    - asset_id: 18lab236xil022
+      new_name: LP11
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG02-SW04-P01
+
+    - asset_id: 18lab236xil029
+      new_name: LP12
+      pid:
+      serial_number:
+      bound_to:
+        lab01: BG02-SW04-P02
+
+  raspberry_pi:
+
+    pi_5:
+
+      - asset_id: SRV01
+        bound_to:
+          lab01: BG01-SW01-P24
+
+      - asset_id: SRV02
+        bound_to:
+          lab01: BG01-SW02-P24
+
+      - asset_id: SRV03
+        bound_to:
+          lab01: BG02-SW03-P23
+
+      - asset_id: SRV04
+        bound_to:
+          lab01: BG02-SW04-P23
+
+    pi_3:
+    
+      - asset_id:
+        bound_to: cold_spare
+
