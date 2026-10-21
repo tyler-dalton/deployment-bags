@@ -22,6 +22,7 @@ body:
     attributes:
       label: Target Environment
       description: Which environment or component is affected?
+      multiple: true
       options:
         - Cisco 2960
         - Cisco 3750
