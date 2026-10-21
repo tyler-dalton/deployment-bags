@@ -4,6 +4,8 @@ title: "fix/refactor(scope): "
 type: Bug
 labels: ["FIXME"]
 body:
+
+
   - type: dropdown
     id: component
     attributes:
@@ -18,6 +20,16 @@ body:
         - Other
     validations:
       required: true
+
+  - type: textarea
+    id: affected-files
+    attributes:
+      label: Affected Files
+      description: Link relevant files or directories.
+      placeholder: |
+        - [Cisco 2960](/docs/labs/lab01/setup/cisco-2960.md)
+    validations:
+      required: false
 
   - type: textarea
     id: observed
