@@ -1,0 +1,71 @@
+
+name: Lab / Infrastructure
+description: Configure hardware, networks, and deployment environments
+title: "infra(scope): "
+type: Task
+labels: ["infrastructure"]
+body:
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Target Environment
+      description: Which environment or component is affected?
+      options:
+        - Cisco 2960
+        - Cisco 3750
+        - Cisco 1941
+        - Cisco 2911
+        - Juniper EX3300
+        - Raspberry Pi
+        - Endpoints
+        - Lab Architecture
+        - Multiple Components
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: lab
+    attributes:
+      label: Lab / Version
+      description: Relevant lab or configuration version, if applicable. Follow SemVer format (vx.x.x) for versioned configurations.
+      placeholder: "lab01 vx.x.x"
+    validations:
+      required: false
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What is being implemented or changed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Technical Requirements
+      description: Required configurations, constraints, or implementation details.
+      placeholder: |
+        - Management restricted to authorized devices
+        - Unused ports administratively disabled
+    validations:
+      required: false
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation Criteria
+      description: How will we verify the configuration works?
+      value: |
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Configuration files, diagrams, or related issues.
+    validations:
+      required: false
