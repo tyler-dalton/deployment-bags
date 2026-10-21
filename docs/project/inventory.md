@@ -38,6 +38,8 @@ TODO Find name of big juniper switch
 | SW04 | Juniper | EX330 PoE+ |
 | SW05 | Juniper |
 
+TODO finalize juniper switches details
+
 ## Interface Modules
 
 | Manufacturer | Exact Model | PID | Serial # | Interface Type | Count |
@@ -53,7 +55,11 @@ TODO Find name of big juniper switch
 | CAT 5      | 1        |
 | Unknown    | 5        |
 
+TODO adjust eth count (5e)
+
 ## End Devices
+
+### Raspberry Pi
 
 | Asset ID | Device Type | Manufacturer | Exact Model | MAC |
 | --- | --- | --- | --- | --- |
@@ -62,6 +68,8 @@ TODO Find name of big juniper switch
 | SRV02 | SBC | Raspberry Pi | Raspberry Pi 5 | unk |
 | SRV03 | SBC | Raspberry Pi | Raspberry Pi 5 | unk |
 | SRV04 | SBC | Raspberry Pi | Raspberry Pi 5 | unk |
+
+TODO add MAC's, check on exact model
 
 ## Wireless
 
