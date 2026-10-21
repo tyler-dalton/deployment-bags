@@ -18,10 +18,10 @@ body:
       required: true
 
   - type: dropdown
-    id: environment
+    id: component
     attributes:
-      label: Target Environment
-      description: Which environment or component is affected?
+      label: Component
+      description: Which area is affected?
       multiple: true
       options:
         - Cisco 2960
