@@ -1,0 +1,14 @@
+name: Feature / Enhancement
+description: New functionality or improvements to existing workflows
+title: "feat(scope): short description"
+type: Feature
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What is the problem we are solving / workflow we are improving?
+      placeholder: Briefly describe the problem or opportunity.
+    validations:
+      required: true
