@@ -12,3 +12,30 @@ body:
       placeholder: Briefly describe the problem or opportunity.
     validations:
       required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: What should be implemented or changed?
+      placeholder: Describe proposed solution or enhancement.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: What must be true before this issue can be closed?
+      value: |
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Related files, issues, screenshots, or references.
+    validations:
+      required: false
