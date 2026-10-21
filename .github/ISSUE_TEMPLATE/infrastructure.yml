@@ -5,6 +5,18 @@ title: "infra(scope): "
 type: Task
 labels: ["infrastructure"]
 body:
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How time-sensitive is this work?
+      options:
+        - non time-sensitive
+        - URGENT
+    validations:
+      required: true
+
   - type: dropdown
     id: environment
     attributes:

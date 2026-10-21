@@ -5,6 +5,18 @@ title: "chore(scope): "
 type: Task
 labels: ["maintenance"]
 body:
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How time-sensitive is this work?
+      options:
+        - non time-sensitive
+        - URGENT
+    validations:
+      required: true
+
   - type: dropdown
     id: component
     attributes:
