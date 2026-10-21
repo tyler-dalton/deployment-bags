@@ -1,0 +1,126 @@
+
+name: Issue Labeler
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync issue labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const body = context.payload.issue.body || "";
+
+            const fields = {};
+
+            for (const section of body.split(/^### /m).slice(1)) {
+              const newline = section.indexOf("\n");
+              if (newline === -1) continue;
+
+              const name = section.slice(0, newline).trim();
+              const value = section.slice(newline + 1).trim();
+
+              fields[name] = value;
+            }
+
+            // Component names -> GitHub labels.
+            const components = {
+              "cisco": "component:cisco",
+              "cisco 2960": "component:cisco",
+              "cisco 3750": "component:cisco",
+              "cisco 1941": "component:cisco",
+              "cisco 2911": "component:cisco",
+              "juniper": "component:juniper",
+              "juniper ex3300": "component:juniper",
+              "raspberry pi": "component:pi",
+              "endpoints": "component:endpoints",
+              "lab architecture": "component:lab",
+              "documentation": "documentation",
+              "repository / tooling": "component:repo",
+              "tooling / automation": "component:repo"
+            };
+
+            const urgencyLabels = {
+              "urgent": "URGENT",
+              "non time-sensitive": "non time-sensitive"
+            };
+
+            const componentField =
+              fields["Component"] ??
+              fields["Components"] ??
+              fields["Target Environment"] ??
+              fields["Target Components"];
+
+            const urgencyField = fields["Urgency"];
+
+            const existing = context.payload.issue.labels.map(
+              label => typeof label === "string" ? label : label.name
+            );
+
+            const managedComponents = [...new Set(
+              Object.values(components)
+            )];
+
+            const managedUrgency = Object.values(urgencyLabels);
+
+            const add = new Set();
+            const remove = new Set();
+
+            if (componentField !== undefined) {
+              const selected = componentField
+                .split(/[,\n]/)
+                .map(value => value.replace(/^- /, "").trim().toLowerCase());
+
+              const desired = new Set(
+                selected.map(value => components[value]).filter(Boolean)
+              );
+
+              for (const label of managedComponents) {
+                if (desired.has(label) && !existing.includes(label)) {
+                  add.add(label);
+                } else if (!desired.has(label) && existing.includes(label)) {
+                  remove.add(label);
+                }
+              }
+            }
+
+            if (urgencyField !== undefined) {
+              const selected = urgencyField.trim().toLowerCase();
+              const desired = urgencyLabels[selected];
+
+              if (desired) {
+                for (const label of managedUrgency) {
+                  if (label === desired && !existing.includes(label)) {
+                    add.add(label);
+                  } else if (label !== desired && existing.includes(label)) {
+                    remove.add(label);
+                  }
+                }
+              }
+            }
+
+            for (const name of remove) {
+              await github.rest.issues.removeLabel({
+                owner, repo, issue_number, name
+              });
+            }
+
+            if (add.size > 0) {
+              await github.rest.issues.addLabels({
+                owner, repo, issue_number,
+                labels: [...add]
+              });
+            }
+
+            core.info(`Added: ${[...add].join(", ") || "none"}`);
+            core.info(`Removed: ${[...remove].join(", ") || "none"}`);
