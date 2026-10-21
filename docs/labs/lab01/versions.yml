@@ -4,23 +4,20 @@ lab:
   components:
     cisco-2960:
       versions:
-        - docs_version: 3.1.0
-          config_version: 3.1.1
-          drift: true
+        docs_version: 3.1.0
+        config_version: 3.1.1
       path: setup/cisco-2960.md
 
     cisco-3750:
       versions:
-        - docs_version: 3.1.0
-          config_version: 3.1.1
-          drift: true
+        docs_version: 3.1.0
+        config_version: 3.1.1
       path: setup/cisco-3750.md
 
     juniper-ex3300:
       versions:
-        - docs_version: 2.0.0
-          config_version: 2.0.0
-          up_to_date: false
+        docs_version: 2.0.0
+        config_version: 2.0.0
       path: setup/juniper.md
 
     student-walkthru:
