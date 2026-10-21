@@ -11,10 +11,10 @@ body:
       label: Urgency
       description: How time-sensitive is this work?
       options:
-        - non time-sensitive
+        - Non time-sensitive
         - URGENT
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: component
