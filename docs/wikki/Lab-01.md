@@ -90,6 +90,9 @@ Before proceeding, verify:
 
 An Ethernet link does not automatically mean your network is fully operational. Next, you need to configure how your laptop communicates.
 
+> **Having trouble?**
+> Jump to [Troubleshooting](#troubleshooting).
+
 ---
 
 ## Part 2 — Configure Your IPv4 Address
@@ -114,9 +117,12 @@ On your Windows laptop:
 4. Find the physical **Ethernet** adapter connected to your deployment bag.
 5. Right-click the adapter and select **Properties**.
 
-> **[SCREENSHOT NEEDED — 05]** Windows Run dialog with `ncpa.cpl` entered.
+> **[SCREENSHOT NEEDED — 03]** Windows Run dialog with `ncpa.cpl` entered.
 <!-- markdownlint-disable-next-line -->
-> **[SCREENSHOT NEEDED — 06]** Network Connections window showing the correct Ethernet adapter.
+> **[SCREENSHOT NEEDED — 04]** Network Connections window showing the correct Ethernet adapter.
+<!-- markdownlint-disable-next-line -->
+> **Having trouble?**
+> Jump to [Troubleshooting](#troubleshooting).
 
 ### Step 4: Configure Static IPv4
 
@@ -137,7 +143,10 @@ The IP address must be unique within your lab network. **Do not use `10.0.0.1` o
 5. Click **OK** to save the configuration.
 6. Close the remaining network settings windows.
 
-> **[SCREENSHOT NEEDED — 07]** IPv4 Properties dialog with example settings completed.
+> **[SCREENSHOT NEEDED — 05]** IPv4 Properties dialog with example settings completed.
+<!-- markdownlint-disable-next-line -->
+> **Having trouble?**
+> Jump to [Troubleshooting](#troubleshooting).
 
 ### Step 5: Verify Your Configuration
 
@@ -155,7 +164,7 @@ ipconfig
 
 Find the Ethernet adapter and confirm that its IPv4 address and subnet mask match the assigned values.
 
-> **[SCREENSHOT NEEDED — 08]** Command Prompt showing a successful `ipconfig` result. Highlight the IPv4 address and subnet mask.
+> **[SCREENSHOT NEEDED — 06]** Command Prompt showing a successful `ipconfig` result. Highlight the IPv4 address and subnet mask.
 
 ### Checkpoint 2 — IPv4 Configuration
 
@@ -183,7 +192,10 @@ Use the complete address, including `http://` and `:3000`.
 
 If your network is working correctly and the game server is available, the LAN Games interface should load.
 
-> **[SCREENSHOT NEEDED — 10]** Successfully loaded LAN Games landing page. Highlight Browser address bar showing `http://10.0.0.254:3000`.
+> **[SCREENSHOT NEEDED — 07]** Successfully loaded LAN Games landing page. Highlight Browser address bar showing `http://10.0.0.254:3000`.
+<!-- markdownlint-disable-next-line -->
+> **Having trouble?**
+> Jump to [Troubleshooting](#troubleshooting).
 
 ### Step 7: Explore LAN Games
 
@@ -213,7 +225,7 @@ Ping sends ICMP Echo Requests to test whether the destination responds.
 
 If the server is configured to respond to ICMP, successful output should contain replies from `10.0.0.254`.
 
-> **[SCREENSHOT NEEDED — 11]** Successful ping output from the local server, if ICMP replies are enabled.
+> **[SCREENSHOT NEEDED — 08]** Successful ping output from the local server, if ICMP replies are enabled.
 
 ### Step 9: Inspect the ARP Table
 
@@ -229,7 +241,7 @@ Look for an entry associated with `10.0.0.254`.
 
 The corresponding physical address is the server's MAC address as observed by your laptop.
 
-> **[SCREENSHOT NEEDED — 12]** ARP table showing the local server's IP-to-MAC mapping.
+> **[SCREENSHOT NEEDED — 09]** ARP table showing the local server's IP-to-MAC mapping.
 
 ### Why This Matters
 
@@ -242,6 +254,8 @@ Your laptop uses several networking technologies to reach LAN Games:
 - **HTTP:** Allows the browser to request the application.
 
 The networking concepts discussed in class are now supporting an application you can actually use.
+
+At this point in time, you are free to connect with your peers on the same network, create lobbies, and begin playing lan-games!
 
 ---
 
@@ -266,6 +280,8 @@ Check that you entered the complete address:
 `http://10.0.0.254:3000`
 
 Ensure the browser has not changed the URL to HTTPS.
+
+From the terminal run: `ping 10.0.0.254` to verify basic connectivity.
 
 ### Server Does Not Respond
 
