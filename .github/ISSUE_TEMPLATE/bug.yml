@@ -1,0 +1,54 @@
+name: Bug / Fix
+description: Report broken components or incorrect configurations
+title: "fix/refactor(scope): short description"
+type: Bug
+labels: ["FIXME"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which area is affected?
+      options:
+        - Cisco
+        - Juniper
+        - Raspberry Pi
+        - Endpoints
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed Behavior
+      description: What is the current behavior?
+      placeholder: Describe the observed behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction / Verification
+      description: Commands, steps, logs, or screenshots that demonstrate the issue
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ]
+    validations:
+      required: false
