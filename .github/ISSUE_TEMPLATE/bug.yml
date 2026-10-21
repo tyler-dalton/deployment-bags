@@ -23,10 +23,14 @@ body:
       description: Which area is affected?
       multiple: true
       options:
-        - Cisco
-        - Juniper
+        - Cisco 2960
+        - Cisco 3750
+        - Cisco 1941
+        - Cisco 2911
+        - Juniper EX3300
         - Raspberry Pi
         - Endpoints
+        - Lab Architecture
         - Documentation
         - Other
     validations:
