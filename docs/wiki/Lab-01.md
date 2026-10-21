@@ -308,8 +308,3 @@ Before concluding the activity, verify that you have:
 - [ ] Accessed LAN Games through the local server.
 - [ ] Inspected the network configuration and ARP table.
 - [ ] Followed your TA's directions for returning the equipment to its initial condition.
-
----
-
-<!-- markdownlint-disable-next-line MD036 -->
-*IT1080C Computer Networking · University of Cincinnati*

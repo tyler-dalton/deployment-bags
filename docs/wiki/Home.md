@@ -12,7 +12,7 @@ Instead of relying entirely on simulation, you'll build connections, configure d
 
 **Lab 01: Build It. Connect It. Play.**
 
-![lan-games banner](./assets/lab01/screenshots/lan-games-banner.png)
+![LAN Games banner](https://raw.githubusercontent.com/tyler-dalton/deployment-bags/main/docs/wiki/assets/lab01/screenshots/lan-games-banner.png)
 
 Your first challenge is to deploy a local area network, configure your computer's IPv4 settings, and establish a connection to a locally hosted game server.
 
@@ -31,7 +31,3 @@ The server runs LAN Games, an interactive collection of network-accessible games
 | [Getting Started](Getting-Started) | Equipment, safety, and lab preparation |
 | [Lab 01](Lab-01) | Deployment and gameplay walkthrough |
 | [Troubleshooting](Lab-01#troubleshooting) | Common connectivity problems |
-
----
-<!-- markdownlint-disable-next-line MD036 -->
-*IT1080C Computer Networking · University of Cincinnati*
