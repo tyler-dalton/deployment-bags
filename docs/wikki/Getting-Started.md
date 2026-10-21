@@ -24,3 +24,6 @@ Through deployment activities, you'll gain practical experience with:
 ## Ready to Begin?
 
 Continue to **[Lab 01 — Build It. Connect It. Play.](Lab-01)**.
+
+<!-- markdownlint-disable-next-line MD036 -->
+*IT1080C Computer Networking · University of Cincinnati*
