@@ -5,12 +5,23 @@ type: Bug
 labels: ["FIXME"]
 body:
 
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How time-sensitive is this work?
+      options:
+        - non time-sensitive
+        - URGENT
+    validations:
+      required: true
 
   - type: dropdown
     id: component
     attributes:
       label: Component
       description: Which area is affected?
+      multiple: true
       options:
         - Cisco
         - Juniper
