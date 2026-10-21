@@ -32,7 +32,6 @@ body:
         - Raspberry Pi
         - Endpoints
         - Lab Architecture
-        - Multiple Components
         - Other
     validations:
       required: true
