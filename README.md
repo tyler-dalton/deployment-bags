@@ -10,7 +10,11 @@ The project prioritizes **flexibility, repeatability, and practical learning** o
 
 ## Documentation
 
-[Documentation](docs/) · [Lab 01](docs/labs/lab01/) · [Issues](https://github.com/tyler-dalton/deployment-bags/issues) · [Wiki](https://github.com/tyler-dalton/deployment-bags/wiki)
+[![Documentation](https://img.shields.io/badge/Documentation-30363d?style=flat-square)](docs/)
+[![Lab 01](https://img.shields.io/badge/Lab_01-30363d?style=flat-square)](docs/labs/lab01/)
+[![Issues](https://img.shields.io/badge/Issues-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/issues)
+[![Projects](https://img.shields.io/badge/Projects-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/projects)
+[![Wiki](https://img.shields.io/badge/Wiki-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/wiki)
 
 ---
 <!-- markdownlint-disable-next-line MD033 -->
