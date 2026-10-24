@@ -64,9 +64,6 @@ echo "  Hostname:      $HOSTNAME"
 echo "  Serial device: $DEVICE"
 echo "  TA MAC 1:      $TA_MAC_1"
 echo "  TA MAC 2:      $TA_MAC_2"
-echo "  Current enable password: $CURRENT_ENABLE"
-echo "  New enable secret:       $ENABLE_SECRET"
-echo "  TA SSH password:         $SSH_SECRET"
 echo
 
 read -rp "Continue? [y/N]: " CONFIRM

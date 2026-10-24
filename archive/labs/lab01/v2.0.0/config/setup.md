@@ -39,7 +39,6 @@ Next, the hostname and secret will need to be set. The hostname for this switch 
 ```cisco.ios
 configure terminal
   hostname BG01-SW01
-  enable secret <SECRET_NAME>
 ```
 
 ![Cisco IOS commands to set hostname & secret](../media/hostname-secret.png)
@@ -203,7 +202,6 @@ The next step in the configuration is to set up SSH access for port 24. This wil
 ```cisco.ios
 configure terminal
   ip domain-name dep-bags.local
-    username ta privilege 15 secret <SECRET_NAME>
 
     crypto key generate rsa
     # When asked, set bits to 2048
