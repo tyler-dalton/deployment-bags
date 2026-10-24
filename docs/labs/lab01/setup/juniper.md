@@ -113,10 +113,11 @@ Now that Phase 1 is complete, we'll configure the EX3300's Layer 2 switching env
 
 | Purpose | Juniper EX3300 Interfaces | VLAN |
 | --- | --- | --- |
-| Student access | `ge0/0/0 - 9` | 1 |
-| Disabled / Bricked | `ge0/0/10 - 22` | 999 |
-| TA management | `ge0/0/23` | 1 |
-| Disabled uplinks | `Four SFP+` | 999 where applicable |
+| Student access (physical ports 1-3) | `ge-0/0/0 - 2` | 1 |
+| Disabled / Bricked (physical ports 4-22) | `ge-0/0/3 - 21` | 999 |
+| TA management (physical port 23) | `ge-0/0/22` | 1 |
+| Raspberry Pi server (physical port 24) | `ge-0/0/23` | 1 |
+| Disabled uplinks | `Four SFP+` | Disabled |
 
 ### 2.1 Configure VLAN Baseline
 
@@ -154,16 +155,18 @@ Verify that `BRICK` is present with `VLAN ID 999`. The VLAN does not need active
 
 ### 2.2 Configure Student-Facing Interfaces
 
-Now we'll configure the **first 10 Gigabit Ethernet interfaces** on the Juniper EX3300-24P for student connectivity.
+Now we'll configure the **first three Gigabit Ethernet interfaces** on the Juniper EX3300-24P for student connectivity.
 
-These interfaces correspond to Fa1/0/1–10 on your Cisco Catalyst 3750. They will operate as standard Layer 2 access ports on VLAN 1, with Rapid Spanning Tree Protocol (RSTP) protection.
+These interfaces correspond to physical ports 1–3 on the switch. They will
+operate as standard Layer 2 access ports on VLAN 1, with Rapid Spanning Tree
+Protocol (RSTP) protection.
 
 #### 2.2.1 Configure Access Ports
 
-**Create an *interface range* to avoid configuring all ten ports individually**.
+**Create an *interface range* to avoid configuring all three ports individually**.
 
 ```juniper
-set interfaces interface-range STUDENTS member-range ge-0/0/0 to ge-0/0/9
+set interfaces interface-range STUDENTS member-range ge-0/0/0 to ge-0/0/2
 set interfaces interface-range STUDENTS description LAB01-STUDENT
 set interfaces interface-range STUDENTS unit 0 family ethernet-switching port-mode access
 set interfaces interface-range STUDENTS unit 0 family ethernet-switching vlan members default
@@ -188,13 +191,6 @@ Cisco's `spanning-tree portfast` is replaced by the JunOS RSTP `edge` designatio
 set protocols rstp interface ge-0/0/0 edge
 set protocols rstp interface ge-0/0/1 edge
 set protocols rstp interface ge-0/0/2 edge
-set protocols rstp interface ge-0/0/3 edge
-set protocols rstp interface ge-0/0/4 edge
-set protocols rstp interface ge-0/0/5 edge
-set protocols rstp interface ge-0/0/6 edge
-set protocols rstp interface ge-0/0/7 edge
-set protocols rstp interface ge-0/0/8 edge
-set protocols rstp interface ge-0/0/9 edge
 ```
 
 Edge ports can transition directly into forwarding when connected to student endpoints, avoiding the usual spanning-tree startup delay.
@@ -237,7 +233,7 @@ run show interfaces terse
 
 **Verify the following**:
 
-* Interfaces `ge-0/0/0` through `ge-0/0/9` are configured as access ports in VLAN 1
+* Interfaces `ge-0/0/0` through `ge-0/0/2` are configured as access ports in VLAN 1
 * All ten interfaces have the `LAB01-STUDENT` description
 * RSTP identifies the student-facing interfaces as edge ports
 * BPDU protection is configured
@@ -254,7 +250,7 @@ run show interfaces terse
 **Create an interface range**:
 
 ```juniper
-set interfaces interface-range UNUSED-PORTS member-range ge-0/0/10 to ge-0/0/22
+set interfaces interface-range UNUSED-PORTS member-range ge-0/0/3 to ge-0/0/21
 set interfaces interface-range UNUSED-PORTS description ADMIN-DOWN
 set interfaces interface-range UNUSED-PORTS unit 0 family ethernet-switching port-mode access
 set interfaces interface-range UNUSED-PORTS unit 0 family ethernet-switching vlan members BRICK
@@ -280,13 +276,13 @@ commit
 **Verify disabled interfaces**:
 
 ```juniper
-run show interfaces terse | match ge-0/0/1
-run show interfaces terse | match ge-0/0/2
+run show interfaces terse | match ge-0/0/3
+run show interfaces terse | match ge-0/0/21
 run show vlans
 run show ethernet-switching interfaces
 ```
 
-The first two commands match interfaces beginning with `ge-0/0/1` and `ge-0/0/2`, including the unused ports. They are convenient for checking the range, although `ge-0/0/2` also matches student port 3.
+These commands check the first and last interfaces in the bricked range.
 
 ![verify disable interfaces1](../media/juniper/disable1.png)
 
@@ -303,22 +299,22 @@ set interfaces ge-0/1/1.0 disable
 
 ### 2.4 Reserve the TA Management Interface
 
-Physical port 24 (`ge-0/0/23`) will serve as the dedicated TA management connection, equivalent to `Fa1/0/24` on the Cisco Catalyst 3750.
+Physical port 23 (`ge-0/0/22`) will serve as the dedicated TA management connection, equivalent to `Fa1/0/23` on the Cisco Catalyst 3750.
 
 The interface will remain in `VLAN 1` because Lab 01 uses a single subnet. Additional management security, including SSH restrictions and MAC-based authorization, will be configured in Phase 3.
 
 **Configure the management port**:
 
 ```juniper
-set interfaces ge-0/0/23 description TA-MAN
-set interfaces ge-0/0/23 unit 0 family ethernet-switching port-mode access
-set interfaces ge-0/0/23 unit 0 family ethernet-switching vlan members default
+set interfaces ge-0/0/22 description TA-MAN
+set interfaces ge-0/0/22 unit 0 family ethernet-switching port-mode access
+set interfaces ge-0/0/22 unit 0 family ethernet-switching vlan members default
 ```
 
 **Configure RSTP protection**:
 
 ```juniper
-set protocols rstp interface ge-0/0/23 edge
+set protocols rstp interface ge-0/0/22 edge
 ```
 
 The global `bpdu-block-on-edge` setting configured earlier will also protect this interface.
@@ -326,7 +322,7 @@ The global `bpdu-block-on-edge` setting configured earlier will also protect thi
 **Verify the pending configuration**:
 
 ```juniper
-show interfaces ge-0/0/23
+show interfaces ge-0/0/22
 show protocols rstp
 show | compare
 ```
@@ -343,9 +339,9 @@ commit
 **Verify operational configuration**:
 
 ```juniper
-run show interfaces terse ge-0/0/23
+run show interfaces terse ge-0/0/22
 run show ethernet-switching interfaces
-run show configuration interfaces ge-0/0/23
+run show configuration interfaces ge-0/0/22
 run show configuration protocols rstp
 ```
 
@@ -355,7 +351,7 @@ run show configuration protocols rstp
 
 | Component | Expected Result |
 | --- | --- |
-| Interface | `ge-0/0/23` |
+| Interface | `ge-0/0/22` (physical port 23) |
 | Description | `TA-MAN` |
 | Administrative State | Up |
 | VLAN | `default` (VLAN 1) |
@@ -366,9 +362,37 @@ run show configuration protocols rstp
 > [!IMPORTANT]
 > The TA port is not yet secured against unauthorized MAC addresses or SSH access. Do not treat the switch as deployment-ready until Phase 3 is complete.
 
-### 2.5 Verify Interface Configuration
+### 2.5 Reserve the Raspberry Pi Server Interface
 
-The Juniper EX3300 should now have **ten active student-facing interfaces, thirteen administratively disabled interfaces, one reserved TA management interface, and disabled SFP+ uplinks**.
+Physical port 24 (`ge-0/0/23`) provides the dedicated connection for the
+Raspberry Pi LAN Games server. It remains in the default `VLAN 1`.
+
+```juniper
+set interfaces ge-0/0/23 description LAB01-GAME-SERV
+set interfaces ge-0/0/23 unit 0 family ethernet-switching port-mode access
+set interfaces ge-0/0/23 unit 0 family ethernet-switching vlan members default
+set protocols rstp interface ge-0/0/23 edge
+```
+
+Verify the server port:
+
+```juniper
+show interfaces ge-0/0/23
+run show configuration interfaces ge-0/0/23
+```
+
+| Component | Expected Result |
+| --- | --- |
+| Interface | `ge-0/0/23` (physical port 24) |
+| Description | `LAB01-GAME-SERV` |
+| VLAN | `default` (VLAN 1) |
+| Port mode | Access |
+
+### 2.6 Verify Interface Configuration
+
+The Juniper EX3300 should now have **three active student-facing interfaces,
+nineteen administratively disabled interfaces, one reserved TA management
+interface, one Raspberry Pi server interface, and disabled SFP+ uplinks**.
 
 **Verify VLAN assignments**:
 
@@ -383,9 +407,10 @@ run show ethernet-switching interfaces
 
 * VLAN `default` uses `VLAN ID 1`
 * VLAN `BRICK` uses `VLAN ID 999`
-* Student interfaces `ge-0/0/0` through `ge-0/0/9` belong to `default`
-* TA interface `ge-0/0/23` belongs to default
-* Disabled interfaces `ge-0/0/10` through `ge-0/0/22` are configured for `BRICK`
+* Student interfaces `ge-0/0/0` through `ge-0/0/2` belong to `default`
+* TA interface `ge-0/0/22` belongs to `default`
+* Server interface `ge-0/0/23` belongs to `default`
+* Disabled interfaces `ge-0/0/3` through `ge-0/0/21` are configured for `BRICK`
 
 **Verify interface status**:
 
@@ -397,9 +422,9 @@ run show interfaces terse | match ge-0/0/
 
 | **Interface(s)** | **Expected Admin** | **Expected Link** |
 | --- | --- | --- |
-| `ge-0/0/0-9` | up | up or down |
-| `ge-0/0/10-22` | down | down |
-| `ge-0/0/23` | up | up or down |
+| `ge-0/0/0-2` | up | up or down |
+| `ge-0/0/3-21` | down | down |
+| `ge-0/0/22-23` | up | up or down |
 
 An administratively enabled interface with no Ethernet cable connected will normally show `up/down`.
 
@@ -414,7 +439,7 @@ show interfaces interface-range UNUSED-PORTS
 **Verify TA management interface**:
 
 ```juniper
-run show configuration interfaces ge-0/0/23
+run show configuration interfaces ge-0/0/22
 run show configuration protocols rstp
 ```
 
@@ -559,14 +584,17 @@ commit
 
 ### 3.4 Configure TA Management Port MAC Security
 
-The objective is to authorize three designated TA Ethernet adapters, reject traffic from unauthorized MAC addresses, and keep the management port operational rather than shutting it down after a violation.
+The objective is to authorize four designated TA Ethernet adapters, reject
+traffic from unauthorized MAC addresses, and keep the management port
+operational rather than shutting it down after a violation.
 
 **Configure MAC-Based port security**:
 
 ```juniper
-set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:01
-set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:02
-set ethernet-switching-options secure-access-port interface ge-0/0/23 allowed-mac aa:bb:cc:dd:ee:03
+set ethernet-switching-options secure-access-port interface ge-0/0/22 allowed-mac <TA_MAC_01>
+set ethernet-switching-options secure-access-port interface ge-0/0/22 allowed-mac <TA_MAC_02>
+set ethernet-switching-options secure-access-port interface ge-0/0/22 allowed-mac <TA_MAC_03>
+set ethernet-switching-options secure-access-port interface ge-0/0/22 allowed-mac <TA_MAC_04>
 ```
 
 The MAC addresses above are examples only.
@@ -574,7 +602,7 @@ The MAC addresses above are examples only.
 **Configure MAC limit**:
 
 ```juniper
-set ethernet-switching-options secure-access-port interface ge-0/0/23 mac-limit 3 action drop
+set ethernet-switching-options secure-access-port interface ge-0/0/22 mac-limit 4 action drop
 ```
 
 This configures a limit of three learned MAC addresses, using packet drop as the violation action.
@@ -596,9 +624,9 @@ commit
 
 | **Component** | **Expected Result** |
 | --- | --- |
-| Interface | `ge-0/0/23` |
-| Allowed MAC | 3 TA MAC addresses |
-| MAC limit | 3 |
+| Interface | `ge-0/0/22` (physical port 23) |
+| Allowed MAC | 4 TA MAC addresses |
+| MAC limit | 4 |
 | Violation Action | Drop |
 | Authorized TA Connection | Successful |
 | Unauthorized MAC | Traffic rejected, subject to physical validation |
@@ -680,18 +708,18 @@ Each verified lab profile should also be retained in the project's version-contr
 
 ```text
 configs/
-  3750/
-    lab01.cfg
-    lab02.cfg
-    lab03.cfg
-  2960/
-    lab01.cfg
-    lab02.cfg
-    lab03.cfg
-  juniper/
-    lab01.conf
-    lab02.conf
-    lab03.conf
+  lab01/
+    cisco/
+      2960/
+        lab01.cfg
+      3750/
+        lab01.cfg
+    juniper/
+      ex3300/
+        sw03/
+          lab01.conf
+        sw04/
+          lab01.conf
 ```
 
 **Export the configuration**:
@@ -702,7 +730,14 @@ From operational mode, or with run from configuration mode:
 show configuration | display set | no-more
 ```
 
-Copy the output into the repository's configuration file. Before committing it to Git, **redact authentication hashes and inspect for other secrets**, including SNMP communities and cryptographic key material.
+Copy the output into the repository's configuration file for the physical
+switch being backed up:
+
+- `configs/lab01/juniper/ex3300/sw03/lab01.conf` for `BG02-SW03`
+- `configs/lab01/juniper/ex3300/sw04/lab01.conf` for `BG02-SW04`
+
+Before committing it to Git, **redact authentication hashes and inspect for
+other secrets**, including SNMP communities and cryptographic key material.
 
 > [!NOTE]
 > Remember that the sanitized repository file is documentation, not an exact restoration backup.

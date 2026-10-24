@@ -27,17 +27,13 @@ HTTP transmits credentials and configuration data in cleartext, exposes an addit
 
 ## VLAN Schema
 
-The Lab 01 network utilizes a three-VLAN architecture to provide a balance between simplicity, security, and administrative control.
+The Lab 01 network uses the default VLAN for all active ports and VLAN 999 for
+unused ports. This keeps the isolated exercise simple while preventing access
+through ports that are not part of the lab.
 
 ### VLAN 1 — Student Network (Default)
 
 The default VLAN is retained for student-facing interfaces to minimize configuration complexity and allow students to focus on foundational networking concepts.
-
-### VLAN 10 — Management
-
-A dedicated management VLAN separates administrative traffic from student-facing network traffic. This allows instructors and teaching assistants to manage network equipment independently of student configurations, reducing the risk of accidental management disruptions.
-
-VLAN separation also provides a foundation for implementing additional access controls as the lab environment evolves.
 
 ### VLAN 999 — Unused Ports
 
@@ -63,9 +59,11 @@ Together, these configurations establish a consistent and controlled access-laye
 
 ## TA Management Interface
 
-Port `Fa0/23` is reserved exclusively for authorized teaching assistants and instructors to provide a **dedicated physical connection for network administration**. Unlike student-facing interfaces which operate on `VLAN 1`, the management interface is assigned to `VLAN 10` to logically separate administrative traffic from student activity.
-
-This separation reduces the risk of students accidentally interfering with network management and **establishes a foundation for additional security controls**. MAC-based port security will restrict which devices can connect through the management interface, while SSH access restrictions will limit administrative access to authorized management hosts.
+Port `Fa0/23` is reserved exclusively for authorized teaching assistants and
+instructors to provide a **dedicated physical connection for network
+administration**. It remains in the default `VLAN 1`, like the student and
+server ports. MAC-based port security and SSH access restrictions limit
+administrative access to authorized management hosts.
 
 ## Student port MAC-based Security
 
