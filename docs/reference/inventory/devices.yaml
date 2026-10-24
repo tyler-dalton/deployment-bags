@@ -124,37 +124,37 @@ devices:
       pid: 20W0-0091US
       serial_number: PF-2ZV4PA
       bound_to:
-        lab01: BG02-SW03-P00
+        lab01: BG02-SW03-P01
 
     - asset_id: PC08
       pid: 20W0-0091US
       serial_number: PF-2Y5DKH
       bound_to:
-        lab01: BG02-SW03-P01
+        lab01: BG02-SW03-P02
 
     - asset_id: PC09
       pid: 20W0-0091US
       serial_number: PF-2ZV9GF
       bound_to:
-        lab01: BG02-SW03-P02
+        lab01: BG02-SW03-P03
 
     - asset_id: PC10
       pid: 20W0-0091US
       serial_number: PF-2XAH9M
       bound_to:
-        lab01: BG02-SW04-P00
+        lab01: BG02-SW04-P01
 
     - asset_id: PC11
       pid: 20W0-0091US
       serial_number: PF-2Y6717
       bound_to:
-        lab01: BG02-SW04-P01
+        lab01: BG02-SW04-P02
 
     - asset_id: PC12
       pid: 20W0-0091US
       serial_number: PF-2XAWWZ
       bound_to:
-        lab01: BG02-SW04-P02
+        lab01: BG02-SW04-P03
 
   raspberry_pi:
 
@@ -170,14 +170,13 @@ devices:
 
       - asset_id: SRV03
         bound_to:
-          lab01: BG02-SW03-P23
+          lab01: BG02-SW03-P24
 
       - asset_id: SRV04
         bound_to:
-          lab01: BG02-SW04-P23
+          lab01: BG02-SW04-P24
 
     pi_3:
 
       - asset_id:
         bound_to: cold_spare
-

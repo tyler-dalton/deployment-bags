@@ -5,22 +5,31 @@ lab:
     cisco-2960:
       versions:
         docs_version: 3.1.0
-        config_version: 3.1.1
-      path: setup/cisco-2960.md
+        config_version: UNTRACKED
+      docs_path: setup/cisco-2960.md
+      config_path: ../../../configs/lab01/cisco/2960/lab01.cfg
 
     cisco-3750:
       versions:
         docs_version: 3.1.0
-        config_version: 3.1.1
-      path: setup/cisco-3750.md
+        config_version: UNTRACKED
+      docs_path: setup/cisco-3750.md
+      config_path: ../../../configs/lab01/cisco/3750/lab01.cfg
 
-    juniper-ex3300:
+    juniper-ex3300-sw03:
       versions:
         docs_version: 2.0.0
         config_version: 2.0.0
-      path: setup/juniper.md
+      docs_path: setup/juniper.md
+      config_path: ../../../configs/lab01/juniper/ex3300/sw03/lab01.conf
+
+    juniper-ex3300-sw04:
+      versions:
+        docs_version: 2.0.0
+        config_version: 2.0.0
+      docs_path: setup/juniper.md
+      config_path: ../../../configs/lab01/juniper/ex3300/sw04/lab01.conf
 
     student-walkthru:
       docs_version: UNTRACKED
       path: UNTRACKED
-

@@ -16,6 +16,17 @@ The project prioritizes **flexibility, repeatability, and practical learning** o
 [![Projects](https://img.shields.io/badge/Projects-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/projects)
 [![Wiki](https://img.shields.io/badge/Wiki-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/wiki)
 
+## Repository layout
+
+- `docs/labs/` — current lab guides, setup procedures, and lab media
+- `docs/operations/` — deployment and equipment-reset procedures
+- `docs/infrastructure/` — supporting infrastructure documentation
+- `docs/project/` — project goals, constraints, summaries, and action items
+- `docs/reference/` — inventories and other reusable reference data
+- `docs/wiki/` — source files for the project wiki
+- `configs/` — device configurations organized by lab and platform
+- `archive/` — lab versions that are no longer in use
+
 ---
 <!-- markdownlint-disable-next-line MD033 -->
 <small>University of Cincinnati · School of Information Technology · IT1080C Computer Networking</small>

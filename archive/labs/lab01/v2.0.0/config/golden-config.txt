@@ -1,5 +1,4 @@
 hostname __HOSTNAME__
-enable secret __ENABLE_SECRET__
 
 no ip http server
 no ip http secure-server
@@ -67,7 +66,6 @@ interface FastEthernet1/0/24
   spanning-tree bpduguard enable
 
 ip domain-name dep-bags.local
-username ta privilege 15 secret __SSH_SECRET__
 
 ip ssh version 2
 
@@ -75,5 +73,3 @@ line vty 0 15
   login local
   transport input ssh
   exec-timeout 15 0
-
-

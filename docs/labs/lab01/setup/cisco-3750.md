@@ -80,10 +80,6 @@ For more information as to why these three VLANs, please [visit the rationale se
 ```cisco
 conf t
 
-  vlan 10
-    name TA-MAN
-  exit
-
   vlan 999
     name BRICK
   exit
@@ -142,7 +138,7 @@ conf t
 int FastEthernet1/0/23
   description TA-MAN
   sw mode access
-  sw access vlan 10
+  sw access vlan 1
   sw nonegotiate
   sp portfast
   sp bpduguard enable
@@ -151,7 +147,9 @@ exit
 end
 ```
 
-Port 23 is assigned to `VLAN 10`, separating TA management traffic from student-facing traffic on `VLAN 1`. This provides a dedicated management network while maintaining the existing student subnet. MAC-based port security and additional SSH restrictions will be configured in Phase 3.
+Port 23 is assigned to the default `VLAN 1`, matching the student and server
+access ports. MAC-based port security and SSH restrictions provide the
+management controls without introducing a separate management VLAN.
 
 At this stage, port 23 is **not yet restricted**.
 
@@ -195,7 +193,7 @@ sh run | begin interface fa1/0/23
 
 ![sh int status](../media/cisco/3750/sh-int-status.png)
 
-**show running-config | begin interface FastEthernet0/23**:
+**show running-config | begin interface FastEthernet1/0/23**:
 
 ![sh int status](../media/cisco/3750/sh-run-begin-fa23.png)
 
@@ -209,14 +207,15 @@ sh run | begin interface fa1/0/23
 
 ### 3.1 Configure the Management Interface
 
-The Catalyst 3750 uses a **Switched Virtual Interface (SVI)** to provide IP connectivity for switch management. `VLAN 10` will host this interface. For further information, see the [management interface rationale](./rationale.md#ta-management-interface).
+The Catalyst 3750 uses a **Switched Virtual Interface (SVI)** to provide IP
+connectivity for switch management. `VLAN 1` hosts this interface.
 
 ```cisco
 conf t
 
-int Vlan10
+int Vlan1
  description TA-MAN
- ip address 10.0.10.1 255.255.255.0
+ ip address 10.0.0.1 255.255.255.0
  no shutdown
 exit
 end
@@ -230,7 +229,7 @@ sh ip int br
 
 ![SVI verification](../media/cisco/3750/sh-ip-int-br.png)
 
-VLAN 10 should display `10.0.10.1`. Its protocol status **may remain down** until at least one active `VLAN 10` port establishes a physical connection.
+VLAN 1 should display `10.0.0.1`.
 
 ### 3.2 Configure SSH Authentication
 
@@ -240,8 +239,6 @@ VLAN 10 should display `10.0.10.1`. Its protocol status **may remain down** unti
 conf t
 
 ip domain-name dep-bags.local
-enable secret <ENABLE_PASSWORD>
-username ta privilege 15 secret <TA_PASSWORD>
 
 crypto key generate rsa
 ```
@@ -287,14 +284,14 @@ SSH authentication alone **does not prevent students from attempting to access t
 
 | Device | Address |
 | --- | --- |
-| Switch | `10.0.10.1` |
-| Primary TA Workstation | `10.0.10.10` |
+| Switch | `10.0.0.1` |
+| Primary TA Workstation | `10.0.0.250` |
 
 ```cisco
 conf t
 
 access-list 10 remark TA-SSH
-access-list 10 permit host 10.0.10.10
+access-list 10 permit host 10.0.0.250
 
 line vty 0 15
  access-class 10 in
@@ -312,17 +309,18 @@ The ACL includes an **implicit deny for every other source address**.
 
 `FastEthernet1/0/23` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
 
-For this setup, we'll allow up to **three authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
+For this setup, we'll allow up to **four authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
 
 ```cisco
 conf t
 
 int fa1/0/23
- sw port maximum 3
+ sw port maximum 4
  sw port violation restrict
  sw port mac AAAA.BBBB.CCCC
  sw port mac DDDD.EEEE.FFFF
  sw port mac GGGG.HHHH.IIII
+ sw port mac JJJJ.KKKK.LLLL
 exit
 
 end
@@ -361,11 +359,11 @@ Before deeming the configuration valid, perform the following tests.
 
 | Test | Expected Output |
 | --- | --- |
-| TA workstation pings `10.0.10.1` | Success |
-| TA workstation SSH to `10.0.10.1` | Success |
+| TA workstation pings `10.0.0.1` | Success |
+| TA workstation SSH to `10.0.0.1` | Success |
 | Unauthorized source IP attempts to SSH | Rejected |
 | Unauthorized MAC connects to port 24 | Frames restricted |
-| Student pings `10.0.10.1` | Rejected |
+| Student pings `10.0.0.1` | Success |
 | Student endpoint attempts to SSH | Rejected |
 
 The TA workstation must use its reserved management address and an authorized wired Ethernet adapter.
@@ -373,7 +371,7 @@ The TA workstation must use its reserved management address and an authorized wi
 **For SSH validation**:
 
 ```bash
-ssh ta@10.0.10.1
+ssh ta@10.0.0.1
 ```
 
 > [!WARNING]
@@ -449,9 +447,9 @@ sh run | begin interface FastEthernet1/0/1
 
 The Cisco Catalyst 3750 implements a layered security configuration designed to protect administrative access, restrict unauthorized devices, and maintain a controlled learning environment without interfering with student networking activities.
 
-* **VLAN Segmentation**: Student devices and the local game server operate on `VLAN 1`, while administrative traffic is isolated on `VLAN 10`. Unused interfaces are assigned to `VLAN 999` to prevent unintended network access
+* **VLAN Layout**: Student devices, TA management, and the local game server operate on the default `VLAN 1`. Unused interfaces are assigned to `VLAN 999` to prevent unintended network access
 * **Student Port Security**: Interfaces `Fa1/0/1-3` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
-* **Management Access Control**: Interface `Fa1/0/23` provides dedicated TA management connectivity, restricted to three authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.10.10)`
+* **Management Access Control**: Interface `Fa1/0/23` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.250)`
 * **Secure Administration**: SSHv2 provides encrypted administrative sessions with local credential authentication. Telnet and HTTP-based management are disabled, while authentication retry limits and idle session timeouts reduce exposure to unauthorized access
 * **Layer 2 Protection**: Student, management, and game server interfaces use PortFast and BPDU Guard to protect against unexpected spanning-tree participation. DTP negotiation is disabled to prevent unintended trunk formation
 * **Unused Interface Hardening**:  Interfaces `Fa1/0/4-22` and `Gi1/0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
@@ -515,18 +513,18 @@ Each verified lab profile should also be retained in the project's version-contr
 
 ```text
 configs/
-  3750/
-    lab01.cfg
-    lab02.cfg
-    lab03.cfg
-  2960/
-    lab01.cfg
-    lab02.cfg
-    lab03.cfg
-  juniper/
-    lab01.conf
-    lab02.conf
-    lab03.conf
+  lab01/
+    cisco/
+      2960/
+        lab01.cfg
+      3750/
+        lab01.cfg
+    juniper/
+      ex3300/
+        sw03/
+          lab01.conf
+        sw04/
+          lab01.conf
 ```
 
 #### 5.4.1 Display Complete Configuration
@@ -542,7 +540,8 @@ show running-config
 
 #### 5.4.2 Save the Configuration Locally
 
-In the Git repository, create a file under /configs/cisco/2960/lab01.cfg`. Paste the configuration.
+In the Git repository, create or update
+`/configs/lab01/cisco/3750/lab01.cfg`. Paste the sanitized configuration.
 
 #### 5.4.3 Sanitize Credentials
 
@@ -559,8 +558,6 @@ Review the file for:
 For example, a sanitized repository entry might look like:
 
 ```cisco
-enable secret <ENABLE_SECRET>
-username ta privilege 15 secret <TA_SECRET>
 ```
 
 > [!IMPORTANT]
@@ -601,10 +598,10 @@ sh port int fa1/0/23
 | Student interfaces | `Fa1/0/1–3`, `VLAN 1`, `enabled` |
 | Unused interfaces | `Fa1/0/4–22`, `VLAN 999`, `shutdown` |
 | Gigabit uplinks | `Gi1/0/1–2`, `shutdown` |
-| TA management port | `Fa1/0/23`, `VLAN 10`, `enabled` |
-| Switch management IP | `10.0.10.1/24` |
+| TA management port | `Fa1/0/23`, `VLAN 1`, `enabled` |
+| Switch management IP | `10.0.0.1/24` |
 | SSH | Version 2.0 |
-| VTY access | `ACL 10`, TA IP `10.0.10.10` |
+| VTY access | `ACL 10`, TA IP `10.0.0.250` |
 | Port security | Three authorized static MAC addresses |
 
 **Expected outputs**:
