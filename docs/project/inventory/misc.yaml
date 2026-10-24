@@ -7,10 +7,10 @@ misc_inventory:
       serial_number: FOC19028BWF
       interface_type: Serial
   ethernet:
-    cat6: 7
-    cat5e: 3
+    cat6: 12
+    cat5e: 8
     cat5: 1
-    unknown: 5
+    patch: 9
   wireless:
     - brand: Aruba Networks
       model: AP-135
