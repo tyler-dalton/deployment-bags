@@ -2,7 +2,7 @@
 
 **IT1080C Computer Networking | Physical Networking Lab**
 
-![LAN Games banner](../../labs/lab01/media/student-docs/lan-games-banner.png)
+![LAN Games banner](../labs/lab01/media/student-docs/lan-games-banner.png)
 
 Your first challenge is to deploy a local area network, configure your computer's IPv4 settings, and establish a connection to a locally hosted game server.
 
