@@ -97,7 +97,7 @@ Open your deployment bag and lay out everything on your workspace. Check that yo
 | **Laptop** | Your computer | The client: you'll use it to configure settings and play the games. |
 | **Raspberry Pi** | A small, credit-card-sized computer | The server: it hosts the LAN Games. |
 | **Network switch** | A box with several Ethernet ports | Connects your laptop and the Pi so they can communicate. |
-| **Ethernet cables (x[2])** | Cables with a clip-style plug on each end | Physically link devices to the switch. |
+| **Ethernet cables** | Cables with a clip-style plug on each end | Physically link devices to the switch. |
 | **Power adapters** | Power supplies for the Pi and the switch | Provide power. Neither device has an on/off button; they start when plugged in. |
 
 > **Tip:** The plug only goes in one way and should *click* when seated. Don't force it.
