@@ -6,7 +6,7 @@
 - [ ] Console Cables - 2  
 - [ ] Ethernet cable box   
 - [ ] Endpoints - 12
-- [ ] Raspberry Pi - 4  
+- [ ] Raspberry Pi - 5  
 - [ ] Switch Power Cords - 4
 - [ ] Raspberry Pi Charging Cables - 4
 
