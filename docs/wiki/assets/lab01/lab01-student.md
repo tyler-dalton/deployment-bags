@@ -4,7 +4,7 @@
 
 ![LAN Games banner](../../../labs/lab01/media/student-docs/lan-games-banner.png)
 
-Your first challenge is to deploy a local area network, configure your computer's IPv4 settings, and establish a connection to a locally hosted game server.
+Your first challenge is to configure your computer's IPv4 settings and establish a connection to a locally hosted game server.
 
 > **Heads up: there is a quiz at the end of this lab.** Pay close attention to what you see and do at each step, because the quiz is based on what you observe along the way.
 
@@ -15,8 +15,6 @@ Your first challenge is to deploy a local area network, configure your computer'
 Use only the equipment assigned to your group. Other groups' equipment is configured differently, and swapping cables or devices can break their network.
 
 **Do not** connect your lab network to UC_Secure or campus Ethernet wall outlets. Your lab network uses addresses that could conflict with the campus network and cause problems for other users.
-
-**Do not** modify switch configurations unless specifically instructed. The switch is already set up for you.
 
 Keep cables organized and avoid unnecessary equipment disconnections. Unplugging a device in the middle of a step can make results confusing.
 
@@ -101,13 +99,12 @@ Open your deployment bag and lay out everything on your workspace. Check that yo
 | **Network switch** | A box with several Ethernet ports | Connects your laptop and the Pi so they can communicate. |
 | **Ethernet cables (x[2])** | Cables with a clip-style plug on each end | Physically link devices to the switch. |
 | **Power adapters** | Power supplies for the Pi and the switch | Provide power. Neither device has an on/off button; they start when plugged in. |
-| **[USB-to-Ethernet adapter, if needed]** | A small dongle | Gives your laptop an Ethernet port if it doesn't have one built in. |
 
-> **Tip:** Ethernet ports look like a slightly wider phone jack. The plug only goes in one way and should *click* when seated. Don't force it.
+> **Tip:** The plug only goes in one way and should *click* when seated. Don't force it.
 
 ### Step 2: Log In
 
-Open your laptop and sign in with the account provided by your instructor: [username / password, or "your UC credentials"].
+Open your laptop and sign in with the account provided by your instructor: [username / password].
 
 Once you reach the desktop, open a command-line window. You'll use it throughout this lab. Press the **Windows key**, type `cmd`, and press **Enter** to open *Command Prompt*.
 
@@ -117,7 +114,7 @@ Leave this window open. Each step tells you which command to type.
 
 ### Step 3: First ARP Check
 
-Before you connect anything, let's take a "before" snapshot so you can see what changes later.
+Before you connect anything, let's run this ARP command so you can see what changes later.
 
 > **What is ARP?**
 
@@ -160,12 +157,6 @@ arp -a
 
 Now you'll physically build the network. Follow this order:
 
-**Power the switch:** plug its power adapter into an outlet. Wait for its lights to come on.
-
-**Power the Raspberry Pi:** plug in its power adapter. The Pi needs about **1-2 minutes** to start up. [Update this time to match your Pi image.]
-
-**Cable the Pi to the switch:** connect one end of an Ethernet cable to the Pi's Ethernet port and the other end to the **Pi's port** on the switch. [Specify, e.g., Port 24.] Don't use Ports 1-3, which are reserved for laptops.
-
 **Cable your laptop to the switch:** connect a second Ethernet cable from your laptop's Ethernet port (or adapter) to the **switch port assigned to your laptop** (Port 1, 2, or 3). You'll find your assigned port in the table in Step 6. [Update if the Pi uses a specific port, e.g., Port 24.]
 
 **Check the link lights.** Small LEDs near each Ethernet port should glow or blink. That means the devices detected each other physically.
@@ -176,11 +167,9 @@ Now you'll physically build the network. Follow this order:
 
 - [ ] The switch has power and its lights are on.
 
-- [ ] The Pi has power and has had at least a minute to start.
-
 - [ ] Both Ethernet cables are firmly clicked in at both ends.
 
-- [ ] Link lights are on for both the laptop's and the Pi's switch ports.
+- [ ] Link lights are on for the switch ports.
 
 ### Step 5: Check ARP Again
 
@@ -282,21 +271,21 @@ Enter these values:
 
 #### Set the Address in Windows
 
-Press **Win + R** on your keyboard to open the *Run* box.
+1. Press **Win + R** on your keyboard to open the *Run* box.
 
-1. Type `ncpa.cpl` and press **Enter**. This opens the **Network Connections** window, which lists all of your laptop's network adapters.
+2. Type `ncpa.cpl` and press **Enter**. This opens the **Network Connections** window, which lists all of your laptop's network adapters.
 
-2. Right-click the adapter named **Ethernet** (it may be called *Ethernet 2* if you're using a USB adapter) and choose **Properties**. Don't pick Wi-Fi or any adapter labeled *Bluetooth* or *Virtual*. If the Ethernet icon shows a red X, check your cable.
+3. Right-click the adapter named **Ethernet** (it may be called *Ethernet 2* if you're using a USB adapter) and choose **Properties**. Don't pick Wi-Fi or any adapter labeled *Bluetooth* or *Virtual*. If the Ethernet icon shows a red X, check your cable.
 
-3. In the list, click **Internet Protocol Version 4 (TCP/IPv4)** so it's highlighted, then click **Properties**. Leave the checkbox ticked. Don't touch IPv6.
+4. In the list, click **Internet Protocol Version 4 (TCP/IPv4)** so it's highlighted, then click **Properties**. Leave the checkbox ticked. Don't touch IPv6.
 
-4. Select **Use the following IP address**.
+5. Select **Use the following IP address**.
 
-5. Enter the **IP address** and **Subnet mask** from your row in the table. Windows may fill in the subnet mask automatically when you click in the box. Make sure it reads `255.255.255.0`.
+6. Enter the **IP address** and **Subnet mask** from your row in the table. Windows may fill in the subnet mask automatically when you click in the box. Make sure it reads `255.255.255.0`.
 
-6. Leave **Default gateway** and all **DNS server** boxes **empty**.
+7. Leave **Default gateway** and all **DNS server** boxes **empty**.
 
-7. Click **OK**, then **OK** (or **Close**) again to save. If you skip this, the settings won't apply.
+8. Click **OK**, then **OK** (or **Close**) again to save. If you skip this, the settings won't apply.
 
 > **Admin prompt:** If Windows asks for administrator permission, use the credentials from your instructor: [credentials / "approve the prompt"].
 
@@ -315,7 +304,6 @@ Never assume a setting took effect. Always confirm it.
 ipconfig
 
 ```
-
 Find the section for your **Ethernet** adapter (ignore Wi-Fi and any "Virtual" or "Bluetooth" adapters) and confirm:
 
 - [ ] **IPv4 Address** matches the address in your row of the Step 6 table.
@@ -420,8 +408,6 @@ http://10.0.0.254
 
 ```
 
-**Write down exactly what happens** (an error message, a blank page, or a different page), and take a screenshot if you can. Good network technicians always record what they observe.
-
 > **Why does this work with no Internet?** A web page is just data sent from a server to a client. The Pi is running a web server program, and your browser is the client. They're connected by your LAN. Nothing leaves your bench.
 
 ### Step 13: Find the Right Port
@@ -464,7 +450,7 @@ When it works, you'll see the LAN Games home screen. 🎉
 
 ### Step 14: Complete the Quiz
 
-Open the quiz on [Canvas / link]. It's short, and it's based on **what you observed** during this lab, so use your notes and screenshots.
+Open the quiz on Canvas. It's short, and it's based on **what you observed** during this lab.
 
 **Tips for strong answers:**
 
@@ -472,23 +458,11 @@ Open the quiz on [Canvas / link]. It's short, and it's based on **what you obser
 
 - Use the terms from this lab, such as *ARP table*, *MAC address*, *ping*, and *port*.
 
-- Explain *why* something happened, not just *what* happened. Two or three clear sentences per question is plenty.
-
-[Include any screenshots or files to upload here.]
-
-**Before you start, make sure you have:**
-
-- [ ] A screenshot of your `ipconfig` output
-
-- [ ] Screenshots of your ping results
-
-- [ ] Screenshots of your ARP tables
-
-- [ ] Your notes on what you observed at each step, including Step 12
+- Explain *why* something happened, not just *what* happened.
 
 ### Step 15: Game Time
 
-You earned it! Once the quiz is submitted, choose a game and play. While you do, think about this: every move you make travels from your laptop, through the cable, into the switch, out to the Pi, and back again, all on the network *you* built.
+Once the quiz is submitted, choose a game and play.
 
 When you're done, ask your TA before packing up.
 
