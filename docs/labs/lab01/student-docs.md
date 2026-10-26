@@ -196,7 +196,7 @@ arp -a
 
 You should receive replies from the switch. After the ARP command, the table should populate with the address for the switch.
 
-![powershell ping switch](./media/student-docs/arp-switch)
+![powershell ping switch](./media/student-docs/arp-switch.png)
 
 ### Step 9: Ping the Server
 
