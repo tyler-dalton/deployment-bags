@@ -120,11 +120,11 @@ You should not see any learned entries for the lab's switch or server.
 arp -a
 ```
 
-You should still see no learned entries for the switch or server.
+You should still see no learned entries for the switch or server. You may see basic system entries populate. This is okay.
 
 Your laptop is physically connected, but it hasn't been configured to communicate on the lab's IPv4 network.
 
-![arp command with no entries](./media/student-docs/no-arp.png)
+![arp command with no entries](./media/student-docs/link-noip.png)
 
 ---
 
@@ -172,17 +172,13 @@ Click **OK** to save your changes.
 
 ```powershell
 ipconfig
-
-arp -a
 ```
 
-Confirm that your Ethernet adapter displays the correct IPv4 address and subnet mask. You should still have no learned entries for the switch or server.
+Confirm that your Ethernet adapter displays the correct IPv4 address and subnet mask.
 
 Your laptop now has an IPv4 address, but you haven't intentionally communicated with either device yet.
 
 ![ipconfig terminal output](./media/student-docs/ipconfig.png)
-
-![no arp results](./media/student-docs/no-arp.png)
 
 ---
 
@@ -194,11 +190,13 @@ Your laptop now has an IPv4 address, but you haven't intentionally communicated 
 
 ```powershell
 ping 10.0.0.1
+
+arp -a
 ```
 
-You should receive replies from the switch.
+You should receive replies from the switch. After the ARP command, the table should populate with the address for the switch.
 
-![powershell ping switch](./media/student-docs/ping-switch.png)
+![powershell ping switch](./media/student-docs/arp-switch)
 
 ### Step 9: Ping the Server
 
@@ -210,7 +208,7 @@ ping 10.0.0.254
 
 You should receive replies from the Raspberry Pi.
 
-> **[SCREENSHOT NEEDED]** ping to server
+![powershell ping server](./media/student-docs/ping-server.png)
 
 ### Step 10: Check ARP One Last Time
 
@@ -229,7 +227,7 @@ You should now see entries similar to these:
 
 Your laptop *used ARP to discover the MAC addresses* needed to communicate with these devices.
 
-> **[SCREENSHOT NEEDED]** ARP check showing outputs to switch and server
+![arp entry with both server and switch](./media/student-docs/arp-server-and-switch.png)
 
 ### Why Can You Ping this Switch?
 
