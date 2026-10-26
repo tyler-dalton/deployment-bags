@@ -53,7 +53,7 @@ The games are hosted on a Raspberry Pi inside your deployment bag. To access the
 
 ### Step 1: Identify Your Equipment
 
-Before connecting anything, take a look at your deployment bag.
+Before connecting anything, take a look at your deployment bag. If anything is missing, tell your TA or instructor **before** continuing.
 
 | Equipment | Purpose |
 | --- | --- |
@@ -88,7 +88,7 @@ arp -a
 You should not see any learned entries for the lab's switch or server.
 
 > [!NOTE]
-> ARP (Address Resolution Protocol) helps your computer match IPv4 addresses with physical addresses (MAC addresses). You may see other system entries. That's normal.
+> ARP (Address Resolution Protocol) helps your computer match IPv4 addresses with physical addresses (MAC addresses). Before your laptop can send data to another device on the LAN, it has to learn that device's MAC address. It does this using the **Address Resolution Protocol (ARP)**.
 
 ---
 
@@ -146,7 +146,7 @@ You will be **prompted to enter your password** in order to enter privileged mod
 
 ![Select IPv4 properties](./media/student-docs/ipv4-properties.png)
 
-**Choose `Use the following IP address`. Enter the IP address corresponding to your *assigned switch port*:**
+Choose `Use the following IP address`. **Enter the IP address corresponding to your *assigned switch port*:**
 
 | Switch Port | IPv4 Address |
 | --- | --- |
@@ -284,3 +284,10 @@ On your **personal laptop**:
 Once you've submitted your quiz, you're free to play LAN Games with your classmates for the remainder of the class.
 
 **You've successfully deployed, configured, and tested a physical local area network**.
+
+### Step 15: Clean-up Checklist
+
+- [ ] Close your browser and command-line windows.
+- [ ] Unplug power adapters, then Ethernet cables.
+- [ ] Coil cables loosely and return everything to your bag.
+- [ ] Change your laptop's IPv4 setting back to **Automatic (DHCP)**
