@@ -45,7 +45,7 @@ Your mission is simple: **build a working network and use it to access a local g
 
 The games are hosted on a Raspberry Pi inside your deployment bag. To access them, you'll need to connect and configure your laptop. No Internet connection is required.
 
-> **[SCREENSHOT NEEDED — 01]** LAN Games home screen. This should be the first major visual students see, before the technical instructions.
+![lan-games home screen](./media/student-docs/lan-games-home.png)
 
 ---
 
@@ -73,7 +73,7 @@ Turn on your assigned laptop, log in with these credentials:
 
 Before connecting the laptop into the network, run the first `arp` command:
 
-**Press `Windows + R`, type `cmd`, and press Enter:
+**Press `Windows + R`, type `cmd`, and press Enter:**
 
 ![cmd typed in windows run](./media/student-docs/cmd.png)
 
@@ -180,7 +180,9 @@ Confirm that your Ethernet adapter displays the correct IPv4 address and subnet 
 
 Your laptop now has an IPv4 address, but you haven't intentionally communicated with either device yet.
 
-> **[SCREENSHOT NEEDED]** both ipconfig and arp showing
+![ipconfig terminal output](./media/student-docs/ipconfig.png)
+
+![no arp results](./media/student-docs/no-arp.png)
 
 ---
 
@@ -196,7 +198,7 @@ ping 10.0.0.1
 
 You should receive replies from the switch.
 
-> **[SCREENSHOT NEEDED]** ping to switch
+![powershell ping switch](./media/student-docs/ping-switch.png)
 
 ### Step 9: Ping the Server
 
@@ -251,6 +253,8 @@ http://10.0.0.254
 
 What happens?
 
+![lan-games server with no port](./media/student-docs/no-port.png)
+
 Your browser uses port 80 by default for HTTP, but **LAN Games is running on a different port**.
 
 ### Step 12: Find the Right Port
@@ -265,7 +269,7 @@ You should see the LAN Games homepage!
 
 The IP address identifies the server. The port number (3000) identifies the service you want to access.
 
-> **[SCREENSHOT NEEDED]** loaded lan-games page
+![lan games homepage](./media/student-docs/lan-games-home.png)
 
 ---
 
