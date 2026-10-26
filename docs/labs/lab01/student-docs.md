@@ -198,6 +198,14 @@ You should receive replies from the switch. After the ARP command, the table sho
 
 ![powershell ping switch](./media/student-docs/arp-switch.png)
 
+#### Why Can You Ping this Switch?
+
+In Packet Tracer, you previously worked with switches that didn't have an IP address configured.
+
+Those switches could forward network traffic, but you couldn't ping the switches themselves.
+
+**This lab uses a managed switch with its own IP address (10.0.0.1)**. This allows you to communicate with the switch directly.
+
 ### Step 9: Ping the Server
 
 **Run:**
@@ -228,14 +236,6 @@ You should now see entries similar to these:
 Your laptop *used ARP to discover the MAC addresses* needed to communicate with these devices.
 
 ![arp entry with both server and switch](./media/student-docs/arp-server-and-switch.png)
-
-### Why Can You Ping this Switch?
-
-In Packet Tracer, you previously worked with switches that didn't have an IP address configured.
-
-Those switches could forward network traffic, but you couldn't ping the switches themselves.
-
-**This lab uses a managed switch with its own IP address (10.0.0.1)**. This allows you to communicate with the switch directly.
 
 ---
 
