@@ -26,6 +26,22 @@
 
 First verify that all equipment is turned on, navigate to each switch and plug into the management port (23) on each switch. SSH into the Pi `(10.0.0.254)` and start the lan-games server:
 
+### SRV01
+
+```bash
+cd lan-games/server
+
+export JWT_SECRET=$(node -e "process.stdout.write(require('crypto').randomBytes(48).toString('hex'))")
+npm start
+```
+
+### SRV02,03,04
+
+```bash
+cd lan-games
+
+sudo docker compose up -d
+```
 
 
 ## After the lab
