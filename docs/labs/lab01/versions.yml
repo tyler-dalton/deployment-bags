@@ -31,5 +31,5 @@ lab:
       config_path: ../../../configs/lab01/juniper/ex3300/sw04/lab01.conf
 
     student-walkthru:
-      docs_version: UNTRACKED
-      path: UNTRACKED
+      docs_version: 1.3.0
+      path: student-docs.md
