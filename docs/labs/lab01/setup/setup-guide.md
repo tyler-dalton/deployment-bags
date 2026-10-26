@@ -45,4 +45,4 @@ sudo docker compose up -d
 
 
 ## After the lab
-- [ ] Static IP has been removed on the laptops
+- [ ] Static IP and arp cache has been removed on the laptops
