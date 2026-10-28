@@ -11,10 +11,8 @@ The project prioritizes **flexibility, repeatability, and practical learning** o
 ## Documentation
 
 [![Documentation](https://img.shields.io/badge/Documentation-30363d?style=flat-square)](docs/)
-[![Lab 01](https://img.shields.io/badge/Lab_01-30363d?style=flat-square)](docs/labs/lab01/)
 [![Issues](https://img.shields.io/badge/Issues-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/issues)
 [![Projects](https://img.shields.io/badge/Projects-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/projects)
-[![Wiki](https://img.shields.io/badge/Wiki-30363d?style=flat-square)](https://github.com/tyler-dalton/deployment-bags/wiki)
 
 ## Repository layout
 
@@ -23,10 +21,9 @@ The project prioritizes **flexibility, repeatability, and practical learning** o
 - `docs/infrastructure/` — supporting infrastructure documentation
 - `docs/project/` — project goals, constraints, summaries, and action items
 - `docs/reference/` — inventories and other reusable reference data
-- `docs/wiki/` — source files for the project wiki
 - `configs/` — device configurations organized by lab and platform
 - `archive/` — lab versions that are no longer in use
 
 ---
 <!-- markdownlint-disable-next-line MD033 -->
-<small>University of Cincinnati · School of Information Technology · IT1080C Computer Networking</small>
+<small>Property of University of Cincinnati · School of Information Technology</small>
