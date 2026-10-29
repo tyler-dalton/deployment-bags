@@ -10,6 +10,5 @@ This directory contains the maintained documentation for Deployment Bags.
 - [Infrastructure](infrastructure/) — supporting infrastructure documentation
 - [Project](project/) — project planning, summaries, and action items
 - [Reference](reference/) — inventories and reusable reference material
-- [Wiki](wiki/) — source files used to publish the project wiki
 
 Historical lab versions are kept in the repository's [`archive/`](../archive/) directory.
