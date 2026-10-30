@@ -29,3 +29,7 @@ The most viable causation for the crash was unplugging the Raspberry Pi without 
 * Migrate to cold-spare Pi
 
 Runbooks directory can be [found here](../runbooks/README.md)
+
+## Source
+
+[https://github.com/docker/desktop-linux/issues/309](https://github.com/docker/desktop-linux/issues/309)
