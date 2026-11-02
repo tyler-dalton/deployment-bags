@@ -93,29 +93,29 @@ Ports `Fa1/0/1-4`, `Fa1/0/11-14`, `Fa1/0/21-24` provide connectivity for student
 
 ```cisco
 int range fa1/0/1 - 4
-  description LAB01-STUDENT
-  sw mode access
-  sw access vlan 1
+  description STUDENT
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
   sp portfast
-  sp bpduguard enable
-  no shutdown
+  sp bpduguard en
+  no shut
 int range fa1/0/11 - 14
-  description LAB01-STUDENT
-  sw mode access
-  sw access vlan 1
+  description STUDENT
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
   sp portfast
-  sp bpduguard enable
-  no shutdown
+  sp bpduguard en
+  no shut
 int range fa1/0/21 - 24
-  description LAB01-STUDENT
-  sw mode access
-  sw access vlan 1
+  description STUDENT
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
+  spa portfast
+  spa bpduguard en
+  no shut
 ```
 
 These interfaces will operate as **standard access ports**. The ports prevent trunk negotiation and keep all student endpoints within the same broadcast domain. For more information regarding student interface assignment configuration, please visit the [rationale page](./rationale.md#acc-configuration).
@@ -125,63 +125,68 @@ These interfaces will operate as **standard access ports**. The ports prevent tr
 All unused FastEthernet ports and both GigabitEthernet uplinks will be administratively disabled. See [rationale section on disabled ports](./rationale.md#disabled-ports) for further information.
 
 ```cisco
-int range fa1/0/4 - 22
+int range fa1/0/6 - 10
  description ADMIN-DOWN
- sw mode access
- sw access vlan 999
- shutdown
-exit
+ sw mode acc
+ sw acc vlan 999
+ shut
+
+int range fa1/0/15 - 19
+ description ADMIN-DOWN
+ sw mode acc
+ sw acc vlan 999
+ shut
 
 int range gi1/0/1 - 2
  description ADMIN-DOWN
- sw mode access
- sw access vlan 999
- shutdown
+ sw mode acc
+ sw acc vlan 999
+ shut
 exit
+end
 ```
 
 Placing unused interfaces on `VLAN 999` **isolates them from the student LAN**. Shutdown prevents those interfaces from establishing network connectivity. This is especially important because deployment bags **must remain disconnected from UC's production infrastructure**.
 
 ### 2.4 Reserve the TA Management Interface
 
-Port `Fa1/0/23` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
+Port `Fa1/0/5` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
 
 ```cisco
 conf t
 
-int FastEthernet1/0/23
+int fa1/0/5
   description TA-MAN
-  sw mode access
-  sw access vlan 1
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
+  spa portfast
+  spa bpduguard enable
+  no shut
 exit
 end
 ```
 
-Port 23 is assigned to the default `VLAN 1`, matching the student and server
+Port 5 is assigned to the default `VLAN 1`, matching the student and server
 access ports. MAC-based port security and SSH restrictions provide the
 management controls without introducing a separate management VLAN.
 
-At this stage, port 23 is **not yet restricted**.
+At this stage, port 5 is **not yet restricted**.
 
 ### 2.5 Reserve the Game Server Interface
 
-Port `Fa1/0/24` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
+Port `Fa1/0/20` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
 
 ```cisco
 conf t
-int fa1/0/24
-  description LAB01-GAME-SERV
-  sw mode access
-  sw access vlan 1
+int fa1/0/20
+  description SRV
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
-exit
+  spa portfast
+  spa bpduguard enable
+  no shut
 end
 ```
 
