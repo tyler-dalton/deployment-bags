@@ -169,23 +169,22 @@ At this stage, port 5 is **not yet restricted**.
 
 ### 2.5 Reserve the Game Server Interface
 
-Port `Fa0/24` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
+Port `fa0/20` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
 
 ```cisco
 conf t
-int fa0/24
-  description LAB01-GAME-SERV
-  sw mode access
-  sw access vlan 1
+int fa0/20
+  description SRV
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
-exit
+  spa portf
+  spa bpduguard en
+  no shut
 end
 ```
 
-Port 24 is assigned to `VLAN 1`, placing the game server within the same broadcast domain as student endpoints. **This allows students to access the server directly without requiring inter-VLAN routing**.
+Port 20 is assigned to `VLAN 1`, placing the game server within the same broadcast domain as student endpoints. **This allows students to access the server directly without requiring inter-VLAN routing**.
 
 The game server will operate entirely within the isolated lab network, requiring no connectivity to UC's production infrastructure or the public Internet during normal operation. See [rationale section on access ports](./rationale.md#access-port-configuration) for further information.
 
@@ -196,7 +195,8 @@ The game server will operate entirely within the isolated lab network, requiring
 ```cisco
 sh vl br
 show int status
-sh run | begin interface fa0/23
+sh run | begin interface FastEthernet1/0/5
+sh run | begin interface fa1/0/20
 ```
 
 **show vlan brief**:
@@ -207,9 +207,13 @@ sh run | begin interface fa0/23
 
 ![sh int status](../media/cisco/2960/sh-int-status.png)
 
-**show running-config | begin interface FastEthernet0/23**:
+**show running-config | begin interface FastEthernet1/0/5**:
 
-![sh int status](../media/cisco/2960/sh-run-begin-fa23.png)
+![sh int status](../media/cisco/2960/sh-p5.png)
+
+**show running-config | begin interface FastEthernet1/0/20**:
+
+![sh run p5](../media/cisco/3750/sh-p20.png)
 
 ## Phase 3 - Management Interface & Access Security
 
