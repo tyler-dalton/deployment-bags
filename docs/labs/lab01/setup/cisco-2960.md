@@ -119,45 +119,53 @@ These interfaces will operate as **standard access ports**. The ports prevent tr
 All unused FastEthernet ports and both GigabitEthernet uplinks will be administratively disabled. See [rationale section on disabled ports](./rationale.md#disabled-ports) for further information.
 
 ```cisco
-int range fa0/4 - 22
- description ADMIN-DOWN
- sw mode access
- sw access vlan 999
- shutdown
-exit
+int range fa0/6 - 10
+ des ADMIN-DOWN
+ sw mo acc
+ sw acc vlan 999
+ shut
+
+int range fa0/15 - 19
+ des ADMIN-DOWN
+ sw mo acc
+ sw acc vlan 999
+ shut
 
 int range gi0/1 - 2
- description ADMIN-DOWN
- sw mode access
- sw access vlan 999
- shutdown
+ des ADMIN-DOWN
+ sw mo acc
+ sw acc vlan 999
+ shut
 exit
+end
 ```
 
 Placing unused interfaces on `VLAN 999` **isolates them from the student LAN**. Shutdown prevents those interfaces from establishing network connectivity. This is especially important because deployment bags **must remain disconnected from UC's production infrastructure**.
 
 ### 2.4 Reserve the TA Management Interface
 
-Port `Fa0/23` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
+Port `fa0/5` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
 
 ```cisco
-interface FastEthernet0/23
+conf t
+
+int fa0/5
   description TA-MAN
-  sw mode access
-  sw access vlan 1
+  sw mode acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
+  spa portf
+  spa bpduguard en
+  no shut
 exit
 end
 ```
 
-Port 23 is assigned to the default `VLAN 1`, matching the student and server
+Port 5 is assigned to the default `VLAN 1`, matching the student and server
 access ports. MAC-based port security and SSH restrictions provide the
 management controls without introducing a separate management VLAN.
 
-At this stage, port 23 is **not yet restricted**.
+At this stage, port 5 is **not yet restricted**.
 
 ### 2.5 Reserve the Game Server Interface
 
