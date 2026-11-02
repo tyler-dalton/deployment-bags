@@ -41,7 +41,7 @@ All unused switch interfaces are assigned to VLAN 999, an isolated VLAN with no 
 
 ## Disabled Ports
 
-Each deployment group is designed to support one of four student groups, with **20 laptops distributed evenly across the groups**. This results in five student endpoints per switch, requiring only interfaces `Fa0/1-3` to be enabled.
+Each deployment group is designed to support one of four student groups, with **20 laptops distributed evenly across the switches**. This results in endpoints having flexibility across each switch, with their MAC being allowed on any available port on any switch.
 
 All remaining unused interfaces are assigned to `VLAN 999` and administratively disabled. This minimizes unnecessary exposure, prevents unauthorized or accidental connections, and reduces the risk of unintended changes to the lab topology.
 
@@ -59,7 +59,7 @@ Together, these configurations establish a consistent and controlled access-laye
 
 ## TA Management Interface
 
-Port `Fa0/23` is reserved exclusively for authorized teaching assistants and
+Port `fa0/5` is reserved exclusively for authorized teaching assistants and
 instructors to provide a **dedicated physical connection for network
 administration**. It remains in the default `VLAN 1`, like the student and
 server ports. MAC-based port security and SSH access restrictions limit
@@ -67,7 +67,7 @@ administrative access to authorized management hosts.
 
 ## Student port MAC-based Security
 
-Each student-facing port `(fa0/1-3)` is restricted to one designated laptop using a statically assigned MAC address.
+Each student-facing port `(fa0/1-4, fa0/11-14, fa0/21-24)` is restricted to one designated laptop using a statically assigned MAC address.
 
 The `maximum 1` setting limits each port to a single authorized MAC address, while the static assignment ensures that only the designated laptop can use that port. This prevents unauthorized access and connection to student ports, maintaining a consistent network topology across deployment bags.
 
