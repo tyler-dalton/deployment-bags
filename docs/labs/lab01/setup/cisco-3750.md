@@ -175,7 +175,7 @@ At this stage, port 5 is **not yet restricted**.
 
 ### 2.5 Reserve the Game Server Interface
 
-Port `Fa1/0/20` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
+Port `fa1/0/20` will provide dedicated connectivity for a locally hosted game server running [lan-games](https://github.com/kbennett2000/lan-games). The server will provide students with an interactive way to verify network connectivity while reinforcing foundational networking concepts.
 
 ```cisco
 conf t
@@ -184,8 +184,8 @@ int fa1/0/20
   sw mode acc
   sw acc vlan 1
   sw nonegotiate
-  spa portfast
-  spa bpduguard enable
+  spa portf
+  spa bpduguard en
   no shut
 end
 ```
