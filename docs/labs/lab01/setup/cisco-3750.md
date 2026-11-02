@@ -309,13 +309,13 @@ SSH authentication alone **does not prevent students from attempting to access t
 | Device | Address |
 | --- | --- |
 | Switch | `10.0.0.1` |
-| Primary TA Workstation | `10.0.0.250` |
+| Primary TA Workstation | `10.0.0.10` |
 
 ```cisco
 conf t
 
 access-list 10 remark TA-SSH
-access-list 10 permit host 10.0.0.250
+access-list 10 permit host 10.0.0.10
 
 line vty 0 15
  access-class 10 in
@@ -329,18 +329,18 @@ The ACL includes an **implicit deny for every other source address**.
 > [!CAUTION]
 > Source IP restrictions do not prevent IP address spoofing. They provide an additional security layer alongside SSH authentication and physical port security.
 
-### 3.4 Configure Port 23 MAC-Based Security
+### 3.4 Configure Port 5 MAC-Based Security
 
-`FastEthernet1/0/23` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
+`FastEthernet1/0/5` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
 
 For this setup, we'll allow up to **four authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
 
 ```cisco
 conf t
 
-int fa1/0/23
+int fa1/0/5
  sw port maximum 4
- sw port violation restrict
+ sw port viol re
  sw port mac AAAA.BBBB.CCCC
  sw port mac DDDD.EEEE.FFFF
  sw port mac GGGG.HHHH.IIII
@@ -356,7 +356,7 @@ Replace both MAC placeholders with Cisco-formatted addresses, such as `AAAA.BBBB
 
 | Setting | Function |
 | --- | --- |
-| Maximum 3 | Limits the number of authorized MAC addresses |
+| Maximum 4 | Limits the number of authorized MAC addresses |
 | Static MAC Addresses | Defines authorized TA Ethernet adapters & NIC's |
 | Violation Restrict | Drops frames from unauthorized source MAC addresses |
 | Port Security Enabled | Enforces configured restrictions |
@@ -369,7 +369,7 @@ The `restrict` violation mode was selected instead of `shutdown` to prevent an u
 **Verify**:
 
 ```cisco
-sh port int fa1/0/23
+sh port int fa1/0/5
 sh port address
 ```
 
@@ -403,7 +403,7 @@ ssh ta@10.0.0.1
 
 ## Phase 4 - Student-Facing Security
 
-Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa1/0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
+Phase 4 establishes access restrictions for the student-facing interfaces `(fa1/0/1-4, fa1/0/11-14, fa1/0/21-24)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
 
 **Phase 4 establishes**:
 
@@ -422,12 +422,20 @@ See [rationale section](./rationale.md#student-port-mac-based-security) on stude
 ```cisco
 conf t
 
-int range fa0/1 - 3
+int range fa0/1 - 4
   sw port
   sw port maximum 1
-  sw port violation restrict
-exit
-end
+  sw port viol re
+
+int range fa0/11 - 14
+  sw port
+  sw port maximum 1
+  sw port viol re
+
+int range fa0/21 - 24
+  sw port
+  sw port maximum 1
+  sw port viol re
 ```
 
 > [!NOTE]
@@ -442,30 +450,19 @@ The following configuration is an example for `BG01-SW01`. Replace the MAC addre
 ```cisco
 conf t
 
-int fa1/0/1
+int fa1/0/X
   sw port mac AAAA.BBBB.0001
-exit
-
-int fa1/0/2
-  sw port mac AAAA.BBBB.0002
-exit
-
-int fa1/0/3
-  sw port mac AAAA.BBBB.0003
-exit
 
 end
 ```
+
+Replace `X` with ports `1-4, 11-14, 21-24`.
 
 ### 4.3 Verify Student-Facing MAC Security
 
 ```cisco
 sh run | begin interface FastEthernet1/0/1
 ```
-
-**Expected output**:
-
-![student port verify](../media/cisco/3750/sh-run-begin-fa101.png)
 
 ### 4.4 Security Summary
 
