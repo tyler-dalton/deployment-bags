@@ -190,7 +190,7 @@ int fa1/0/20
 end
 ```
 
-Port 24 is assigned to `VLAN 1`, placing the game server within the same broadcast domain as student endpoints. **This allows students to access the server directly without requiring inter-VLAN routing**.
+Port 20 is assigned to `VLAN 1`, placing the game server within the same broadcast domain as student endpoints. **This allows students to access the server directly without requiring inter-VLAN routing**.
 
 The game server will operate entirely within the isolated lab network, requiring no connectivity to UC's production infrastructure or the public Internet during normal operation. See [rationale section on access ports](./rationale.md#access-port-configuration) for further information.
 
@@ -201,7 +201,8 @@ The game server will operate entirely within the isolated lab network, requiring
 ```cisco
 sh vl br
 show int status
-sh run | begin interface fa1/0/23
+sh run | begin interface FastEthernet1/0/5
+sh run | begin interface fa1/0/20
 ```
 
 **show vlan brief**:
@@ -212,9 +213,13 @@ sh run | begin interface fa1/0/23
 
 ![sh int status](../media/cisco/3750/sh-int-status.png)
 
-**show running-config | begin interface FastEthernet1/0/23**:
+**show running-config | begin interface FastEthernet1/0/5**:
 
-![sh int status](../media/cisco/3750/sh-run-begin-fa23.png)
+![sh run p5](../media/cisco/3750/sh-run-p5.png)
+
+**show running-config | begin interface FastEthernet1/0/20**:
+
+![sh run p5](../media/cisco/3750/sh-run-p20.png)
 
 ## Phase 3 - Management Interface & Access Security
 
