@@ -61,7 +61,6 @@ For the duration of Lab 01, **three VLANS will be in use**:
 | **VLAN #** | **Description** |
 | --- | --- |
 | `1` | Student-Facing VLAN (default) |
-| `10` | TA Management VLAN |
 | `999` | Unused Ports VLAN |
 
 For more information as to why these three VLANs, please [visit the rationale section provided](./rationale.md#vlan-schema)
@@ -84,18 +83,33 @@ conf t
 
 ### 2.2 Configure student-facing Interfaces
 
-Ports `Fa0/1-3` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
+Ports `fa0/1-4`, `fa0/11-14`, `fa0/21-24` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
 
 ```cisco
-int range fa0/1 - 3
-  description LAB01-STUDENT
-  sw mode access
-  sw access vlan 1
+int range fa0/1 - 4
+  des STUDENT
+  sw mo acc
+  sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard enable
-  no shutdown
-exit
+  spa portf
+  spa bpduguard en
+  no shut
+int range fa0/11 - 14
+  des STUDENT
+  sw mo acc
+  sw acc vlan 1
+  sw nonegotiate
+  spa portf
+  spa bpduguard en
+  no shut
+int range fa0/21 - 24
+  des STUDENT
+  sw mo acc
+  sw acc vlan 1
+  sw nonegotiate
+  spa portf
+  spa bpduguard en
+  no shut
 ```
 
 These interfaces will operate as **standard access ports**. The ports prevent trunk negotiation and keep all student endpoints within the same broadcast domain. For more information regarding student interface assignment configuration, please visit the [rationale page](./rationale.md#acc-configuration).
