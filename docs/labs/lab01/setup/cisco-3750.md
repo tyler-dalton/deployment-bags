@@ -451,20 +451,39 @@ The following configuration is an example for `BG01-SW01`. Replace the MAC addre
 conf t
 
 int fa1/0/X
-  sw port mac AAAA.BBBB.0001
+  sw port mac AAAA.BBBB.CCCC
 
 end
 ```
 
 Replace `X` with ports `1-4, 11-14, 21-24`.
 
-### 4.3 Verify Student-Facing MAC Security
+### 4.3 Assign Servers to Port 20
+
+In order to achieve the most flexibility on lab day, all servers configured for lan-games will be allowed on all switches. With this configuration, servers can move freely between the environments and work on any switch.
+
+```cisco
+conf t
+
+int fa1/0/20
+  sw port
+  sw port max 6
+  sw port viol re
+  sw port mac AAAA.BBBB.0001
+  sw port mac AAAA.BBBB.0002
+  sw port mac AAAA.BBBB.0003
+  sw port mac AAAA.BBBB.0004
+  sw port mac AAAA.BBBB.0005
+  sw port mac AAAA.BBBB.0006
+```
+
+### 4.4 Verify Student-Facing MAC Security
 
 ```cisco
 sh run | begin interface FastEthernet1/0/1
 ```
 
-### 4.4 Security Summary
+### 4.5 Security Summary
 
 The Cisco Catalyst 3750 implements a layered security configuration designed to protect administrative access, restrict unauthorized devices, and maintain a controlled learning environment without interfering with student networking activities.
 
@@ -576,11 +595,6 @@ Review the file for:
 * `username ... secret` - Replace password hashes with placeholders
 * Any embedded private key material or sensitive information
 
-For example, a sanitized repository entry might look like:
-
-```cisco
-```
-
 > [!IMPORTANT]
 > This sanitized file is a configuration template, not a directly deployable backup. An exact restoration is located on the thumb drive located in the bags during downtime.
 
@@ -608,36 +622,37 @@ sh vl br
 sh int status
 sh ip int br
 sh ip ssh
-sh access-lists 10
-sh port int fa1/0/23
+sh access-lists
+sh port int fa1/0/5
+sh port int fa1/0/20
 ```
 
 **Verify the following**:
 
 | Component | Expected configuration |
 | --- | --- |
-| Student interfaces | `Fa1/0/1–3`, `VLAN 1`, `enabled` |
-| Unused interfaces | `Fa1/0/4–22`, `VLAN 999`, `shutdown` |
+| Student interfaces | `fa1/0/1–4, fa1/0/11-14, fa1/0/21-24`, `VLAN 1`, `enabled` |
+| Unused interfaces | `fa1/0/6-10, fa1/0/15-19`, `VLAN 999`, `shutdown` |
 | Gigabit uplinks | `Gi1/0/1–2`, `shutdown` |
-| TA management port | `Fa1/0/23`, `VLAN 1`, `enabled` |
+| TA management port | `Fa1/0/5`, `VLAN 1`, `enabled` |
 | Switch management IP | `10.0.0.1/24` |
 | SSH | Version 2.0 |
-| VTY access | `ACL 10`, TA IP `10.0.0.250` |
+| VTY access | `ACL 10`, TA IP `10.0.0.10` |
 | Port security | Three authorized static MAC addresses |
 
 **Expected outputs**:
 
 ![Final VLAN verification](../media/cisco/3750/sh-vl-br.png)
 
-![Final interface status verification](../media/cisco/3750/final-sh-int-stat.png)
+![Final interface status verification](../media/cisco/3750/sh-int-staus.png)
 
 ![Final ip interface verification](../media/cisco/3750/final-sh-ip-int-br.png)
 
 ![Final SSH verification](../media/cisco/3750/sh-ip-ssh.png)
 
-![Final ACL verification](../media/cisco/3750/final-acl.png)
+![Final ACL verification](../media/cisco/3750/sh-acl.png)
 
-![Final port 24 security verification](../media/cisco/3750/final-sh-port-int-fa1023.png)
+![Final port 5 and 20 verification](../media/cisco/3750/sh-p.png)
 
 ### 6.2 Validate Administrative Access
 
@@ -645,7 +660,7 @@ Connect an authorized TA workstation to port 24 with the following Ethernet conf
 
 | Property | Value |
 | --- | --- |
-| Ipv4 Address | `10.0.0.250` |
+| Ipv4 Address | `10.0.0.10` |
 | Subnet Mask | `255.255.255.0` |
 | Default Gateway | null |
 
