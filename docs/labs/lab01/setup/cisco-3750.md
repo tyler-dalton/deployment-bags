@@ -89,27 +89,27 @@ conf t
 
 ### 2.2 Configure student-facing Interfaces
 
-Ports `Fa1/0/1-4`, `Fa1/0/11-14`, `Fa1/0/21-24` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
+Ports `fa1/0/1-4`, `fa1/0/11-14`, `fa1/0/21-24` provide connectivity for student endpoints. This is done in order to keep unnecessary unused ports inaccessible.
 
 ```cisco
 int range fa1/0/1 - 4
-  description STUDENT
+  des STUDENT
   sw mode acc
   sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard en
+  spa portfast
+  spa bpduguard en
   no shut
 int range fa1/0/11 - 14
-  description STUDENT
+  des STUDENT
   sw mode acc
   sw acc vlan 1
   sw nonegotiate
-  sp portfast
-  sp bpduguard en
+  spa portfast
+  spa bpduguard en
   no shut
 int range fa1/0/21 - 24
-  description STUDENT
+  des STUDENT
   sw mode acc
   sw acc vlan 1
   sw nonegotiate
