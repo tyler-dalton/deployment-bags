@@ -469,11 +469,11 @@ sh run | begin interface FastEthernet1/0/1
 The Cisco Catalyst 3750 implements a layered security configuration designed to protect administrative access, restrict unauthorized devices, and maintain a controlled learning environment without interfering with student networking activities.
 
 * **VLAN Layout**: Student devices, TA management, and the local game server operate on the default `VLAN 1`. Unused interfaces are assigned to `VLAN 999` to prevent unintended network access
-* **Student Port Security**: Interfaces `Fa1/0/1-3` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
-* **Management Access Control**: Interface `Fa1/0/23` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.250)`
+* **Student Port Security**: Interfaces `fa1/0/1-4, fa1/0/11-14, fa1/0/21-24` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
+* **Management Access Control**: Interface `Fa1/0/5` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.10)`
 * **Secure Administration**: SSHv2 provides encrypted administrative sessions with local credential authentication. Telnet and HTTP-based management are disabled, while authentication retry limits and idle session timeouts reduce exposure to unauthorized access
 * **Layer 2 Protection**: Student, management, and game server interfaces use PortFast and BPDU Guard to protect against unexpected spanning-tree participation. DTP negotiation is disabled to prevent unintended trunk formation
-* **Unused Interface Hardening**:  Interfaces `Fa1/0/4-22` and `Gi1/0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
+* **Unused Interface Hardening**:  Interfaces `fa1/0/6-10, fa1/0/16-19` and `Gi1/0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
 * **Network Isolation**: Each deployment bag operates as an independent LAN, physically separated from the UC production network. Student communication and local game server access remain available without requiring external network connectivity
 
 Together, these controls establish a **defense-in-depth security baseline** that limits unauthorized connectivity.
