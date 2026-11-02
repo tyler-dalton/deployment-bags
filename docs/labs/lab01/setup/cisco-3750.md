@@ -127,19 +127,19 @@ All unused FastEthernet ports and both GigabitEthernet uplinks will be administr
 ```cisco
 int range fa1/0/6 - 10
  description ADMIN-DOWN
- sw mode acc
+ sw mo acc
  sw acc vlan 999
  shut
 
 int range fa1/0/15 - 19
  description ADMIN-DOWN
- sw mode acc
+ sw mo acc
  sw acc vlan 999
  shut
 
 int range gi1/0/1 - 2
  description ADMIN-DOWN
- sw mode acc
+ sw mo acc
  sw acc vlan 999
  shut
 exit
@@ -150,7 +150,7 @@ Placing unused interfaces on `VLAN 999` **isolates them from the student LAN**. 
 
 ### 2.4 Reserve the TA Management Interface
 
-Port `Fa1/0/5` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
+Port `fa1/0/5` will provide dedicated physical access for authorized TAs, with several access control methods implemented such as MAC-based authorization which will be covered when configuring the management SVI. See [rationale section on the TA Management Interface](./rationale.md#ta-management-interface) for further information.
 
 ```cisco
 conf t
@@ -160,8 +160,8 @@ int fa1/0/5
   sw mode acc
   sw acc vlan 1
   sw nonegotiate
-  spa portfast
-  spa bpduguard enable
+  spa portf
+  spa bpduguard en
   no shut
 exit
 end
