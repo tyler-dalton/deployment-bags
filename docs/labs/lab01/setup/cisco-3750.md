@@ -370,7 +370,7 @@ The `restrict` violation mode was selected instead of `shutdown` to prevent an u
 
 ```cisco
 sh port int fa1/0/5
-sh port address
+sh port addr
 ```
 
 **Expected output**:
@@ -424,17 +424,17 @@ conf t
 
 int range fa0/1 - 4
   sw port
-  sw port maximum 1
+  sw port max 1
   sw port viol re
 
 int range fa0/11 - 14
   sw port
-  sw port maximum 1
+  sw port max 1
   sw port viol re
 
 int range fa0/21 - 24
   sw port
-  sw port maximum 1
+  sw port max 1
   sw port viol re
 ```
 
@@ -489,7 +489,7 @@ The Cisco Catalyst 3750 implements a layered security configuration designed to 
 
 * **VLAN Layout**: Student devices, TA management, and the local game server operate on the default `VLAN 1`. Unused interfaces are assigned to `VLAN 999` to prevent unintended network access
 * **Student Port Security**: Interfaces `fa1/0/1-4, fa1/0/11-14, fa1/0/21-24` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
-* **Management Access Control**: Interface `Fa1/0/5` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.10)`
+* **Management Access Control**: Interface `fa1/0/5` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.10)`
 * **Secure Administration**: SSHv2 provides encrypted administrative sessions with local credential authentication. Telnet and HTTP-based management are disabled, while authentication retry limits and idle session timeouts reduce exposure to unauthorized access
 * **Layer 2 Protection**: Student, management, and game server interfaces use PortFast and BPDU Guard to protect against unexpected spanning-tree participation. DTP negotiation is disabled to prevent unintended trunk formation
 * **Unused Interface Hardening**:  Interfaces `fa1/0/6-10, fa1/0/16-19` and `Gi1/0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
