@@ -303,13 +303,13 @@ SSH authentication alone **does not prevent students from attempting to access t
 | Device | Address |
 | --- | --- |
 | Switch | `10.0.0.1` |
-| Primary TA Workstation | `10.0.0.250` |
+| Primary TA Workstation | `10.0.0.10` |
 
 ```cisco
 conf t
 
 access-list 10 remark TA-SSH
-access-list 10 permit host 10.0.0.250
+access-list 10 permit host 10.0.0.10
 
 line vty 0 15
  access-class 10 in
@@ -325,16 +325,16 @@ The ACL includes an **implicit deny for every other source address**.
 
 ### 3.4 Configure Port 23 MAC-Based Security
 
-`FastEthernet0/23` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
+`FastEthernet0/5` serves as the **dedicated TA management connection**. Static MAC-based port security restricts access to approved Ethernet adapters & NICs.
 
 For this setup, we'll allow up to **four authorized MAC addresses**. Before applying the configuration, **record the wired Ethernet MAC addresses of the authorized TA devices**. Do not use their Wi-Fi MAC addresses.
 
 ```cisco
 conf t
 
-int fa0/23
- sw port maximum 4
- sw port violation restrict
+int fa0/5
+ sw port max 4
+ sw port viol re
  sw port mac AAAA.BBBB.CCCC
  sw port mac DDDD.EEEE.FFFF
  sw port mac GGGG.HHHH.IIII
@@ -350,7 +350,7 @@ Replace both MAC placeholders with Cisco-formatted addresses, such as `AAAA.BBBB
 
 | Setting | Function |
 | --- | --- |
-| Maximum 3 | Limits the number of authorized MAC addresses |
+| Maximum 4 | Limits the number of authorized MAC addresses |
 | Static MAC Addresses | Defines authorized TA Ethernet adapters & NIC's |
 | Violation Restrict | Drops frames from unauthorized source MAC addresses |
 | Port Security Enabled | Enforces configured restrictions |
@@ -363,13 +363,13 @@ The `restrict` violation mode was selected instead of `shutdown` to prevent an u
 **Verify**:
 
 ```cisco
-sh port int fa0/23
-sh port address
+sh port int fa0/5
+sh port addr
 ```
 
 **Expected output**:
 
-![SSH MAC verification](../media/cisco/2960/verify-p24-mac.png)
+![SSH MAC verification](../media/cisco/2960/sh-port-addr.png)
 
 ### 3.5 Validate Management Access
 
@@ -397,7 +397,7 @@ ssh ta@10.0.0.1
 
 ## Phase 4 - Student-Facing Security
 
-Phase 4 establishes access restrictions for the three student-facing interfaces `(Fa0/1-3)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
+Phase 4 establishes access restrictions for the student-facing interfaces `(fa0/1-4, fa0/11-14, fa0/21-24)`. Each interface will be configured to accept traffic from one specifically authorized laptop, preventing unauthorized devices from accessing the student LAN. Please see the [rationale page](./rationale.md#student-port-mac-based-security) as to why all MAC addresses are not permitted on all ports.
 
 **Phase 4 establishes**:
 
@@ -416,12 +416,20 @@ See [rationale section](./rationale.md#student-port-mac-based-security) on stude
 ```cisco
 conf t
 
-int range fa0/1 - 3
+int range fa0/1 - 4
   sw port
-  sw port maximum 1
-  sw port violation restrict
-exit
-end
+  sw port max 1
+  sw port viol re
+
+int range fa0/11 - 14
+  sw port
+  sw port max 1
+  sw port viol re
+
+int range fa0/21 - 24
+  sw port
+  sw port max 1
+  sw port viol re
 ```
 
 > [!NOTE]
@@ -436,41 +444,49 @@ The following configuration is an example for `BG01-SW02`. Replace the MAC addre
 ```cisco
 conf t
 
-int fa0/1
-  sw port mac AAAA.BBBB.0001
-exit
-
-int fa0/2
-  sw port mac AAAA.BBBB.0002
-exit
-
-int fa0/3
-  sw port mac AAAA.BBBB.0003
-exit
+int fa0/X
+  sw port mac AAAA.BBBB.CCCC
 
 end
 ```
 
-### 4.3 Verify Student-Facing MAC Security
+Replace `X` with ports `1-4, 11-14, 21-24`.
+
+### 4.3 Assign Servers to Port 20
+
+In order to achieve the most flexibility on lab day, all servers configured for lan-games will be allowed on all switches. With this configuration, servers can move freely between the environments and work on any switch.
 
 ```cisco
-sh run | begin interface FastEthernet0/1
+conf t
+
+int fa0/20
+  sw port
+  sw port max 6
+  sw port viol re
+  sw port mac AAAA.BBBB.0001
+  sw port mac AAAA.BBBB.0002
+  sw port mac AAAA.BBBB.0003
+  sw port mac AAAA.BBBB.0004
+  sw port mac AAAA.BBBB.0005
+  sw port mac AAAA.BBBB.0006
 ```
 
-**Expected output**:
+### 4.4 Verify Student-Facing MAC Security
 
-![student port verify](../media/cisco/2960/sh-run-begin-fa01.png)
+```cisco
+sh run | begin interface FastEthernet1/0/1
+```
 
-### 4.4 Security Summary
+### 4.5 Security Summary
 
-The Cisco Catalyst 2960 Plus implements a layered security configuration designed to protect administrative access, restrict unauthorized devices, and maintain a controlled learning environment without interfering with student networking activities.
+The Cisco Catalyst 3750 implements a layered security configuration designed to protect administrative access, restrict unauthorized devices, and maintain a controlled learning environment without interfering with student networking activities.
 
 * **VLAN Layout**: Student devices, TA management, and the local game server operate on the default `VLAN 1`. Unused interfaces are assigned to `VLAN 999` to prevent unintended network access
-* **Student Port Security**: Interfaces `Fa0/1-3` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
-* **Management Access Control**: Interface `Fa0/23` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.250)`
+* **Student Port Security**: Interfaces `fa0/1-4, fa0/11-14, fa0/21-24` enforce static MAC-based port security, allowing only one authorized laptop per interface. Unauthorized traffic is dropped using restrict violation mode without disabling the port
+* **Management Access Control**: Interface `fa0/5` provides dedicated TA management connectivity, restricted to four authorized MAC addresses. An ACL further limits SSH access to the designated TA workstation IP `(10.0.0.10)`
 * **Secure Administration**: SSHv2 provides encrypted administrative sessions with local credential authentication. Telnet and HTTP-based management are disabled, while authentication retry limits and idle session timeouts reduce exposure to unauthorized access
 * **Layer 2 Protection**: Student, management, and game server interfaces use PortFast and BPDU Guard to protect against unexpected spanning-tree participation. DTP negotiation is disabled to prevent unintended trunk formation
-* **Unused Interface Hardening**:  Interfaces `Fa0/4-22` and `Gi0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
+* **Unused Interface Hardening**:  Interfaces `fa0/6-10, fa0/16-19` and `Gi1/0/1-2` are **administratively disabled** and assigned to `VLAN 999`, reducing the available attack surface
 * **Network Isolation**: Each deployment bag operates as an independent LAN, physically separated from the UC production network. Student communication and local game server access remain available without requiring external network connectivity
 
 Together, these controls establish a **defense-in-depth security baseline** that limits unauthorized connectivity.
