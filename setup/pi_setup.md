@@ -204,6 +204,16 @@ To verify that it is running, use the command:
 docker compose ps -a
 ```
 
+If it keeps restarting, shut down the docker container using the command:
+```
+docker compose down
+```
+
+Then use the up command again to start the container:
+```bash
+docker compose up -d
+```
+
 ---
 
 ## Step 8 — Move Pi to the Lab Network
