@@ -100,15 +100,6 @@ You should not see any learned entries for the lab's switch or server.
 2. Connect your laptop to its assigned switch port using an Ethernet cable
 3. Verify that all equipment is turned on and the Ethernet link lights are active.
 
-**Laptop Assignments:**
-
-| Switch | Port 1 | Port 2 | Port 3 |
-| --- | --- | --- | --- |
-| SW01 | PC01 | PC02 | PC03 |
-| SW02 | PC04 | PC05 | PC06 |
-| SW03 | PC07 | PC08 | PC09 |
-| SW04 | PC10 | PC11 | PC12 |
-
 > [!IMPORTANT]
 > Do not connect your deployment bag to UC's production network or any classroom wall Ethernet outlet. Do not modify switch or server configurations.
 
@@ -146,13 +137,26 @@ You will be **prompted to enter your password** in order to enter privileged mod
 
 ![Select IPv4 properties](./media/student-docs/ipv4-properties.png)
 
-Choose `Use the following IP address`. **Enter the IP address corresponding to your *assigned switch port*:**
+Choose `Use the following IP address`. **Enter the IP address corresponding to your *assigned laptop*:**
 
 | Switch Port | IPv4 Address |
 | --- | --- |
-| 1 | 10.0.0.3 |
-| 2 | 10.0.0.4 |
-| 3 | 10.0.0.5 |
+| 1 | 10.0.0.51 |
+| 2 | 10.0.0.52 |
+| 3 | 10.0.0.53 |
+| 4 | 10.0.0.54 |
+| 11 | 10.0.0.61 |
+| 12 | 10.0.0.62 |
+| 13 | 10.0.0.63 |
+| 14 | 10.0.0.64 |
+| 21 | 10.0.0.71 |
+| 22 | 10.0.0.72 |
+| 23 | 10.0.0.73 |
+| 24 | 10.0.0.74 |
+
+>[!NOTE]
+>Do not connect to ports other than the one's specified.  
+> **Juniper switches ports go from 0-23 rather than the Cisco 1-24. Treat port 0 as 1 and subtract 1 from the laptop number that you have to accurately plug in your laptop.** Connecting to the wrong port will result in the lab going wrong.
 
 **Use these additional settings:**
 
