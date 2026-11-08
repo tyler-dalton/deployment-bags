@@ -25,8 +25,8 @@ The Cisco directories contain sanitized model-specific baselines:
 
 | Directory | Hardware | Inventory ID | Hostname | Setup documentation |
 | --- | --- | --- | --- | --- |
-| `cisco/2960/` | Catalyst WS-C2960+24TC-L | `SW02` | `BG01-SW02` | [Cisco 2960 setup](../../docs/labs/lab01/setup/cisco-2960.md) |
 | `cisco/3750/` | Catalyst WS-C3750-24PS-S | `SW01` | `BG01-SW01` | [Cisco 3750 setup](../../docs/labs/lab01/setup/cisco-3750.md) |
+| `cisco/2960/` | Catalyst WS-C2960+24TC-L | `SW02` | `BG01-SW02` | [Cisco 2960 setup](../../docs/labs/lab01/setup/cisco-2960.md) |
 | `juniper/ex3300/sw03/` | Juniper EX3300-24P | `SW03` | `BG02-SW03` | [Juniper setup](../../docs/labs/lab01/setup/juniper.md) |
 | `juniper/ex3300/sw04/` | Juniper EX3300-24P | `SW04` | `BG02-SW04` | [Juniper setup](../../docs/labs/lab01/setup/juniper.md) |
 
@@ -34,10 +34,13 @@ Every switch uses the same physical role layout:
 
 | Physical ports | Role | VLAN | State |
 | --- | --- | --- | --- |
-| 1–3 | Student endpoints | 1 (default) | Enabled |
-| 4–22 | Bricked/unused | 999 | Administratively down |
-| 23 | TA management, four authorized MAC addresses | 1 (default) | Enabled |
-| 24 | Raspberry Pi server | 1 (default) | Enabled |
+| 1–4 | Student endpoints | 1 (default) | Enabled |
+| 11-14 | Student endpoints | 1 (default) | Enabled |
+| 21–24 | Student endpoints | 1 (default) | Enabled |
+| 5 | TA management, four authorized MAC addresses | 1 (default) | Enabled |
+| 20 | Raspberry Pi server | 1 (default) | Enabled |
+| 6-10 | Bricked/unused | 999 | Administratively down |
+| 15-19 | Bricked/unused | 999 | Administratively down |
 
 Do not add raw switch exports to this directory. Remove password hashes,
 private keys, SNMP communities, and other secrets before committing a
