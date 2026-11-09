@@ -1,7 +1,9 @@
 <!-- markdownlint-disable-next-line MD026 -->
+
 # Lab 01: Build It. Connect It. Play.
 
 <!-- markdownlint-disable-next-line MD036 -->
+
 **IT1080C Computer Networking | Physical Networking Lab**
 
 ![LAN Games banner](./media/student-docs/lan-games-banner.png)
@@ -55,12 +57,12 @@ The games are hosted on a Raspberry Pi inside your deployment bag. To access the
 
 Before connecting anything, take a look at your deployment bag. If anything is missing, tell your TA or instructor **before** continuing.
 
-| Equipment | Purpose |
-| --- | --- |
-| Laptop | Your computer on the network |
-| Switch | Connect devices on the LAN |
-| Raspberry Pi | Host lan-games server |
-| Ethernet Cables | Carry data between devices |
+| Equipment       | Purpose                      |
+| --------------- | ---------------------------- |
+| Laptop          | Your computer on the network |
+| Switch          | Connect devices on the LAN   |
+| Raspberry Pi    | Host lan-games server        |
+| Ethernet Cables | Carry data between devices   |
 
 ### Step 2: Log In
 
@@ -137,34 +139,34 @@ You will be **prompted to enter your password** in order to enter privileged mod
 
 ![Select IPv4 properties](./media/student-docs/ipv4-properties.png)
 
-Choose `Use the following IP address`. **Enter the IP address corresponding to your *assigned laptop*:**
+Choose `Use the following IP address`. **Enter the IP address corresponding to your _assigned laptop_:**
 
 | Switch Port | IPv4 Address |
-| --- | --- |
-| 1 | 10.0.0.51 |
-| 2 | 10.0.0.52 |
-| 3 | 10.0.0.53 |
-| 4 | 10.0.0.54 |
-| 11 | 10.0.0.61 |
-| 12 | 10.0.0.62 |
-| 13 | 10.0.0.63 |
-| 14 | 10.0.0.64 |
-| 21 | 10.0.0.71 |
-| 22 | 10.0.0.72 |
-| 23 | 10.0.0.73 |
-| 24 | 10.0.0.74 |
+| ----------- | ------------ |
+| 1           | 10.0.0.51    |
+| 2           | 10.0.0.52    |
+| 3           | 10.0.0.53    |
+| 4           | 10.0.0.54    |
+| 11          | 10.0.0.61    |
+| 12          | 10.0.0.62    |
+| 13          | 10.0.0.63    |
+| 14          | 10.0.0.64    |
+| 21          | 10.0.0.71    |
+| 22          | 10.0.0.72    |
+| 23          | 10.0.0.73    |
+| 24          | 10.0.0.74    |
 
->[!NOTE]
->Do not connect to ports other than the one's specified.  
+> [!NOTE]
+> Do not connect to ports other than the one's specified.  
 > **Juniper switches ports go from 0-23 rather than the Cisco 1-24. Treat port 0 as 1 and subtract 1 from the laptop number that you have to accurately plug in your laptop.** Connecting to the wrong port will result in the lab going wrong.
 
 **Use these additional settings:**
 
-| Setting | Value |
-| --- | --- |
-| Subnet mask | 255.255.255.0 |
-| Default Gateway | *Leave blank* |
-| DNS servers | *Leave blank* |
+| Setting         | Value         |
+| --------------- | ------------- |
+| Subnet mask     | 255.255.255.0 |
+| Default Gateway | _Leave blank_ |
+| DNS servers     | _Leave blank_ |
 
 Click **OK** to save your changes.
 
@@ -232,12 +234,12 @@ arp -a
 
 You should now see entries similar to these:
 
-| Internet Address | Physical Address |
-| --- | --- |
-| `10.0.0.1` | Switch MAC Address |
-| `10.0.0.254` | Server MAC Address |
+| Internet Address | Physical Address   |
+| ---------------- | ------------------ |
+| `10.0.0.1`       | Switch MAC Address |
+| `10.0.0.254`     | Server MAC Address |
 
-Your laptop *used ARP to discover the MAC addresses* needed to communicate with these devices.
+Your laptop _used ARP to discover the MAC addresses_ needed to communicate with these devices.
 
 ![arp entry with both server and switch](./media/student-docs/arp-server-and-switch.png)
 
